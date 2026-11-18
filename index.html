@@ -15,96 +15,56 @@
  --text:#f4fff9;--muted:#a9c4b8;--red:#ff6262;
 }
 *{box-sizing:border-box}
-body{
- margin:0;background:linear-gradient(145deg,#12382d,#071b18 55%);
- color:var(--text);font-family:Arial,system-ui,sans-serif
-}
+body{margin:0;background:linear-gradient(145deg,#12382d,#071b18 55%);color:var(--text);font-family:Arial,system-ui,sans-serif}
 button,input,select{font:inherit}
-button{
- border:0;border-radius:11px;padding:12px 15px;
- background:var(--green);color:#052017;font-weight:bold;cursor:pointer
-}
+button{border:0;border-radius:11px;padding:12px 15px;background:var(--green);color:#052017;font-weight:bold;cursor:pointer}
 button.secondary{background:#24483e;color:white;border:1px solid var(--line)}
 button.danger{background:#a63b43;color:white}
 button.gold{background:var(--lime);color:#102016}
 button:disabled{opacity:.5;cursor:not-allowed}
-input,select{
- width:100%;padding:13px;border-radius:10px;
- border:1px solid var(--line);background:#081f1a;color:white;min-height:46px
-}
+input,select{width:100%;padding:13px;border-radius:10px;border:1px solid var(--line);background:#081f1a;color:white;min-height:46px}
 label{display:block;color:var(--muted);font-size:13px;margin:9px 0 5px}
 a{color:var(--lime)}
 .wrap{max-width:1000px;margin:auto;padding:13px}
-.panel{
- background:var(--panel);border:1px solid var(--line);
- border-radius:17px;padding:15px;margin:12px 0
-}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px;margin:12px 0}
 h1{font-size:19px;margin:0}
 h2{font-size:19px;margin:0 0 14px}
 h3{font-size:16px;margin:0 0 12px}
 .muted{color:var(--muted)}
 .small{font-size:12px}
-.header{
- display:flex;align-items:center;justify-content:space-between;
- gap:10px;padding:13px 0
-}
+.header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0}
 .brand{display:flex;align-items:center;gap:10px}
-.logo{
- height:44px;width:44px;border-radius:13px;background:var(--lime);
- color:#071b18;display:grid;place-items:center;font-weight:1000
-}
+.logo{height:44px;width:44px;border-radius:13px;background:var(--lime);color:#071b18;display:grid;place-items:center;font-weight:1000}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
 .formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .full{grid-column:1/-1}
-.stat{
- background:#081f1a;border:1px solid var(--line);
- border-radius:12px;padding:12px
-}
+.stat{background:#081f1a;border:1px solid var(--line);border-radius:12px;padding:12px}
 .stat b{display:block;font-size:23px;color:var(--lime)}
 .stat span{font-size:12px;color:var(--muted)}
-.nav{display:flex;gap:7px;overflow-x:auto;padding:8px 0 12px}
-.nav button{
- white-space:nowrap;flex-shrink:0;background:#17372e;color:white
-}
+.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding:8px 0 12px}
+.nav button{background:#17372e;color:white;padding:11px 5px;font-size:12px}
 .nav button.active{background:var(--green);color:#052017}
 .tab{display:none}
 .tab.active{display:block}
-.scorebox{
- background:linear-gradient(120deg,#0b3829,#174a35);
- border:1px solid #327a58;border-radius:16px;
- text-align:center;padding:18px
-}
+.scorebox{background:linear-gradient(120deg,#0b3829,#174a35);border:1px solid #327a58;border-radius:16px;text-align:center;padding:18px}
 .score{font-size:42px;font-weight:1000}
 .overs{color:#d4f5df}
-.chips{
- display:flex;flex-wrap:wrap;gap:7px;
- margin-top:9px;justify-content:center
-}
-.chip{
- background:#081f1a;border:1px solid var(--line);
- border-radius:30px;padding:7px 10px;font-size:12px;color:var(--muted)
-}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;justify-content:center}
+.chip{background:#081f1a;border:1px solid var(--line);border-radius:30px;padding:7px 10px;font-size:12px;color:var(--muted)}
 .runbuttons{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.runbuttons button{
- font-size:22px;min-height:65px;background:#d8f5e5
-}
-.runbuttons button:nth-child(5),.runbuttons button:nth-child(6){
- background:var(--lime)
-}
+.runbuttons button{font-size:22px;min-height:65px;background:#d8f5e5}
+.runbuttons button:nth-child(5),.runbuttons button:nth-child(6){background:var(--lime)}
 .extra-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.extra-buttons button{
- min-height:58px;font-size:17px;background:#f2c75c;color:#172016
-}
+.extra-buttons button{min-height:58px;font-size:16px;background:#f2c75c;color:#172016}
 .extra-buttons button.no-ball{background:#e6a44b}
+.extra-buttons button.bye{background:#75c8ef;color:#10202a}
+.extra-buttons button.legbye{background:#bd9bf2;color:#20152c}
 .wicket-button{width:100%;min-height:58px;font-size:18px;background:#b83d48;color:white}
 .action-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .action-buttons button{min-height:52px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .row>*{flex:1}
-.item{
- display:flex;align-items:center;justify-content:space-between;
- gap:8px;padding:11px 0;border-bottom:1px solid var(--line)
-}
+.item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 0;border-bottom:1px solid var(--line)}
 .item:last-child{border:0}
 .item small{display:block;color:var(--muted);margin-top:4px}
 .item button{padding:8px 10px;font-size:12px}
@@ -112,30 +72,25 @@ h3{font-size:16px;margin:0 0 12px}
 table{width:100%;border-collapse:collapse;min-width:420px}
 td,th{text-align:left;padding:9px;border-bottom:1px solid var(--line);font-size:13px}
 th{color:var(--lime)}
-.notice{
- background:#17372e;color:#d6f5e4;border-radius:10px;
- padding:11px;margin:10px 0;font-size:13px;line-height:1.7
-}
+.notice{background:#17372e;color:#d6f5e4;border-radius:10px;padding:11px;margin:10px 0;font-size:13px;line-height:1.7}
 .hidden{display:none!important}
 .login{max-width:420px;margin:35px auto}
 .footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
-.overlay{
- max-width:850px;margin:12vh auto;background:#071b18ed;
- border:2px solid var(--lime);border-radius:12px;padding:15px 20px;
- display:flex;justify-content:space-between;align-items:center;gap:15px
-}
+.overlay{max-width:850px;margin:12vh auto;background:#071b18ed;border:2px solid var(--lime);border-radius:12px;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;gap:15px}
 .overlay .big{font-size:clamp(28px,6vw,55px);font-weight:1000}
 .overlay .team{color:var(--lime);font-size:clamp(14px,3vw,23px)}
-.player-control{
- background:#081f1a;border:1px solid var(--line);
- padding:12px;border-radius:12px;margin-top:12px
-}
+.player-control{background:#081f1a;border:1px solid var(--line);padding:12px;border-radius:12px;margin-top:12px}
 .player-control button{width:100%;margin-top:7px}
 @media(min-width:700px){
  .grid{grid-template-columns:repeat(4,1fr)}
  .formgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
  .runbuttons{grid-template-columns:repeat(6,1fr)}
+ .nav{grid-template-columns:repeat(8,minmax(0,1fr))}
  .wrap{padding:22px}
+}
+@media(max-width:380px){
+ .nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .score{font-size:36px}
 }
 </style>
 </head>
@@ -221,14 +176,7 @@ th{color:var(--lime)}
    <div><label>Season</label><input name="season" placeholder="2026"></div>
    <div><label>Venue</label><input name="venue"></div>
    <div><label>Start Date</label><input name="start_date" type="date"></div>
-   <div>
-    <label>Status</label>
-    <select name="status">
-     <option value="upcoming">Upcoming</option>
-     <option value="live">Live</option>
-     <option value="completed">Completed</option>
-    </select>
-   </div>
+   <div><label>Status</label><select name="status"><option value="upcoming">Upcoming</option><option value="live">Live</option><option value="completed">Completed</option></select></div>
    <div class="full"><button>Create Tournament</button></div>
   </form>
  </div>
@@ -255,13 +203,7 @@ th{color:var(--lime)}
    <div><label>Team</label><select name="team_id" id="playerTeam" required></select></div>
    <div><label>Player Name</label><input name="name" required></div>
    <div><label>Jersey Number</label><input name="jersey_number" type="number"></div>
-   <div>
-    <label>Role</label>
-    <select name="role">
-     <option>Batter</option><option>Bowler</option>
-     <option>All-rounder</option><option>Wicketkeeper</option>
-    </select>
-   </div>
+   <div><label>Role</label><select name="role"><option>Batter</option><option>Bowler</option><option>All-rounder</option><option>Wicketkeeper</option></select></div>
    <div class="full"><button>Add Player</button></div>
   </form>
  </div>
@@ -278,21 +220,13 @@ th{color:var(--lime)}
    <div><label>Venue</label><input name="venue"></div>
    <div><label>Date & Time</label><input name="match_date" type="datetime-local"></div>
    <div><label>Overs</label><input name="overs" type="number" min="1" value="20" required></div>
-   <div>
-    <label>Status</label>
-    <select name="status">
-     <option value="upcoming">Upcoming</option>
-     <option value="live">Live</option>
-     <option value="completed">Completed</option>
-    </select>
-   </div>
+   <div><label>Status</label><select name="status"><option value="upcoming">Upcoming</option><option value="live">Live</option><option value="completed">Completed</option></select></div>
    <div class="full"><button>Create Match</button></div>
   </form>
  </div>
  <div class="panel"><h3>Match List</h3><div id="matchList"></div></div>
 </section>
 
-<!-- SCORING SCREEN -->
 <section class="tab" id="tab-scoring">
  <div class="panel">
   <h2>Live Scoring Control</h2>
@@ -312,7 +246,7 @@ th{color:var(--lime)}
     <div><label>Change Non-Striker</label><button type="button" class="secondary" id="applyNonStriker">Apply Non-Striker</button></div>
     <div><label>Change Bowler</label><button type="button" class="secondary" id="applyBowler">Apply Bowler</button></div>
    </div>
-   <div class="notice" id="playerChangeStatus">প্রথমবার Player নির্বাচন করে Apply করুন।</div>
+   <div class="notice" id="playerChangeStatus">Player নির্বাচন করে Apply করুন। Selection স্বয়ংক্রিয়ভাবে সংরক্ষিত হবে।</div>
   </div>
 
   <div class="row" style="margin-top:12px">
@@ -332,7 +266,7 @@ th{color:var(--lime)}
    </div>
   </div>
 
-  <h3 style="margin-top:17px">RUNS — Tap to Save</h3>
+  <h3 style="margin-top:17px">RUNS — Tap to Auto Save</h3>
   <div class="runbuttons" id="runButtons">
    <button type="button" data-runs="0">0</button>
    <button type="button" data-runs="1">1</button>
@@ -342,11 +276,14 @@ th{color:var(--lime)}
    <button type="button" data-runs="6">6</button>
   </div>
 
-  <h3 style="margin-top:20px">EXTRAS — Tap to Save</h3>
+  <h3 style="margin-top:20px">EXTRAS — Separate Buttons</h3>
   <div class="extra-buttons">
    <button type="button" id="wideButton">WIDE +1</button>
    <button type="button" class="no-ball" id="noBallButton">NO BALL +1</button>
+   <button type="button" class="bye" id="byeButton">BYE +1</button>
+   <button type="button" class="legbye" id="legByeButton">LEG BYE +1</button>
   </div>
+  <div class="notice">Wide ও No Ball-এ অতিরিক্ত ১ রান যোগ হবে। Bye ও Leg Bye-তে ১ রান যোগ হবে। একাধিক রান হলে সংশ্লিষ্ট বাটনে চাপ দেওয়ার পর সংখ্যা লিখতে পারবে।</div>
 
   <h3 style="margin-top:20px">WICKET</h3>
   <button type="button" class="wicket-button" id="wicketButton">WICKET</button>
@@ -356,17 +293,11 @@ th{color:var(--lime)}
    <button type="button" class="secondary" id="refreshHistory">REFRESH HISTORY</button>
   </div>
 
-  <div class="notice" id="scoringStatus">
-   প্রতিটি বাটনে চাপ দিলেই বল Save হবে। Wide ও No Ball-এ ১ রান Extra যোগ হবে।
-   <br>Over শেষ হলে নতুন Bowler নির্বাচন করুন। Wicket হলে নতুন Batter নির্বাচন করুন।
-  </div>
+  <div class="notice" id="scoringStatus">প্রতিটি বাটনে চাপ দিলেই বল Save হবে। Over শেষ হলে নতুন Bowler নির্বাচন করুন। Wicket হলে নতুন Batter নির্বাচন করুন।</div>
  </div>
 
  <div class="panel">
-  <div class="row">
-   <h3>Ball History</h3>
-   <button class="secondary" id="historyRefreshButton">Refresh</button>
-  </div>
+  <div class="row"><h3>Ball History</h3><button class="secondary" id="historyRefreshButton">Refresh</button></div>
   <div id="history"></div>
  </div>
 </section>
@@ -385,34 +316,17 @@ th{color:var(--lime)}
   <h2>Streaming Setup</h2>
   <form id="streamForm" class="formgrid">
    <div><label>Match</label><select name="match_id" id="streamMatch"></select></div>
-   <div>
-    <label>Platform</label>
-    <select name="platform">
-     <option>Facebook</option>
-     <option>YouTube</option>
-     <option>Facebook + YouTube</option>
-     <option>Other</option>
-    </select>
-   </div>
+   <div><label>Platform</label><select name="platform"><option>Facebook</option><option>YouTube</option><option>Facebook + YouTube</option><option>Other</option></select></div>
    <div><label>Watch URL</label><input name="watch_url" type="url" required></div>
-   <div>
-    <label>Status</label>
-    <select name="status">
-     <option>live</option><option>scheduled</option><option>ended</option>
-    </select>
-   </div>
+   <div><label>Status</label><select name="status"><option>live</option><option>scheduled</option><option>ended</option></select></div>
    <div class="full"><button>Save Streaming Link</button></div>
   </form>
   <div id="streamList"></div>
-  <div class="notice">
-   এখানে দর্শকদের Watch Link রাখা যাবে।
-   এটি নিজে থেকে Camera Live Broadcast করে না।
-   তার জন্য PRISM Live Studio / OBS / Encoder প্রয়োজন।
-  </div>
+  <div class="notice">এখানে দর্শকদের Watch Link রাখা যাবে। এটি নিজে থেকে Camera Live Broadcast করে না। তার জন্য PRISM Live Studio / OBS / Encoder প্রয়োজন।</div>
  </div>
  <div class="panel">
   <h3>Broadcast Score Overlay</h3>
-  <div class="row"><a href="broadcast-studio.html" target="_blank">Open Broadcast Studio ↗</a></div>
+  <p><a href="broadcast-studio.html" target="_blank">Open Broadcast Studio ↗</a></p>
   <p><a href="live-overlay.html" target="_blank">Open Live Overlay ↗</a></p>
  </div>
 </section>
@@ -444,6 +358,8 @@ const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_H1BzZ4bg_0GpxW0lC";
 const ADMIN_EMAIL="officework.bolpur@gmail.com";
 const ADMIN_UID="2fd64447-93aa-482c-b64c-c605a4bec732";
 
+if(!window.supabase)throw new Error("Supabase library load হয়নি। Internet connection পরীক্ষা করুন।");
+
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const $=id=>document.getElementById(id);
 
@@ -451,20 +367,15 @@ let tournaments=[],teams=[],players=[],matches=[],innings=[],streams=[],deliveri
 let currentMatch=null,currentInnings=null;
 let savingDelivery=false;
 
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
-
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const n=v=>Number(v)||0;
 const legal=d=>!["wide","no_ball"].includes(d.extra_type||"none");
 const runs=d=>n(d.batter_runs)+n(d.extra_runs);
 const overText=b=>`${Math.floor(b/6)}.${b%6}`;
-
 const teamName=id=>{
  const t=teams.find(x=>x.id===id);
  return t?.short_name||t?.name||"Team";
 };
-
 const matchName=m=>`${teamName(m.team_a_id)} vs ${teamName(m.team_b_id)}`;
 
 function totals(list){
@@ -475,31 +386,17 @@ function totals(list){
   return a;
  },{runs:0,wickets:0,balls:0});
 }
-
-function rate(t){
- return t.balls?(t.runs/(t.balls/6)).toFixed(2):"0.00";
-}
-
-function message(e){
- console.error(e);
- alert(e.message||String(e));
-}
-
-function data(form){
- return Object.fromEntries(new FormData(form).entries());
-}
-
+function rate(t){return t.balls?(t.runs/(t.balls/6)).toFixed(2):"0.00";}
+function message(e){console.error(e);alert(e.message||String(e));}
+function data(form){return Object.fromEntries(new FormData(form).entries());}
 function options(el,items,label){
- el.innerHTML='<option value="">Select</option>'+
-  items.map(x=>`<option value="${esc(x.id)}">${esc(label(x))}</option>`).join("");
+ el.innerHTML='<option value="">Select</option>'+items.map(x=>`<option value="${esc(x.id)}">${esc(label(x))}</option>`).join("");
 }
-
 async function get(table,order="created_at"){
  const {data,error}=await db.from(table).select("*").order(order,{ascending:false});
  if(error)throw error;
  return data||[];
 }
-
 async function rpc(name,args){
  const {data,error}=await db.rpc(name,args);
  if(error)throw error;
@@ -507,36 +404,27 @@ async function rpc(name,args){
 }
 
 /* =========================
-   PLAYER SELECTION MEMORY
+   PLAYER SELECTION AUTO SAVE
 ========================= */
 function playerStateKey(){
- return "gfc-player-state:"+(currentMatch?.id||"no-match")+":"+(currentInnings?.id||"no-innings");
+ return "gfc-player-state:"+ (currentMatch?.id||"no-match")+":"+(currentInnings?.id||"no-innings");
 }
-
 function savePlayerState(){
  if(!currentMatch||!currentInnings)return;
- const state={
-  striker:$("striker").value,
-  nonStriker:$("nonStriker").value,
-  bowler:$("bowler").value
- };
+ const state={striker:$("striker").value,nonStriker:$("nonStriker").value,bowler:$("bowler").value};
  try{localStorage.setItem(playerStateKey(),JSON.stringify(state));}
- catch(e){console.warn("Player state could not be saved",e);}
+ catch(e){console.warn("Player state save failed",e);}
 }
-
 function restorePlayerState(){
  if(!currentMatch||!currentInnings)return;
  try{
   const state=JSON.parse(localStorage.getItem(playerStateKey())||"{}");
-  const setIfExists=(id,value)=>{
+  ["striker","nonStriker","bowler"].forEach(id=>{
+   const value=state[id];
    if(value&&[...$(id).options].some(o=>o.value===value))$(id).value=value;
-  };
-  setIfExists("striker",state.striker);
-  setIfExists("nonStriker",state.nonStriker);
-  setIfExists("bowler",state.bowler);
+  });
  }catch(e){console.warn(e);}
 }
-
 function setPlayerSelections(state){
  if(!state)return;
  $("striker").value=state.striker||"";
@@ -544,70 +432,54 @@ function setPlayerSelections(state){
  $("bowler").value=state.bowler||"";
  savePlayerState();
 }
-
 function fillPlayers(teamId){
  const battingPlayers=players.filter(p=>p.team_id===teamId);
  const bowlingTeamId=currentMatch?.team_a_id===teamId?currentMatch.team_b_id:currentMatch?.team_a_id;
  const bowlingPlayers=players.filter(p=>p.team_id===bowlingTeamId);
  options($("striker"),battingPlayers,p=>p.name);
  options($("nonStriker"),battingPlayers,p=>p.name);
- options($("dismissedPlayer"),battingPlayers,p=>p.name);
  options($("bowler"),bowlingPlayers,p=>p.name);
  restorePlayerState();
 }
-
 function applyManualPlayerChange(which){
- if(!currentMatch||!currentInnings){alert("আগে Match ও Innings নির্বাচন করুন");return;}
- const striker=$("striker").value,nonStriker=$("nonStriker").value,bowler=$("bowler").value;
- if(which==="striker"&&!striker){alert("Striker নির্বাচন করুন");return;}
- if(which==="nonStriker"&&!nonStriker){alert("Non-Striker নির্বাচন করুন");return;}
- if(which==="bowler"&&!bowler){alert("Bowler নির্বাচন করুন");return;}
- if(striker&&nonStriker&&striker===nonStriker){alert("Striker ও Non-Striker একই হতে পারবে না");return;}
+ if(!currentMatch||!currentInnings)return alert("আগে Match ও Innings নির্বাচন করুন");
+ const striker=$("striker").value,non=$("nonStriker").value,bowler=$("bowler").value;
+ if(which==="striker"&&!striker)return alert("Striker নির্বাচন করুন");
+ if(which==="nonStriker"&&!non)return alert("Non-Striker নির্বাচন করুন");
+ if(which==="bowler"&&!bowler)return alert("Bowler নির্বাচন করুন");
+ if(striker&&non&&striker===non)return alert("Striker ও Non-Striker একই হতে পারবে না");
  savePlayerState();
  const names={striker:"Striker",nonStriker:"Non-Striker",bowler:"Bowler"};
- $("playerChangeStatus").textContent=names[which]+" পরিবর্তন ও সংরক্ষণ হয়েছে।";
+ $("playerChangeStatus").textContent=names[which]+" পরিবর্তন ও Auto Save সম্পন্ন হয়েছে।";
 }
 
 /* =========================
-   CALCULATE NEXT PLAYER STATE
+   PLAYER ROTATION
 ========================= */
-function getNextPlayerState(delivery,ballsBefore){
- let striker=delivery.striker_id||"";
- let nonStriker=delivery.non_striker_id||"";
- let bowler=delivery.bowler_id||"";
-
- const type=delivery.extra_type||"none";
- const batterRuns=n(delivery.batter_runs);
- const extraRuns=n(delivery.extra_runs);
+function getNextPlayerState(d,ballsBefore){
+ let striker=d.striker_id||"",nonStriker=d.non_striker_id||"",bowler=d.bowler_id||"";
+ const type=d.extra_type||"none";
+ const batterRuns=n(d.batter_runs),extraRuns=n(d.extra_runs);
  let runningRuns=batterRuns;
+ if(type==="bye"||type==="leg_bye")runningRuns+=extraRuns;
+ else if(type==="wide"||type==="no_ball")runningRuns+=Math.max(0,extraRuns-1);
 
- if(type==="bye"||type==="leg_bye"){
-  runningRuns+=extraRuns;
- }else if(type==="wide"||type==="no_ball"){
-  runningRuns+=Math.max(0,extraRuns-1);
- }
+ const ballsAfter=ballsBefore+(legal(d)?1:0);
+ const overFinished=legal(d)&&ballsAfter>0&&ballsAfter%6===0;
 
- const legalDelivery=legal(delivery);
- const ballsAfter=ballsBefore+(legalDelivery?1:0);
- const overFinished=legalDelivery&&ballsAfter>0&&ballsAfter%6===0;
-
- // শেষ বলের রান ও ওভার পরিবর্তন মিলিয়ে সঠিক প্রান্ত নির্ধারণ
  if(overFinished){
-  if(runningRuns%2===0){
-   const temp=striker;striker=nonStriker;nonStriker=temp;
-  }
+  if(runningRuns%2===0){const temp=striker;striker=nonStriker;nonStriker=temp;}
   bowler="";
  }else if(runningRuns%2===1){
   const temp=striker;striker=nonStriker;nonStriker=temp;
  }
 
- if(delivery.is_wicket){
-  const dismissed=delivery.dismissed_player_id||delivery.striker_id;
+ if(d.is_wicket){
+  const dismissed=d.dismissed_player_id||d.striker_id;
   if(dismissed===striker)striker="";
   else if(dismissed===nonStriker)nonStriker="";
  }
-
- return {striker,nonStriker,bowler,overFinished,wicket:!!delivery.is_wicket};
+ return {striker,nonStriker,bowler,overFinished,wicket:!!d.is_wicket};
 }
 
 /* =========================
@@ -618,9 +490,8 @@ async function loadAll(){
   get("gfc_tournaments"),get("gfc_teams"),get("gfc_players"),
   get("gfc_matches","match_date"),get("gfc_innings")
  ]);
-
  try{streams=await get("gfc_stream_sessions");}
- catch(e){streams=[];console.warn("Streaming sessions table not available:",e.message);}
+ catch(e){streams=[];console.warn("Streaming table unavailable:",e.message);}
 
  $("countT").textContent=tournaments.length;
  $("countTeam").textContent=teams.length;
@@ -637,8 +508,7 @@ async function loadAll(){
  ["scoreMatch","scorecardMatch","streamMatch"].forEach(id=>options($(id),matches,matchOptions));
 
  $("tournamentList").innerHTML=tournaments.map(t=>`
-  <div class="item"><div><b>${esc(t.name)}</b>
-  <small>${esc(t.season||"")} • ${esc(t.venue||"")} • ${esc(t.status||"")}</small></div></div>
+  <div class="item"><div><b>${esc(t.name)}</b><small>${esc(t.season||"")} • ${esc(t.venue||"")} • ${esc(t.status||"")}</small></div></div>
  `).join("")||"No tournaments";
 
  $("teamList").innerHTML=teams.map(t=>`
@@ -646,19 +516,16 @@ async function loadAll(){
  `).join("")||"No teams";
 
  $("playerList").innerHTML=players.map(p=>`
-  <div class="item"><div><b>${esc(p.name)}</b>
-  <small>${esc(teamName(p.team_id))} • ${esc(p.role||"")} • #${esc(p.jersey_number??"—")}</small></div></div>
+  <div class="item"><div><b>${esc(p.name)}</b><small>${esc(teamName(p.team_id))} • ${esc(p.role||"")} • #${esc(p.jersey_number??"—")}</small></div></div>
  `).join("")||"No players";
 
  $("matchList").innerHTML=matches.map(m=>`
-  <div class="item"><div><b>${esc(matchName(m))}</b>
-  <small>${esc(m.venue||"")} • ${m.overs} overs • ${esc(m.status||"")}</small></div>
+  <div class="item"><div><b>${esc(matchName(m))}</b><small>${esc(m.venue||"")} • ${m.overs} overs • ${esc(m.status||"")}</small></div>
   <button class="secondary" onclick="openMatch('${m.id}')">Score</button></div>
  `).join("")||"No matches";
 
  $("liveList").innerHTML=matches.filter(m=>m.status==="live").map(m=>`
-  <div class="item"><b>${esc(matchName(m))}</b>
-  <button class="secondary" onclick="openMatch('${m.id}')">Open</button></div>
+  <div class="item"><b>${esc(matchName(m))}</b><button class="secondary" onclick="openMatch('${m.id}')">Open</button></div>
  `).join("")||"No live matches";
 
  $("streamList").innerHTML=streams.map(s=>`
@@ -681,16 +548,14 @@ async function loadMatch(id){
  currentInnings=ins[ins.length-1]||null;
 
  $("battingTeam").innerHTML=[currentMatch.team_a_id,currentMatch.team_b_id].map(teamId=>
-  `<option value="${teamId}">${esc(teamName(teamId))}</option>`).join("");
+  `<option value="${esc(teamId)}">${esc(teamName(teamId))}</option>`).join("");
 
  $("battingTeam").value=currentInnings?.batting_team_id||currentMatch.batting_team_id||currentMatch.team_a_id;
  if(currentInnings)$("inningsSelect").value=currentInnings.id;
-
  fillPlayers($("battingTeam").value);
 
  if(currentInnings){
-  const {data,error}=await db.from("gfc_deliveries").select("*")
-   .eq("innings_id",currentInnings.id).order("created_at",{ascending:true});
+  const {data,error}=await db.from("gfc_deliveries").select("*").eq("innings_id",currentInnings.id).order("created_at",{ascending:true});
   if(error)throw error;
   deliveries=data||[];
  }else deliveries=[];
@@ -699,7 +564,6 @@ async function loadMatch(id){
  renderHistory();
  await renderScorecard();
 }
-
 window.openMatch=async id=>{
  $("scoreMatch").value=id;
  $("scorecardMatch").value=id;
@@ -719,7 +583,6 @@ function renderScoring(){
  $("scoreMatchTitle").textContent=currentMatch?matchName(currentMatch):"Select Match";
  renderPublic();
 }
-
 async function renderPublic(){
  const m=matches.find(x=>x.status==="live")||currentMatch;
  if(!m){
@@ -748,17 +611,13 @@ async function renderPublic(){
 }
 
 /* =========================
-   BALL HISTORY
+   HISTORY
 ========================= */
 function renderHistory(){
  $("history").innerHTML=[...deliveries].reverse().map(d=>`
   <div class="item">
-   <div>
-    <b>${runs(d)} Run${d.is_wicket?" • WICKET":""}</b>
-    <small>${esc(d.extra_type||"none")} •
-    ${esc(players.find(p=>p.id===d.striker_id)?.name||"Unknown Batter")}
-    ${esc(d.commentary||"")}</small>
-   </div>
+   <div><b>${runs(d)} Run${d.is_wicket?" • WICKET":""}</b>
+   <small>${esc(d.extra_type||"none")} • ${esc(players.find(p=>p.id===d.striker_id)?.name||"Unknown Batter")} ${esc(d.commentary||"")}</small></div>
    <div class="row" style="flex:0 0 auto">
     <button class="gold" onclick="editBall('${d.id}')">Edit</button>
     <button class="danger" onclick="deleteBall('${d.id}')">Delete</button>
@@ -772,17 +631,12 @@ function renderHistory(){
 ========================= */
 async function renderScorecard(){
  if(!currentMatch){$("scorecardContent").textContent="Select a match";return;}
-
  const ins=innings.filter(i=>i.match_id===currentMatch.id).sort((a,b)=>a.innings_no-b.innings_no);
  let html="";
-
  for(const i of ins){
-  const {data:ds,error}=await db.from("gfc_deliveries").select("*")
-   .eq("innings_id",i.id).order("created_at",{ascending:true});
+  const {data:ds,error}=await db.from("gfc_deliveries").select("*").eq("innings_id",i.id).order("created_at",{ascending:true});
   if(error)throw error;
-
   const list=ds||[],t=totals(list),bat={},bowl={};
-
   list.forEach(d=>{
    if(d.striker_id){
     let p=bat[d.striker_id]||(bat[d.striker_id]={r:0,b:0,f:0,s:0});
@@ -799,35 +653,19 @@ async function renderScorecard(){
     if(d.is_wicket&&!["run_out","retired_hurt","obstructing_field"].includes(d.wicket_type))p.w++;
    }
   });
-
   html+=`
    <h3>Innings ${i.innings_no} — ${esc(teamName(i.batting_team_id))}</h3>
-   <div class="chips">
-    <span class="chip">${t.runs}/${t.wickets}</span>
-    <span class="chip">${overText(t.balls)} Overs</span>
-    <span class="chip">RR ${rate(t)}</span>
-    ${i.target?`<span class="chip">Target ${i.target}</span>`:""}
-   </div>
+   <div class="chips"><span class="chip">${t.runs}/${t.wickets}</span><span class="chip">${overText(t.balls)} Overs</span><span class="chip">RR ${rate(t)}</span>${i.target?`<span class="chip">Target ${i.target}</span>`:""}</div>
    <h3 style="margin-top:15px">Batting</h3>
    <div class="tablewrap"><table>
     <tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr>
-    ${Object.entries(bat).map(([id,p])=>`
-     <tr><td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td>
-     <td>${p.r}</td><td>${p.b}</td><td>${p.f}</td><td>${p.s}</td>
-     <td>${p.b?(p.r/p.b*100).toFixed(1):"0.0"}</td></tr>
-    `).join("")||'<tr><td colspan="6">No batting data</td></tr>'}
+    ${Object.entries(bat).map(([id,p])=>`<tr><td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td><td>${p.r}</td><td>${p.b}</td><td>${p.f}</td><td>${p.s}</td><td>${p.b?(p.r/p.b*100).toFixed(1):"0.0"}</td></tr>`).join("")||'<tr><td colspan="6">No batting data</td></tr>'}
    </table></div>
    <h3 style="margin-top:15px">Bowling</h3>
    <div class="tablewrap"><table>
     <tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>Eco</th></tr>
-    ${Object.entries(bowl).map(([id,p])=>`
-     <tr><td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td>
-     <td>${overText(p.b)}</td><td>${p.r}</td><td>${p.w}</td>
-     <td>${p.b?(p.r/(p.b/6)).toFixed(2):"0.00"}</td></tr>
-    `).join("")||'<tr><td colspan="5">No bowling data</td></tr>'}
-   </table></div>
-   <hr style="border-color:var(--line);margin:20px 0">
-  `;
+    ${Object.entries(bowl).map(([id,p])=>`<tr><td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td><td>${overText(p.b)}</td><td>${p.r}</td><td>${p.w}</td><td>${p.b?(p.r/(p.b/6)).toFixed(2):"0.00"}</td></tr>`).join("")||'<tr><td colspan="5">No bowling data</td></tr>'}
+   </table></div><hr style="border-color:var(--line);margin:20px 0">`;
  }
  $("scorecardContent").innerHTML=html||"No innings created.";
 }
@@ -849,12 +687,9 @@ async function insertForm(form,table,convert){
   }catch(x){message(x);}
  });
 }
-
 insertForm($("tournamentForm"),"gfc_tournaments");
 insertForm($("teamForm"),"gfc_teams");
-insertForm($("playerForm"),"gfc_players",d=>{
- d.jersey_number=d.jersey_number?n(d.jersey_number):null;
-});
+insertForm($("playerForm"),"gfc_players",d=>{d.jersey_number=d.jersey_number?n(d.jersey_number):null;});
 insertForm($("matchForm"),"gfc_matches",d=>{
  d.overs=n(d.overs);
  d.match_date=d.match_date?new Date(d.match_date).toISOString():new Date().toISOString();
@@ -867,25 +702,18 @@ insertForm($("streamForm"),"gfc_stream_sessions");
 async function startInnings(){
  const matchId=$("scoreMatch").value,bat=$("battingTeam").value;
  if(!matchId||!bat)throw Error("Match ও Batting Team নির্বাচন করুন");
-
- let existing=innings.filter(i=>i.match_id===matchId&&i.batting_team_id===bat)
-  .sort((a,b)=>b.innings_no-a.innings_no)[0];
-
+ let existing=innings.filter(i=>i.match_id===matchId&&i.batting_team_id===bat).sort((a,b)=>b.innings_no-a.innings_no)[0];
  if(existing)currentInnings=existing;
  else{
   const no=innings.filter(i=>i.match_id===matchId).length+1;
   const {data,error}=await db.from("gfc_innings").insert({
-   match_id:matchId,innings_no:no,batting_team_id:bat,
-   total_runs:0,wickets:0,legal_balls:0
+   match_id:matchId,innings_no:no,batting_team_id:bat,total_runs:0,wickets:0,legal_balls:0
   }).select().single();
   if(error)throw error;
   currentInnings=data;
-
-  const {error:matchError}=await db.from("gfc_matches")
-   .update({batting_team_id:bat,status:"live"}).eq("id",matchId);
+  const {error:matchError}=await db.from("gfc_matches").update({batting_team_id:bat,status:"live"}).eq("id",matchId);
   if(matchError)throw matchError;
  }
-
  await loadAll();
  await loadMatch(matchId);
  $("playerChangeStatus").textContent="Innings selected. Striker, Non-Striker ও Bowler নির্বাচন করুন।";
@@ -897,59 +725,33 @@ async function startInnings(){
 async function saveDelivery(batterRuns,extraType="none",extraRuns=0,isWicket=false,wicketType=null,dismissedPlayerId=null){
  if(savingDelivery)return;
  if(!currentInnings)throw Error("প্রথমে Start / Select Innings করুন");
-
- const striker=$("striker").value;
- const non=$("nonStriker").value;
- const bowler=$("bowler").value;
-
+ const striker=$("striker").value,non=$("nonStriker").value,bowler=$("bowler").value;
  if(!striker||!non||!bowler)throw Error("Striker, Non-Striker ও Bowler নির্বাচন করুন");
  if(striker===non)throw Error("Striker ও Non-Striker আলাদা হতে হবে");
-
  if(isWicket&&!wicketType)throw Error("Wicket Type নির্বাচন করা হয়নি");
 
  const payload={
-  batter_runs:n(batterRuns),
-  extra_type:extraType,
-  extra_runs:n(extraRuns),
-  is_wicket:!!isWicket,
-  wicket_type:isWicket?wicketType:null,
-  commentary:null,
-  striker_id:striker,
-  non_striker_id:non,
-  bowler_id:bowler,
+  batter_runs:n(batterRuns),extra_type:extraType,extra_runs:n(extraRuns),
+  is_wicket:!!isWicket,wicket_type:isWicket?wicketType:null,
+  commentary:null,striker_id:striker,non_striker_id:non,bowler_id:bowler,
   dismissed_player_id:isWicket?(dismissedPlayerId||striker):null
  };
 
  savingDelivery=true;
- document.querySelectorAll("#runButtons button,#wideButton,#noBallButton,#wicketButton").forEach(b=>b.disabled=true);
-
+ const controls=document.querySelectorAll("#runButtons button,#wideButton,#noBallButton,#byeButton,#legByeButton,#wicketButton");
+ controls.forEach(b=>b.disabled=true);
  try{
   const before=totals(deliveries);
-  await rpc("gfc_save_delivery",{
-   p_innings_id:currentInnings.id,
-   p_payload:payload,
-   p_delivery_id:null
-  });
-
-  const nextState=getNextPlayerState(payload,before.balls);
-  setPlayerSelections({
-   striker:nextState.striker,
-   nonStriker:nextState.nonStriker,
-   bowler:nextState.bowler
-  });
-
-  if(nextState.wicket){
-   $("scoringStatus").textContent="Wicket recorded! নতুন Batter নির্বাচন করে Apply Striker / Non-Striker করুন।";
-  }else if(nextState.overFinished){
-   $("scoringStatus").textContent="Over Complete! নতুন Bowler নির্বাচন করে Apply Bowler করুন।";
-  }else{
-   $("scoringStatus").textContent="Ball Saved Successfully.";
-  }
-
+  await rpc("gfc_save_delivery",{p_innings_id:currentInnings.id,p_payload:payload,p_delivery_id:null});
+  const next=getNextPlayerState(payload,before.balls);
+  setPlayerSelections({striker:next.striker,nonStriker:next.nonStriker,bowler:next.bowler});
+  if(next.wicket)$("scoringStatus").textContent="Wicket recorded! নতুন Batter নির্বাচন করে Apply করুন।";
+  else if(next.overFinished)$("scoringStatus").textContent="Over Complete! নতুন Bowler নির্বাচন করে Apply Bowler করুন।";
+  else $("scoringStatus").textContent="Ball Saved Successfully.";
   await loadMatch(currentMatch.id);
  }finally{
   savingDelivery=false;
-  document.querySelectorAll("#runButtons button,#wideButton,#noBallButton,#wicketButton").forEach(b=>b.disabled=false);
+  controls.forEach(b=>b.disabled=false);
  }
 }
 
@@ -959,36 +761,32 @@ async function saveDelivery(batterRuns,extraType="none",extraRuns=0,isWicket=fal
 window.editBall=async id=>{
  const d=deliveries.find(x=>x.id===id);
  if(!d)return;
-
- const batter=prompt("Batter Runs (0,1,2,3,4,6)",d.batter_runs);
+ const batter=prompt("Batter Runs",d.batter_runs);
  if(batter===null)return;
  const type=prompt("Extra Type: none / wide / no_ball / bye / leg_bye",d.extra_type||"none");
  if(type===null)return;
+ const valid=["none","wide","no_ball","bye","leg_bye"];
+ if(!valid.includes(type.trim().toLowerCase()))return alert("Invalid Extra Type");
  const extra=prompt("Extra Runs",d.extra_runs||0);
  if(extra===null)return;
  const commentary=prompt("Commentary",d.commentary||"");
  if(commentary===null)return;
  const wicketAnswer=prompt("Wicket? yes / no",d.is_wicket?"yes":"no");
  if(wicketAnswer===null)return;
-
  const isWicket=wicketAnswer.toLowerCase()==="yes";
  let wicketType=null;
  if(isWicket){
   wicketType=prompt("Wicket Type: bowled / caught / lbw / run_out / stumped / hit_wicket / retired_hurt / obstructing_field",d.wicket_type||"bowled");
   if(wicketType===null)return;
  }
-
  const payload={
-  batter_runs:n(batter),extra_type:type,extra_runs:n(extra),
-  is_wicket:isWicket,wicket_type:wicketType,commentary:commentary,
-  striker_id:d.striker_id,non_striker_id:d.non_striker_id,
-  bowler_id:d.bowler_id,dismissed_player_id:isWicket?d.dismissed_player_id:null
+  batter_runs:n(batter),extra_type:type.trim().toLowerCase(),extra_runs:n(extra),
+  is_wicket:isWicket,wicket_type:isWicket?wicketType:null,commentary,
+  striker_id:d.striker_id,non_striker_id:d.non_striker_id,bowler_id:d.bowler_id,
+  dismissed_player_id:isWicket?(d.dismissed_player_id||d.striker_id):null
  };
-
  try{
-  await rpc("gfc_save_delivery",{
-   p_innings_id:currentInnings.id,p_payload:payload,p_delivery_id:id
-  });
+  await rpc("gfc_save_delivery",{p_innings_id:currentInnings.id,p_payload:payload,p_delivery_id:id});
   await loadMatch(currentMatch.id);
   alert("Delivery updated");
  }catch(e){message(e);}
@@ -998,7 +796,7 @@ window.editBall=async id=>{
    DELETE DELIVERY
 ========================= */
 window.deleteBall=async id=>{
- if(!confirm("এই বল Delete করবেন? Audit Log-এ রেকর্ড থাকবে।"))return;
+ if(!confirm("এই বল Delete করবেন?"))return;
  try{
   await rpc("gfc_delete_delivery",{p_delivery_id:id});
   await loadMatch(currentMatch.id);
@@ -1020,12 +818,10 @@ $("nav").addEventListener("click",e=>{
    BUTTON EVENTS
 ========================= */
 $("scoreMatch").onchange=()=>loadMatch($("scoreMatch").value).catch(message);
-
 $("scorecardMatch").onchange=()=>{
  const id=$("scorecardMatch").value;
  if(id)loadMatch(id).catch(message);
 };
-
 $("battingTeam").onchange=()=>{
  if(!currentMatch)return;
  fillPlayers($("battingTeam").value);
@@ -1034,20 +830,17 @@ $("battingTeam").onchange=()=>{
  }
  savePlayerState();
 };
-
 $("inningsSelect").onchange=async()=>{
  currentInnings=innings.find(i=>i.id===$("inningsSelect").value)||null;
  if(currentInnings){
   $("battingTeam").value=currentInnings.batting_team_id;
   fillPlayers(currentInnings.batting_team_id);
-  const {data,error}=await db.from("gfc_deliveries").select("*")
-   .eq("innings_id",currentInnings.id).order("created_at",{ascending:true});
+  const {data,error}=await db.from("gfc_deliveries").select("*").eq("innings_id",currentInnings.id).order("created_at",{ascending:true});
   if(error)return message(error);
   deliveries=data||[];
   renderScoring();renderHistory();renderScorecard().catch(message);
  }
 };
-
 $("startInnings").onclick=()=>startInnings().catch(message);
 $("refreshScoring").onclick=()=>currentMatch&&loadMatch(currentMatch.id).catch(message);
 $("refreshHistory").onclick=()=>currentMatch&&loadMatch(currentMatch.id).catch(message);
@@ -1057,108 +850,85 @@ $("applyStriker").onclick=()=>applyManualPlayerChange("striker");
 $("applyNonStriker").onclick=()=>applyManualPlayerChange("nonStriker");
 $("applyBowler").onclick=()=>applyManualPlayerChange("bowler");
 
-["striker","nonStriker","bowler"].forEach(id=>{
- $(id).addEventListener("change",savePlayerState);
-});
+["striker","nonStriker","bowler"].forEach(id=>$(id).addEventListener("change",savePlayerState));
 
-/* RUN BUTTONS — DIRECT AUTO SAVE */
+/* RUN BUTTONS */
 $("runButtons").onclick=async e=>{
  const b=e.target.closest("[data-runs]");
  if(!b)return;
- try{
-  await saveDelivery(n(b.dataset.runs),"none",0,false);
- }catch(err){message(err);}
+ try{await saveDelivery(n(b.dataset.runs),"none",0,false);}
+ catch(err){message(err);}
 };
 
-/* WIDE — ONE EXTRA RUN, AUTO SAVE */
+/* WIDE */
 $("wideButton").onclick=async()=>{
- try{
-  await saveDelivery(0,"wide",1,false);
- }catch(err){message(err);}
+ try{await saveDelivery(0,"wide",1,false);}
+ catch(err){message(err);}
 };
 
-/* NO BALL — ONE EXTRA RUN, AUTO SAVE */
+/* NO BALL */
 $("noBallButton").onclick=async()=>{
- try{
-  await saveDelivery(0,"no_ball",1,false);
- }catch(err){message(err);}
+ try{await saveDelivery(0,"no_ball",1,false);}
+ catch(err){message(err);}
 };
 
-/* WICKET — SELECT DISMISSAL TYPE, THEN AUTO SAVE */
-$("wicketButton").onclick=async()=>{
- if(!currentInnings)return alert("আগে Match ও Innings নির্বাচন করুন");
-
- const wicketType=prompt(
-  "Wicket Type লিখুন:\nbowled, caught, lbw, run_out, stumped, hit_wicket, retired_hurt, obstructing_field",
-  "bowled"
- );
- if(wicketType===null)return;
-
- const allowed=["bowled","caught","lbw","run_out","stumped","hit_wicket","retired_hurt","obstructing_field"];
- if(!allowed.includes(wicketType.trim().toLowerCase())){
-  alert("সঠিক Wicket Type লিখুন");
+/* BYE AND LEG BYE */
+async function extraRunsPrompt(type){
+ const amount=prompt(type.toUpperCase()+" কত রান?","1");
+ if(amount===null)return;
+ const value=Number(amount);
+ if(!Number.isInteger(value)||value<1||value>6){
+  alert("১ থেকে ৬-এর মধ্যে পূর্ণসংখ্যা দিন");
   return;
  }
+ try{await saveDelivery(0,type,value,false);}
+ catch(err){message(err);}
+}
+$("byeButton").onclick=()=>extraRunsPrompt("bye");
+$("legByeButton").onclick=()=>extraRunsPrompt("leg_bye");
 
- const strikerId=$("striker").value;
- const nonStrikerId=$("nonStriker").value;
+/* WICKET */
+$("wicketButton").onclick=async()=>{
+ if(!currentInnings)return alert("আগে Match ও Innings নির্বাচন করুন");
+ const wicketType=prompt("Wicket Type:\nbowled, caught, lbw, run_out, stumped, hit_wicket, retired_hurt, obstructing_field","bowled");
+ if(wicketType===null)return;
+ const type=wicketType.trim().toLowerCase();
+ const allowed=["bowled","caught","lbw","run_out","stumped","hit_wicket","retired_hurt","obstructing_field"];
+ if(!allowed.includes(type))return alert("সঠিক Wicket Type লিখুন");
 
+ const strikerId=$("striker").value,nonStrikerId=$("nonStriker").value;
  const strikerName=players.find(p=>p.id===strikerId)?.name||"Striker";
  const nonName=players.find(p=>p.id===nonStrikerId)?.name||"Non-Striker";
-
- let dismissed=strikerId;
-
- if(wicketType.trim().toLowerCase()==="run_out"){
-  const answer=prompt(
-   "কোন Batter Run Out হয়েছেন?\n1 = "+strikerName+"\n2 = "+nonName,
-   "1"
-  );
-  if(answer===null)return;
-  dismissed=answer.trim()==="2"?nonStrikerId:strikerId;
- }else{
-  const answer=prompt(
-   "কোন Batter আউট হয়েছেন?\n1 = "+strikerName+"\n2 = "+nonName,
-   "1"
-  );
-  if(answer===null)return;
-  dismissed=answer.trim()==="2"?nonStrikerId:strikerId;
- }
-
- try{
-  await saveDelivery(0,"none",0,true,wicketType.trim().toLowerCase(),dismissed);
- }catch(err){message(err);}
+ const answer=prompt("কোন Batter আউট হয়েছেন?\n1 = "+strikerName+"\n2 = "+nonName,"1");
+ if(answer===null)return;
+ const dismissed=answer.trim()==="2"?nonStrikerId:strikerId;
+ try{await saveDelivery(0,"none",0,true,type,dismissed);}
+ catch(err){message(err);}
 };
 
 /* =========================
-   UNDO LAST BALL + PLAYER RESTORE
+   UNDO — RESTORE PLAYER STATE
 ========================= */
 $("undoBall").onclick=async()=>{
  if(!currentInnings)return alert("Innings নির্বাচন করুন");
  if(!confirm("সর্বশেষ বল Undo করবেন?"))return;
-
  try{
   await rpc("gfc_undo_last_delivery",{p_innings_id:currentInnings.id});
-
-  const {data,error}=await db.from("gfc_deliveries").select("*")
-   .eq("innings_id",currentInnings.id).order("created_at",{ascending:true});
+  const {data,error}=await db.from("gfc_deliveries").select("*").eq("innings_id",currentInnings.id).order("created_at",{ascending:true});
   if(error)throw error;
-
   deliveries=data||[];
 
+  // সর্বশেষ অবশিষ্ট বলের আগের Player Selection পুনরুদ্ধার
   if(deliveries.length){
-   const previousDeliveries=deliveries.slice(0,-1);
    const last=deliveries[deliveries.length-1];
-   const ballsBefore=totals(previousDeliveries).balls;
-   const restored=getNextPlayerState(last,ballsBefore);
    setPlayerSelections({
-    striker:restored.striker,
-    nonStriker:restored.nonStriker,
-    bowler:restored.bowler
+    striker:last.striker_id||"",
+    nonStriker:last.non_striker_id||"",
+    bowler:last.bowler_id||""
    });
   }else{
    setPlayerSelections({striker:"",nonStriker:"",bowler:""});
   }
-
   await loadMatch(currentMatch.id);
   $("playerChangeStatus").textContent="Undo সম্পন্ন হয়েছে। Player Selection পুনরুদ্ধার করা হয়েছে।";
   $("scoringStatus").textContent="সর্বশেষ বল Undo করা হয়েছে।";
@@ -1181,14 +951,12 @@ async function login(){
  }
  showApp();
 }
-
 function showApp(){
  $("loginPanel").classList.add("hidden");
  $("main").classList.remove("hidden");
  $("logout").classList.remove("hidden");
  loadAll().catch(message);
 }
-
 $("loginBtn").onclick=()=>{
  $("loginMessage").classList.add("hidden");
  login().catch(e=>{
@@ -1196,16 +964,12 @@ $("loginBtn").onclick=()=>{
   $("loginMessage").classList.remove("hidden");
  });
 };
-
 $("forgotBtn").onclick=async()=>{
  const email=$("email").value.trim();
  if(!email)return alert("Email দিন");
- const {error}=await db.auth.resetPasswordForEmail(email,{
-  redirectTo:location.origin+location.pathname
- });
+ const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
  alert(error?error.message:"Password reset email পাঠানো হয়েছে। Inbox দেখুন।");
 };
-
 $("logout").onclick=async()=>{
  await db.auth.signOut();
  location.reload();
@@ -1228,15 +992,11 @@ async function overlayMode(){
  $("app").classList.add("hidden");
  $("overlayRoot").classList.remove("hidden");
  document.body.style.background="transparent";
-
  async function refresh(){
   try{
-   const [ms,is,ts]=await Promise.all([
-    get("gfc_matches","match_date"),get("gfc_innings"),get("gfc_teams")
-   ]);
+   const [ms,is,ts]=await Promise.all([get("gfc_matches","match_date"),get("gfc_innings"),get("gfc_teams")]);
    const m=ms.find(x=>x.status==="live")||ms[0];
    if(!m)return;
-
    const i=is.filter(x=>x.match_id===m.id).sort((a,b)=>b.innings_no-a.innings_no)[0];
    let list=[];
    if(i){
