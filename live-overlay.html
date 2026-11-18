@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GFC Live Score Overlay</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;min-height:100%;background:transparent;color:white;font-family:Arial,sans-serif}
+body{padding:15px}
+#scoreboard{width:100%;max-width:1000px;margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px}
+.teams{font-size:clamp(13px,2.4vw,23px);font-weight:900}
+.score{font-size:clamp(27px,6vw,55px);font-weight:1000;white-space:nowrap}
+.details{font-size:clamp(11px,2vw,17px);opacity:.9;margin-top:5px}
+.right{text-align:right}
+.brand{font-size:10px;letter-spacing:2px;opacity:.75;margin-bottom:5px}
+.bottom{display:flex;justify-content:space-between;gap:10px;padding:8px 18px;font-size:clamp(10px,1.8vw,14px)}
+.target{font-weight:bold}
+.card{overflow:hidden}
+.accent{font-weight:900}
+#status{font-size:11px;text-align:center;padding:5px;opacity:.6}
+
+/* 1 Classic Green */
+.classic .card{background:#073b2a;border:2px solid #b8f36b;border-radius:10px}
+.classic .top{background:#0b4b32}
+.classic .score,.classic .accent{color:#b8f36b}
+
+/* 2 Modern Blue */
+.modern .card{background:#061e40;border-left:7px solid #29b6ff;border-radius:5px}
+.modern .top{background:linear-gradient(100deg,#0b3970,#061e40)}
+.modern .score,.modern .accent{color:#38c8ff}
+
+/* 3 Red Zone */
+.red .card{background:#380b12;border:2px solid #ff404e;border-radius:3px}
+.red .top{background:#810d20}
+.red .score,.red .accent{color:#ff6a70}
+
+/* 4 Gold Premium */
+.gold .card{background:#17120a;border:2px solid #d7ad55;border-radius:12px}
+.gold .top{background:linear-gradient(110deg,#3a2b12,#17120a)}
+.gold .score,.gold .accent{color:#f4cf78}
+
+/* 5 Neon Cyan */
+.neon .card{background:#001a21;border:2px solid #00f0ff;box-shadow:0 0 14px #00d9ff;border-radius:8px}
+.neon .top{background:#00323b}
+.neon .score,.neon .accent{color:#00f0ff}
+
+/* 6 Purple Night */
+.purple .card{background:#1b0b38;border:2px solid #b66bff;border-radius:12px}
+.purple .top{background:#32115d}
+.purple .score,.purple .accent{color:#d5a0ff}
+
+/* 7 Orange Blaze */
+.orange .card{background:#351707;border:2px solid #ff852c;border-radius:5px}
+.orange .top{background:#722b08}
+.orange .score,.orange .accent{color:#ffad4d}
+
+/* 8 Royal Blue */
+.royal .card{background:#071d58;border:2px solid #8caaff;border-radius:9px}
+.royal .top{background:#12358b}
+.royal .score,.royal .accent{color:#a9c3ff}
+
+/* 9 Black & Gold */
+.blackgold .card{background:#080808;border:2px solid #e2bd58;border-radius:2px}
+.blackgold .top{background:#17130b}
+.blackgold .score,.blackgold .accent{color:#e9c65f}
+
+/* 10 Emerald Green */
+.emerald .card{background:#002c25;border:2px solid #00b88a;border-radius:15px}
+.emerald .top{background:#00503c}
+.emerald .score,.emerald .accent{color:#52f0b7}
+
+/* 11 Pink Neon */
+.pink .card{background:#270b26;border:2px solid #ff55c8;box-shadow:0 0 12px #ff55c8;border-radius:10px}
+.pink .top{background:#4c1044}
+.pink .score,.pink .accent{color:#ff82da}
+
+/* 12 Ice White */
+.ice .card{background:#eaf6ff;color:#10283c;border:2px solid white;border-radius:8px}
+.ice .top{background:#d5eafa}
+.ice .details,.ice .bottom{color:#24445e}
+.ice .score,.ice .accent{color:#0874bc}
+
+/* 13 Cyberpunk */
+.cyber .card{background:#100a24;border:2px solid #edff00;border-radius:0}
+.cyber .top{background:linear-gradient(90deg,#30105a,#11112d)}
+.cyber .score,.cyber .accent{color:#edff00}
+
+/* 14 Stadium Live */
+.stadium .card{background:#061e16;border:3px solid #e8f3e9;border-radius:4px}
+.stadium .top{background:#14552e}
+.stadium .score,.stadium .accent{color:#d5ff70}
+
+/* 15 Minimal Clean */
+.minimal .card{background:#111;color:#fff;border-left:5px solid white;border-radius:0}
+.minimal .top{background:#202020}
+.minimal .score,.minimal .accent{color:white}
+
+/* 16 Retro Cricket */
+.retro .card{background:#17281a;border:3px double #e4d3a0;border-radius:0}
+.retro .top{background:#304b2b}
+.retro .score,.retro .accent{color:#f2d98d}
+
+/* 17 Scoreboard TV */
+.tv .card{background:#080808;border:4px solid #eee;border-radius:2px}
+.tv .top{background:#181818}
+.tv .score,.tv .accent{color:#f6e85b}
+
+/* 18 Gradient Wave */
+.gradient .card{background:linear-gradient(110deg,#071d43,#552477,#0a6a72);border:1px solid #75e7f2;border-radius:15px}
+.gradient .top{background:linear-gradient(110deg,#103c75,#67388d)}
+.gradient .score,.gradient .accent{color:#7ff4ee}
+
+/* 19 Cricket League */
+.league .card{background:#101a2a;border:2px solid #ffb62c;border-radius:12px}
+.league .top{background:linear-gradient(100deg,#263e64,#101a2a)}
+.league .score,.league .accent{color:#ffcb62}
+
+/* 20 Dark Matrix */
+.matrix .card{background:#001008;border:2px solid #00ff66;border-radius:3px}
+.matrix .top{background:#002c13}
+.matrix .score,.matrix .accent{color:#00ff66}
+
+@media(max-width:450px){
+ body{padding:5px}
+ .top{padding:10px}
+ .bottom{padding:7px 10px}
+}
+</style>
+</head>
+<body>
+
+<div id="scoreboard" class="classic">
+ <div class="card">
+  <div class="top">
+   <div>
+    <div class="brand">GFC CRICKET PRO 2026</div>
+    <div class="teams" id="teams">TEAM A vs TEAM B</div>
+    <div class="details" id="matchInfo">LIVE MATCH</div>
+   </div>
+   <div class="right">
+    <div class="score" id="score">0/0</div>
+    <div class="details" id="overs">0.0 OVERS</div>
+   </div>
+  </div>
+  <div class="bottom">
+   <span id="runrate">RUN RATE 0.00</span>
+   <span class="target" id="target">TARGET —</span>
+  </div>
+ </div>
+ <div id="status">GFC LIVE SCORE</div>
+</div>
+
+<script>
+const SUPABASE_URL="https://shlvtaxrkyffdifbjswq.supabase.co";
+const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const params=new URLSearchParams(location.search);
+const matchId=params.get("match");
+const design=params.get("design")||"classic";
+
+const allowed=[
+ "classic","modern","red","gold","neon","purple","orange",
+ "royal","blackgold","emerald","pink","ice","cyber",
+ "stadium","minimal","retro","tv","gradient","league","matrix"
+];
+
+const $=id=>document.getElementById(id);
+
+$("scoreboard").className=
+ allowed.includes(design)?design:"classic";
+
+function total(list){
+ let runs=0,wickets=0,balls=0;
+
+ list.forEach(d=>{
+  runs+=Number(d.batter_runs||0)+Number(d.extra_runs||0);
+  if(d.is_wicket)wickets++;
+
+  if(!["wide","no_ball"].includes(d.extra_type||"none")){
+   balls++;
+  }
+ });
+
+ return {runs,wickets,balls};
+}
+
+function overText(b){
+ return Math.floor(b/6)+"."+b%6;
+}
+
+function runRate(t){
+ return t.balls?(t.runs/(t.balls/6)).toFixed(2):"0.00";
+}
+
+async function refresh(){
+
+ try{
+
+  if(!matchId){
+   $("status").textContent="MATCH ID NOT PROVIDED";
+   return;
+  }
+
+  const {data:m,error:me}=await db
+   .from("gfc_matches")
+   .select("*")
+   .eq("id",matchId)
+   .single();
+
+  if(me)throw me;
+
+  const {data:teams,error:te}=await db
+   .from("gfc_teams")
+   .select("*")
+   .in("id",[m.team_a_id,m.team_b_id]);
+
+  if(te)throw te;
+
+  const teamName=id=>{
+   const t=(teams||[]).find(x=>x.id===id);
+   return t?.short_name||t?.name||"TEAM";
+  };
+
+  const {data:inn,error:ie}=await db
+   .from("gfc_innings")
+   .select("*")
+   .eq("match_id",matchId)
+   .order("innings_no",{ascending:false})
+   .limit(1);
+
+  if(ie)throw ie;
+
+  const i=inn?.[0];
+
+  let deliveries=[];
+
+  if(i){
+   const {data:d,error:de}=await db
+    .from("gfc_deliveries")
+    .select("*")
+    .eq("innings_id",i.id);
+
+   if(de)throw de;
+   deliveries=d||[];
+  }
+
+  const t=total(deliveries);
+
+  $("teams").textContent=
+   teamName(m.team_a_id)+" vs "+teamName(m.team_b_id);
+
+  $("matchInfo").textContent=
+   (m.venue||"GFC MATCH")+" • "+(m.status||"LIVE").toUpperCase();
+
+  $("score").textContent=t.runs+"/"+t.wickets;
+  $("overs").textContent=overText(t.balls)+" OVERS";
+  $("runrate").textContent="RUN RATE "+runRate(t);
+
+  $("target").textContent=
+   i?.target?"TARGET "+i.target:"GFC CRICKET PRO 2026";
+
+  $("status").textContent="GFC CRICKET PRO 2026 • LIVE";
+
+ }catch(e){
+  console.error(e);
+  $("status").textContent="Scoreboard loading... "+e.message;
+ }
+}
+
+refresh();
+setInterval(refresh,3000);
+</script>
+</body>
+</html>
