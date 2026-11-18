@@ -15,51 +15,91 @@
  --text:#f4fff9;--muted:#a9c4b8;--red:#ff6262;
 }
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(145deg,#12382d,#071b18 55%);
- color:var(--text);font-family:Arial,system-ui,sans-serif}
+body{
+ margin:0;background:linear-gradient(145deg,#12382d,#071b18 55%);
+ color:var(--text);font-family:Arial,system-ui,sans-serif
+}
 button,input,select{font:inherit}
-button{border:0;border-radius:11px;padding:12px 15px;
- background:var(--green);color:#052017;font-weight:bold;cursor:pointer}
+button{
+ border:0;border-radius:11px;padding:12px 15px;
+ background:var(--green);color:#052017;font-weight:bold;cursor:pointer
+}
 button.secondary{background:#24483e;color:white;border:1px solid var(--line)}
 button.danger{background:#a63b43;color:white}
 button.gold{background:var(--lime);color:#102016}
-input,select{width:100%;padding:13px;border-radius:10px;
- border:1px solid var(--line);background:#081f1a;color:white;min-height:46px}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select{
+ width:100%;padding:13px;border-radius:10px;
+ border:1px solid var(--line);background:#081f1a;color:white;min-height:46px
+}
 label{display:block;color:var(--muted);font-size:13px;margin:9px 0 5px}
+a{color:var(--lime)}
 .wrap{max-width:1000px;margin:auto;padding:13px}
-.panel{background:var(--panel);border:1px solid var(--line);
- border-radius:17px;padding:15px;margin:12px 0}
-h1{font-size:19px;margin:0}h2{font-size:19px;margin:0 0 14px}
+.panel{
+ background:var(--panel);border:1px solid var(--line);
+ border-radius:17px;padding:15px;margin:12px 0
+}
+h1{font-size:19px;margin:0}
+h2{font-size:19px;margin:0 0 14px}
 h3{font-size:16px;margin:0 0 12px}
-.muted{color:var(--muted)}.small{font-size:12px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.header{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:10px;padding:13px 0
+}
 .brand{display:flex;align-items:center;gap:10px}
-.logo{height:44px;width:44px;border-radius:13px;background:var(--lime);
- color:#071b18;display:grid;place-items:center;font-weight:1000}
+.logo{
+ height:44px;width:44px;border-radius:13px;background:var(--lime);
+ color:#071b18;display:grid;place-items:center;font-weight:1000
+}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
 .formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .full{grid-column:1/-1}
-.stat{background:#081f1a;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat{
+ background:#081f1a;border:1px solid var(--line);
+ border-radius:12px;padding:12px
+}
 .stat b{display:block;font-size:23px;color:var(--lime)}
 .stat span{font-size:12px;color:var(--muted)}
 .nav{display:flex;gap:7px;overflow-x:auto;padding:8px 0 12px}
-.nav button{white-space:nowrap;flex-shrink:0;background:#17372e;color:white}
+.nav button{
+ white-space:nowrap;flex-shrink:0;background:#17372e;color:white
+}
 .nav button.active{background:var(--green);color:#052017}
-.tab{display:none}.tab.active{display:block}
-.scorebox{background:linear-gradient(120deg,#0b3829,#174a35);
- border:1px solid #327a58;border-radius:16px;text-align:center;padding:18px}
+.tab{display:none}
+.tab.active{display:block}
+.scorebox{
+ background:linear-gradient(120deg,#0b3829,#174a35);
+ border:1px solid #327a58;border-radius:16px;
+ text-align:center;padding:18px
+}
 .score{font-size:42px;font-weight:1000}
 .overs{color:#d4f5df}
-.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;justify-content:center}
-.chip{background:#081f1a;border:1px solid var(--line);border-radius:30px;
- padding:7px 10px;font-size:12px;color:var(--muted)}
+.chips{
+ display:flex;flex-wrap:wrap;gap:7px;
+ margin-top:9px;justify-content:center
+}
+.chip{
+ background:#081f1a;border:1px solid var(--line);
+ border-radius:30px;padding:7px 10px;font-size:12px;color:var(--muted)
+}
 .runbuttons{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.runbuttons button{font-size:22px;min-height:60px;background:#d8f5e5}
-.runbuttons button:nth-child(4),.runbuttons button:nth-child(6){background:var(--lime)}
+.runbuttons button{
+ font-size:22px;min-height:60px;background:#d8f5e5
+}
+.runbuttons button:nth-child(5),.runbuttons button:nth-child(6){
+ background:var(--lime)
+}
+.runbuttons button.selected{
+ outline:3px solid white;transform:scale(.97)
+}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .row>*{flex:1}
-.item{display:flex;align-items:center;justify-content:space-between;
- gap:8px;padding:11px 0;border-bottom:1px solid var(--line)}
+.item{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:8px;padding:11px 0;border-bottom:1px solid var(--line)
+}
 .item:last-child{border:0}
 .item small{display:block;color:var(--muted);margin-top:4px}
 .item button{padding:8px 10px;font-size:12px}
@@ -67,16 +107,25 @@ h3{font-size:16px;margin:0 0 12px}
 table{width:100%;border-collapse:collapse;min-width:420px}
 td,th{text-align:left;padding:9px;border-bottom:1px solid var(--line);font-size:13px}
 th{color:var(--lime)}
-.notice{background:#17372e;color:#d6f5e4;border-radius:10px;padding:11px;
- margin:10px 0;font-size:13px}
+.notice{
+ background:#17372e;color:#d6f5e4;border-radius:10px;
+ padding:11px;margin:10px 0;font-size:13px
+}
 .hidden{display:none!important}
 .login{max-width:420px;margin:35px auto}
 .footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
-.overlay{max-width:850px;margin:12vh auto;background:#071b18ed;
+.overlay{
+ max-width:850px;margin:12vh auto;background:#071b18ed;
  border:2px solid var(--lime);border-radius:12px;padding:15px 20px;
- display:flex;justify-content:space-between;align-items:center;gap:15px}
+ display:flex;justify-content:space-between;align-items:center;gap:15px
+}
 .overlay .big{font-size:clamp(28px,6vw,55px);font-weight:1000}
 .overlay .team{color:var(--lime);font-size:clamp(14px,3vw,23px)}
+.player-control{
+ background:#081f1a;border:1px solid var(--line);
+ padding:12px;border-radius:12px;margin-top:12px
+}
+.player-control button{width:100%;margin-top:7px}
 @media(min-width:700px){
  .grid{grid-template-columns:repeat(4,1fr)}
  .formgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -87,6 +136,7 @@ th{color:var(--lime)}
 </head>
 
 <body>
+
 <div class="wrap" id="app">
 
 <header class="header">
@@ -104,12 +154,18 @@ th{color:var(--lime)}
 <section class="panel login" id="loginPanel">
  <h2>Admin Login</h2>
  <p class="muted small">শুধুমাত্র অনুমোদিত Admin প্রবেশ করতে পারবেন।</p>
+
  <label>Email</label>
  <input id="email" type="email" value="officework.bolpur@gmail.com">
+
  <label>Password</label>
  <input id="password" type="password" placeholder="Admin Password">
+
  <button id="loginBtn" style="width:100%;margin-top:12px">Login</button>
- <button class="secondary" id="forgotBtn" style="width:100%;margin-top:8px">Forgot Password</button>
+ <button class="secondary" id="forgotBtn" style="width:100%;margin-top:8px">
+  Forgot Password
+ </button>
+
  <div id="loginMessage" class="notice hidden"></div>
 </section>
 
@@ -118,19 +174,24 @@ th{color:var(--lime)}
 <!-- PUBLIC SCORE -->
 <section class="panel">
  <div class="row">
-  <div><div class="muted small">PUBLIC LIVE SCOREBOARD</div>
-   <h2 id="publicMatch">No Live Match</h2></div>
+  <div>
+   <div class="muted small">PUBLIC LIVE SCOREBOARD</div>
+   <h2 id="publicMatch">No Live Match</h2>
+  </div>
   <button class="secondary" id="refreshPublic">Refresh</button>
  </div>
+
  <div class="scorebox">
   <div class="score" id="publicScore">0/0</div>
   <div class="overs" id="publicOvers">0.0 Overs</div>
   <div class="muted small" id="publicTeams">GFC CRICKET PRO 2026</div>
  </div>
+
  <div class="chips">
   <span class="chip" id="publicRR">RR 0.00</span>
   <span class="chip" id="publicTarget">Target —</span>
-  <a class="chip" href="?overlay=1" target="_blank">Broadcast Overlay ↗</a>
+  <a class="chip" href="live-overlay.html" target="_blank">Live Overlay ↗</a>
+  <a class="chip" href="broadcast-studio.html" target="_blank">Broadcast Studio ↗</a>
  </div>
 </section>
 
@@ -156,7 +217,10 @@ th{color:var(--lime)}
    <div class="stat"><b id="countMatch">0</b><span>Matches</span></div>
   </div>
  </div>
- <div class="panel"><h3>Live Matches</h3><div id="liveList"></div></div>
+ <div class="panel">
+  <h3>Live Matches</h3>
+  <div id="liveList"></div>
+ </div>
 </section>
 
 <!-- TOURNAMENTS -->
@@ -168,7 +232,14 @@ th{color:var(--lime)}
    <div><label>Season</label><input name="season" placeholder="2026"></div>
    <div><label>Venue</label><input name="venue"></div>
    <div><label>Start Date</label><input name="start_date" type="date"></div>
-   <div><label>Status</label><select name="status"><option>upcoming</option><option>live</option><option>completed</option></select></div>
+   <div>
+    <label>Status</label>
+    <select name="status">
+     <option value="upcoming">Upcoming</option>
+     <option value="live">Live</option>
+     <option value="completed">Completed</option>
+    </select>
+   </div>
    <div class="full"><button>Create Tournament</button></div>
   </form>
  </div>
@@ -197,8 +268,12 @@ th{color:var(--lime)}
    <div><label>Team</label><select name="team_id" id="playerTeam" required></select></div>
    <div><label>Player Name</label><input name="name" required></div>
    <div><label>Jersey Number</label><input name="jersey_number" type="number"></div>
-   <div><label>Role</label>
-    <select name="role"><option>Batter</option><option>Bowler</option><option>All-rounder</option><option>Wicketkeeper</option></select>
+   <div>
+    <label>Role</label>
+    <select name="role">
+     <option>Batter</option><option>Bowler</option>
+     <option>All-rounder</option><option>Wicketkeeper</option>
+    </select>
    </div>
    <div class="full"><button>Add Player</button></div>
   </form>
@@ -217,7 +292,14 @@ th{color:var(--lime)}
    <div><label>Venue</label><input name="venue"></div>
    <div><label>Date & Time</label><input name="match_date" type="datetime-local"></div>
    <div><label>Overs</label><input name="overs" type="number" min="1" value="20" required></div>
-   <div><label>Status</label><select name="status"><option value="upcoming">upcoming</option><option value="live">live</option><option value="completed">completed</option></select></div>
+   <div>
+    <label>Status</label>
+    <select name="status">
+     <option value="upcoming">Upcoming</option>
+     <option value="live">Live</option>
+     <option value="completed">Completed</option>
+    </select>
+   </div>
    <div class="full"><button>Create Match</button></div>
   </form>
  </div>
@@ -226,8 +308,10 @@ th{color:var(--lime)}
 
 <!-- LIVE SCORING -->
 <section class="tab" id="tab-scoring">
+
  <div class="panel">
   <h2>Live Scoring Control</h2>
+
   <div class="formgrid">
    <div><label>Select Match</label><select id="scoreMatch"></select></div>
    <div><label>Batting Team</label><select id="battingTeam"></select></div>
@@ -236,6 +320,29 @@ th{color:var(--lime)}
    <div><label>Bowler</label><select id="bowler"></select></div>
    <div><label>Innings</label><select id="inningsSelect"></select></div>
   </div>
+
+  <!-- MANUAL PLAYER CHANGE -->
+  <div class="player-control">
+   <h3>Manual Player Change</h3>
+   <div class="formgrid">
+    <div>
+     <label>Change Striker</label>
+     <button type="button" class="secondary" id="applyStriker">Apply Striker</button>
+    </div>
+    <div>
+     <label>Change Non-Striker</label>
+     <button type="button" class="secondary" id="applyNonStriker">Apply Non-Striker</button>
+    </div>
+    <div>
+     <label>Change Bowler</label>
+     <button type="button" class="secondary" id="applyBowler">Apply Bowler</button>
+    </div>
+   </div>
+   <div class="notice" id="playerChangeStatus">
+    Player নির্বাচন করে Apply করুন।
+   </div>
+  </div>
+
   <div class="row" style="margin-top:12px">
    <button class="gold" id="startInnings">Start / Select Innings</button>
    <button class="secondary" id="refreshScoring">Refresh</button>
@@ -247,35 +354,53 @@ th{color:var(--lime)}
    <div class="muted small" id="scoreMatchTitle">Select Match</div>
    <div class="score" id="adminScore">0/0</div>
    <div class="overs" id="adminOvers">0.0 Overs</div>
-   <div class="chips"><span class="chip" id="adminRR">RR 0.00</span><span class="chip" id="adminTarget">Target —</span></div>
+   <div class="chips">
+    <span class="chip" id="adminRR">RR 0.00</span>
+    <span class="chip" id="adminTarget">Target —</span>
+   </div>
   </div>
 
-  <h3 style="margin-top:16px">Add Runs</h3>
+  <h3 style="margin-top:16px">Select Runs</h3>
   <div class="runbuttons" id="runButtons">
-   <button data-runs="0">0</button>
-   <button data-runs="1">1</button>
-   <button data-runs="2">2</button>
-   <button data-runs="3">3</button>
-   <button data-runs="4">4</button>
-   <button data-runs="6">6</button>
+   <button type="button" data-runs="0">0</button>
+   <button type="button" data-runs="1">1</button>
+   <button type="button" data-runs="2">2</button>
+   <button type="button" data-runs="3">3</button>
+   <button type="button" data-runs="4">4</button>
+   <button type="button" data-runs="6">6</button>
   </div>
+  <div class="notice" id="selectedRunNotice">Selected Runs: 0</div>
 
   <div class="formgrid" style="margin-top:12px">
-   <div><label>Extra Type</label>
+   <div>
+    <label>Extra Type</label>
     <select id="extraType">
-     <option value="none">None</option><option value="wide">Wide</option>
-     <option value="no_ball">No Ball</option><option value="bye">Bye</option>
+     <option value="none">None</option>
+     <option value="wide">Wide</option>
+     <option value="no_ball">No Ball</option>
+     <option value="bye">Bye</option>
      <option value="leg_bye">Leg Bye</option>
     </select>
    </div>
    <div><label>Extra Runs</label><input id="extraRuns" type="number" min="0" value="0"></div>
-   <div><label>Wicket?</label><select id="isWicket"><option value="false">No</option><option value="true">Yes</option></select></div>
-   <div><label>Wicket Type</label>
+   <div>
+    <label>Wicket?</label>
+    <select id="isWicket">
+     <option value="false">No</option>
+     <option value="true">Yes</option>
+    </select>
+   </div>
+   <div>
+    <label>Wicket Type</label>
     <select id="wicketType">
-     <option value="">Select</option><option value="bowled">Bowled</option>
-     <option value="caught">Caught</option><option value="lbw">LBW</option>
-     <option value="run_out">Run Out</option><option value="stumped">Stumped</option>
-     <option value="hit_wicket">Hit Wicket</option><option value="retired_hurt">Retired Hurt</option>
+     <option value="">Select</option>
+     <option value="bowled">Bowled</option>
+     <option value="caught">Caught</option>
+     <option value="lbw">LBW</option>
+     <option value="run_out">Run Out</option>
+     <option value="stumped">Stumped</option>
+     <option value="hit_wicket">Hit Wicket</option>
+     <option value="retired_hurt">Retired Hurt</option>
      <option value="obstructing_field">Obstructing Field</option>
     </select>
    </div>
@@ -287,76 +412,148 @@ th{color:var(--lime)}
    <button id="saveBall">Save Ball</button>
    <button class="danger" id="undoBall">↶ Undo Last Ball</button>
   </div>
-  <div class="notice">Wide / No-ball হলে Extra Runs কমপক্ষে 1 দিন। Striker, Non-striker ও Bowler নির্বাচন করে বল Save করুন।</div>
+
+  <div class="notice">
+   প্রথমে Striker, Non-Striker ও Bowler নির্বাচন করুন।
+   তারপর Run নির্বাচন করে Save Ball চাপুন।
+   Wide / No-ball হলে Extra Runs কমপক্ষে 1 দিন।
+  </div>
  </div>
 
  <div class="panel">
-  <div class="row"><h3>Ball History</h3><button class="secondary" id="refreshHistory">Refresh</button></div>
+  <div class="row">
+   <h3>Ball History</h3>
+   <button class="secondary" id="refreshHistory">Refresh</button>
+  </div>
   <div id="history"></div>
  </div>
+
 </section>
 
 <!-- SCORECARD -->
 <section class="tab" id="tab-scorecard">
  <div class="panel">
   <h2>Match Scorecard</h2>
-  <label>Select Match</label><select id="scorecardMatch"></select>
+  <label>Select Match</label>
+  <select id="scorecardMatch"></select>
   <div id="scorecardContent" style="margin-top:15px"></div>
  </div>
 </section>
 
 <!-- STREAMING -->
 <section class="tab" id="tab-streaming">
+
  <div class="panel">
   <h2>Streaming Setup</h2>
+
   <form id="streamForm" class="formgrid">
    <div><label>Match</label><select name="match_id" id="streamMatch"></select></div>
-   <div><label>Platform</label><select name="platform"><option>Facebook</option><option>YouTube</option><option>Facebook + YouTube</option><option>Other</option></select></div>
+   <div>
+    <label>Platform</label>
+    <select name="platform">
+     <option>Facebook</option>
+     <option>YouTube</option>
+     <option>Facebook + YouTube</option>
+     <option>Other</option>
+    </select>
+   </div>
    <div><label>Watch URL</label><input name="watch_url" type="url" required></div>
-   <div><label>Status</label><select name="status"><option>live</option><option>scheduled</option><option>ended</option></select></div>
+   <div>
+    <label>Status</label>
+    <select name="status">
+     <option>live</option><option>scheduled</option><option>ended</option>
+    </select>
+   </div>
    <div class="full"><button>Save Streaming Link</button></div>
   </form>
+
   <div id="streamList"></div>
-  <div class="notice">এখানে দর্শকদের Watch Link রাখা যাবে। এটি নিজে থেকে Camera Live Broadcast করে না। তার জন্য OBS / Encoder / Streaming Service প্রয়োজন।</div>
+
+  <div class="notice">
+   এখানে দর্শকদের Watch Link রাখা যাবে।
+   এটি নিজে থেকে Camera Live Broadcast করে না।
+   তার জন্য PRISM Live Studio / OBS / Encoder প্রয়োজন।
+  </div>
  </div>
+
  <div class="panel">
   <h3>Broadcast Score Overlay</h3>
-  <div class="row"><input id="overlayURL" readonly><button class="secondary" id="copyOverlay">Copy</button></div>
-  <p><a href="?overlay=1" target="_blank" style="color:var(--lime)">Open Overlay Preview ↗</a></p>
+  <div class="row">
+   <a href="broadcast-studio.html" target="_blank">Open Broadcast Studio ↗</a>
+  </div>
+  <p><a href="live-overlay.html" target="_blank">Open Live Overlay ↗</a></p>
  </div>
+
 </section>
 
 </div>
+
 <div class="footer">GFC CRICKET PRO 2026 • Powered by GFC</div>
 </div>
 
+<!-- OVERLAY MODE -->
 <div id="overlayRoot" class="hidden">
  <div class="overlay">
-  <div><div class="team" id="ovTeams">GFC CRICKET</div><div class="big" id="ovScore">0/0</div></div>
-  <div style="text-align:right"><div class="big" id="ovOvers">0.0</div><div id="ovRR">RR 0.00</div><div id="ovTarget">TARGET —</div></div>
+  <div>
+   <div class="team" id="ovTeams">GFC CRICKET</div>
+   <div class="big" id="ovScore">0/0</div>
+  </div>
+  <div style="text-align:right">
+   <div class="big" id="ovOvers">0.0</div>
+   <div id="ovRR">RR 0.00</div>
+   <div id="ovTarget">TARGET —</div>
+  </div>
  </div>
 </div>
 
 <script>
-/* SUPABASE CONFIG */
+/* =========================
+   SUPABASE CONFIGURATION
+========================= */
+
 const SUPABASE_URL="https://shlvtaxrkyffdifbjswq.supabase.co";
 const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
+
 const ADMIN_EMAIL="officework.bolpur@gmail.com";
 const ADMIN_UID="2fd64447-93aa-482c-b64c-c605a4bec732";
 
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const db=window.supabase.createClient(
+ SUPABASE_URL,SUPABASE_KEY
+);
+
 const $=id=>document.getElementById(id);
 
-let tournaments=[],teams=[],players=[],matches=[],innings=[],streams=[],deliveries=[];
-let currentMatch=null,currentInnings=null,selectedRuns=0;
+let tournaments=[];
+let teams=[];
+let players=[];
+let matches=[];
+let innings=[];
+let streams=[];
+let deliveries=[];
 
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let currentMatch=null;
+let currentInnings=null;
+let selectedRuns=0;
+
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+
 const n=v=>Number(v)||0;
+
 const legal=d=>!["wide","no_ball"].includes(d.extra_type||"none");
+
 const runs=d=>n(d.batter_runs)+n(d.extra_runs);
+
 const overText=b=>`${Math.floor(b/6)}.${b%6}`;
-const teamName=id=>teams.find(t=>t.id===id)?.short_name||teams.find(t=>t.id===id)?.name||"Team";
-const matchName=m=>`${teamName(m.team_a_id)} vs ${teamName(m.team_b_id)}`;
+
+const teamName=id=>{
+ const t=teams.find(x=>x.id===id);
+ return t?.short_name||t?.name||"Team";
+};
+
+const matchName=m=>
+ `${teamName(m.team_a_id)} vs ${teamName(m.team_b_id)}`;
 
 function totals(list){
  return list.reduce((a,d)=>{
@@ -366,26 +563,175 @@ function totals(list){
   return a;
  },{runs:0,wickets:0,balls:0});
 }
-function rate(t){return t.balls?(t.runs/(t.balls/6)).toFixed(2):"0.00"}
-function message(e){alert(e.message||String(e))}
-function data(form){return Object.fromEntries(new FormData(form).entries())}
-function options(el,items,label){
- el.innerHTML='<option value="">Select</option>'+items.map(x=>`<option value="${x.id}">${esc(label(x))}</option>`).join("");
-}
-async function get(table,order="created_at"){
- const {data,error}=await db.from(table).select("*").order(order,{ascending:false});
- if(error)throw error;return data||[];
-}
-async function rpc(name,args){
- const {data,error}=await db.rpc(name,args);
- if(error)throw error;return data;
+
+function rate(t){
+ return t.balls?(t.runs/(t.balls/6)).toFixed(2):"0.00";
 }
 
+function message(e){
+ console.error(e);
+ alert(e.message||String(e));
+}
+
+function data(form){
+ return Object.fromEntries(new FormData(form).entries());
+}
+
+function options(el,items,label){
+ el.innerHTML='<option value="">Select</option>'+
+  items.map(x=>`<option value="${esc(x.id)}">${esc(label(x))}</option>`).join("");
+}
+
+async function get(table,order="created_at"){
+ const {data,error}=await db.from(table).select("*").order(order,{ascending:false});
+ if(error)throw error;
+ return data||[];
+}
+
+async function rpc(name,args){
+ const {data,error}=await db.rpc(name,args);
+ if(error)throw error;
+ return data;
+}
+
+/* =========================
+   PLAYER SELECTION MEMORY
+========================= */
+
+function playerStateKey(){
+ return "gfc-player-state:"+
+  (currentMatch?.id||"no-match")+":"+
+  (currentInnings?.id||"no-innings");
+}
+
+function savePlayerState(){
+ if(!currentMatch)return;
+
+ const state={
+  striker:$("striker").value,
+  nonStriker:$("nonStriker").value,
+  bowler:$("bowler").value
+ };
+
+ try{
+  localStorage.setItem(playerStateKey(),JSON.stringify(state));
+ }catch(e){
+  console.warn("Player state could not be saved",e);
+ }
+}
+
+function restorePlayerState(){
+ if(!currentMatch)return;
+
+ try{
+  const state=JSON.parse(
+   localStorage.getItem(playerStateKey())||"{}"
+  );
+
+  if(state.striker &&
+   [...$("striker").options].some(o=>o.value===state.striker)){
+   $("striker").value=state.striker;
+  }
+
+  if(state.nonStriker &&
+   [...$("nonStriker").options].some(o=>o.value===state.nonStriker)){
+   $("nonStriker").value=state.nonStriker;
+  }
+
+  if(state.bowler &&
+   [...$("bowler").options].some(o=>o.value===state.bowler)){
+   $("bowler").value=state.bowler;
+  }
+
+ }catch(e){
+  console.warn(e);
+ }
+}
+
+function fillPlayers(teamId){
+ const battingPlayers=players.filter(p=>p.team_id===teamId);
+
+ const bowlingTeamId=
+  currentMatch?.team_a_id===teamId
+   ?currentMatch.team_b_id
+   :currentMatch?.team_a_id;
+
+ const bowlingPlayers=players.filter(
+  p=>p.team_id===bowlingTeamId
+ );
+
+ options($("striker"),battingPlayers,p=>p.name);
+ options($("nonStriker"),battingPlayers,p=>p.name);
+ options($("dismissedPlayer"),battingPlayers,p=>p.name);
+ options($("bowler"),bowlingPlayers,p=>p.name);
+
+ restorePlayerState();
+}
+
+function applyManualPlayerChange(which){
+ if(!currentMatch||!currentInnings){
+  alert("আগে Match ও Innings নির্বাচন করুন");
+  return;
+ }
+
+ const striker=$("striker").value;
+ const nonStriker=$("nonStriker").value;
+ const bowler=$("bowler").value;
+
+ if(which==="striker"&&!striker){
+  alert("Striker নির্বাচন করুন");
+  return;
+ }
+
+ if(which==="nonStriker"&&!nonStriker){
+  alert("Non-Striker নির্বাচন করুন");
+  return;
+ }
+
+ if(which==="bowler"&&!bowler){
+  alert("Bowler নির্বাচন করুন");
+  return;
+ }
+
+ if(striker&&nonStriker&&striker===nonStriker){
+  alert("Striker ও Non-Striker একই হতে পারবে না");
+  return;
+ }
+
+ savePlayerState();
+
+ const names={
+  striker:"Striker",
+  nonStriker:"Non-Striker",
+  bowler:"Bowler"
+ };
+
+ $("playerChangeStatus").textContent=
+  names[which]+" পরিবর্তন ও সংরক্ষণ হয়েছে।";
+}
+
+/* =========================
+   LOAD DATABASE
+========================= */
+
 async function loadAll(){
- [tournaments,teams,players,matches,innings,streams]=await Promise.all([
-  get("gfc_tournaments"),get("gfc_teams"),get("gfc_players"),
-  get("gfc_matches","match_date"),get("gfc_innings"),get("gfc_stream_sessions")
+
+ [tournaments,teams,players,matches,innings]=await Promise.all([
+  get("gfc_tournaments"),
+  get("gfc_teams"),
+  get("gfc_players"),
+  get("gfc_matches","match_date"),
+  get("gfc_innings")
  ]);
+
+ // Streaming table is optional. Other pages will still load
+ // if this table has not been created yet.
+ try{
+  streams=await get("gfc_stream_sessions");
+ }catch(e){
+  streams=[];
+  console.warn("Streaming sessions table not available:",e.message);
+ }
 
  $("countT").textContent=tournaments.length;
  $("countTeam").textContent=teams.length;
@@ -399,92 +745,187 @@ async function loadAll(){
  options($("teamB"),teams,x=>x.name);
 
  const matchOptions=x=>matchName(x)+" • "+(x.status||"");
- ["scoreMatch","scorecardMatch","streamMatch"].forEach(id=>options($(id),matches,matchOptions));
+
+ ["scoreMatch","scorecardMatch","streamMatch"].forEach(id=>{
+  options($(id),matches,matchOptions);
+ });
 
  $("tournamentList").innerHTML=tournaments.map(t=>`
-  <div class="item"><div><b>${esc(t.name)}</b><small>${esc(t.season||"")} • ${esc(t.venue||"")} • ${esc(t.status||"")}</small></div></div>`).join("")||"No tournaments";
+  <div class="item">
+   <div>
+    <b>${esc(t.name)}</b>
+    <small>${esc(t.season||"")} • ${esc(t.venue||"")} • ${esc(t.status||"")}</small>
+   </div>
+  </div>
+ `).join("")||"No tournaments";
 
  $("teamList").innerHTML=teams.map(t=>`
-  <div class="item"><div><b>${esc(t.name)}</b><small>${esc(t.short_name||"")}</small></div></div>`).join("")||"No teams";
+  <div class="item">
+   <div>
+    <b>${esc(t.name)}</b>
+    <small>${esc(t.short_name||"")}</small>
+   </div>
+  </div>
+ `).join("")||"No teams";
 
  $("playerList").innerHTML=players.map(p=>`
-  <div class="item"><div><b>${esc(p.name)}</b><small>${esc(teamName(p.team_id))} • ${esc(p.role||"")} • #${esc(p.jersey_number??"—")}</small></div></div>`).join("")||"No players";
+  <div class="item">
+   <div>
+    <b>${esc(p.name)}</b>
+    <small>${esc(teamName(p.team_id))} • ${esc(p.role||"")} • #${esc(p.jersey_number??"—")}</small>
+   </div>
+  </div>
+ `).join("")||"No players";
 
  $("matchList").innerHTML=matches.map(m=>`
-  <div class="item"><div><b>${esc(matchName(m))}</b><small>${esc(m.venue||"")} • ${m.overs} overs • ${esc(m.status||"")}</small></div>
-  <button class="secondary" onclick="openMatch('${m.id}')">Score</button></div>`).join("")||"No matches";
+  <div class="item">
+   <div>
+    <b>${esc(matchName(m))}</b>
+    <small>${esc(m.venue||"")} • ${m.overs} overs • ${esc(m.status||"")}</small>
+   </div>
+   <button class="secondary" onclick="openMatch('${m.id}')">Score</button>
+  </div>
+ `).join("")||"No matches";
 
  $("liveList").innerHTML=matches.filter(m=>m.status==="live").map(m=>`
-  <div class="item"><b>${esc(matchName(m))}</b><button class="secondary" onclick="openMatch('${m.id}')">Open</button></div>`).join("")||"No live matches";
+  <div class="item">
+   <b>${esc(matchName(m))}</b>
+   <button class="secondary" onclick="openMatch('${m.id}')">Open</button>
+  </div>
+ `).join("")||"No live matches";
 
  $("streamList").innerHTML=streams.map(s=>`
-  <div class="item"><div><b>${esc(s.platform)}</b><small>${esc(s.status)}</small></div>
-  <a href="${esc(s.watch_url)}" target="_blank" rel="noopener">Watch ↗</a></div>`).join("");
+  <div class="item">
+   <div>
+    <b>${esc(s.platform)}</b>
+    <small>${esc(s.status)}</small>
+   </div>
+   <a href="${esc(s.watch_url)}" target="_blank" rel="noopener">Watch ↗</a>
+  </div>
+ `).join("");
 
- $("overlayURL").value=location.href.split("?")[0]+"?overlay=1";
+ $("overlayURL").value=
+  location.href.split("?")[0].replace(/index\.html$/,"")+
+  "live-overlay.html";
+
  await renderPublic();
 }
 
+/* =========================
+   MATCH SELECTION
+========================= */
+
 async function loadMatch(id){
  currentMatch=matches.find(m=>m.id===id)||null;
+
  if(!currentMatch)return;
 
- const ins=innings.filter(i=>i.match_id===id).sort((a,b)=>a.innings_no-b.innings_no);
- options($("inningsSelect"),ins,i=>`Innings ${i.innings_no} • ${teamName(i.batting_team_id)}`);
+ const ins=innings
+  .filter(i=>i.match_id===id)
+  .sort((a,b)=>a.innings_no-b.innings_no);
+
+ options($("inningsSelect"),ins,
+  i=>`Innings ${i.innings_no} • ${teamName(i.batting_team_id)}`);
+
  currentInnings=ins[ins.length-1]||null;
 
- $("battingTeam").innerHTML=[currentMatch.team_a_id,currentMatch.team_b_id].map(id=>
-  `<option value="${id}">${esc(teamName(id))}</option>`).join("");
+ $("battingTeam").innerHTML=[
+  currentMatch.team_a_id,currentMatch.team_b_id
+ ].map(teamId=>`
+  <option value="${teamId}">${esc(teamName(teamId))}</option>
+ `).join("");
 
- $("battingTeam").value=currentInnings?.batting_team_id||currentMatch.batting_team_id||currentMatch.team_a_id;
+ $("battingTeam").value=
+  currentInnings?.batting_team_id||
+  currentMatch.batting_team_id||
+  currentMatch.team_a_id;
+
  fillPlayers($("battingTeam").value);
 
  if(currentInnings){
   $("inningsSelect").value=currentInnings.id;
-  const {data,error}=await db.from("gfc_deliveries").select("*")
-   .eq("innings_id",currentInnings.id).order("created_at",{ascending:true});
+
+  const {data,error}=await db
+   .from("gfc_deliveries")
+   .select("*")
+   .eq("innings_id",currentInnings.id)
+   .order("created_at",{ascending:true});
+
   if(error)throw error;
   deliveries=data||[];
- }else deliveries=[];
+
+ }else{
+  deliveries=[];
+ }
 
  renderScoring();
  renderHistory();
- renderScorecard();
-}
-
-function fillPlayers(teamId){
- const list=players.filter(p=>p.team_id===teamId);
- ["striker","nonStriker","bowler","dismissedPlayer"].forEach(id=>
-  options($(id),list,p=>p.name));
+ await renderScorecard();
 }
 
 window.openMatch=async id=>{
  $("scoreMatch").value=id;
  $("scorecardMatch").value=id;
  await loadMatch(id);
+
  document.querySelector('[data-tab="scoring"]').click();
 };
 
+/* =========================
+   SCORE DISPLAY
+========================= */
+
 function renderScoring(){
  const t=totals(deliveries);
+
  $("adminScore").textContent=`${t.runs}/${t.wickets}`;
  $("adminOvers").textContent=overText(t.balls)+" Overs";
  $("adminRR").textContent="RR "+rate(t);
- $("adminTarget").textContent=currentInnings?.target?"Target "+currentInnings.target:"Target —";
- $("scoreMatchTitle").textContent=currentMatch?matchName(currentMatch):"Select Match";
+
+ $("adminTarget").textContent=
+  currentInnings?.target?"Target "+currentInnings.target:"Target —";
+
+ $("scoreMatchTitle").textContent=
+  currentMatch?matchName(currentMatch):"Select Match";
+
+ $("selectedRunNotice").textContent=
+  "Selected Runs: "+selectedRuns;
+
  renderPublic();
 }
 
 async function renderPublic(){
- let m=matches.find(x=>x.status==="live")||currentMatch;
- if(!m)return;
- let i=innings.filter(x=>x.match_id===m.id).sort((a,b)=>b.innings_no-a.innings_no)[0];
- let list=[];
- if(i){
-  const {data,error}=await db.from("gfc_deliveries").select("*").eq("innings_id",i.id);
-  if(error)throw error;list=data||[];
+
+ const m=matches.find(x=>x.status==="live")||currentMatch;
+
+ if(!m){
+  $("publicMatch").textContent="No Live Match";
+  $("publicScore").textContent="0/0";
+  $("publicOvers").textContent="0.0 Overs";
+  $("publicTeams").textContent="GFC CRICKET PRO 2026";
+  $("publicRR").textContent="RR 0.00";
+  $("publicTarget").textContent="Target —";
+  return;
  }
+
+ const i=innings
+  .filter(x=>x.match_id===m.id)
+  .sort((a,b)=>b.innings_no-a.innings_no)[0];
+
+ let list=[];
+
+ if(i){
+  const {data,error}=await db
+   .from("gfc_deliveries")
+   .select("*")
+   .eq("innings_id",i.id);
+
+  if(error)throw error;
+  list=data||[];
+ }
+
  const t=totals(list);
+
  $("publicMatch").textContent=matchName(m);
  $("publicScore").textContent=`${t.runs}/${t.wickets}`;
  $("publicOvers").textContent=overText(t.balls)+" Overs";
@@ -493,130 +934,295 @@ async function renderPublic(){
  $("publicTarget").textContent=i?.target?"Target "+i.target:"Target —";
 }
 
+/* =========================
+   BALL HISTORY
+========================= */
+
 function renderHistory(){
+
  $("history").innerHTML=[...deliveries].reverse().map(d=>`
   <div class="item">
-   <div><b>${runs(d)} Run${d.is_wicket?" • WICKET":""}</b>
-    <small>${esc(d.extra_type||"none")} ${esc(d.commentary||"")}</small>
+   <div>
+    <b>${runs(d)} Run${d.is_wicket?" • WICKET":""}</b>
+    <small>
+     ${esc(d.extra_type||"none")} •
+     ${esc(players.find(p=>p.id===d.striker_id)?.name||"Unknown Batter")}
+     ${esc(d.commentary||"")}
+    </small>
    </div>
    <div class="row" style="flex:0 0 auto">
     <button class="gold" onclick="editBall('${d.id}')">Edit</button>
     <button class="danger" onclick="deleteBall('${d.id}')">Delete</button>
    </div>
-  </div>`).join("")||'<p class="muted">No deliveries yet.</p>';
+  </div>
+ `).join("")||'<p class="muted">No deliveries yet.</p>';
 }
 
-function renderScorecard(){
- if(!currentMatch){$("scorecardContent").textContent="Select a match";return}
- const ins=innings.filter(i=>i.match_id===currentMatch.id).sort((a,b)=>a.innings_no-b.innings_no);
+/* =========================
+   SCORECARD
+========================= */
 
- $("scorecardContent").innerHTML=ins.map(i=>{
-  const ds=deliveries.filter(d=>d.innings_id===i.id);
-  const t=totals(ds),bat={},bowl={};
+async function renderScorecard(){
 
-  ds.forEach(d=>{
+ if(!currentMatch){
+  $("scorecardContent").textContent="Select a match";
+  return;
+ }
+
+ const ins=innings
+  .filter(i=>i.match_id===currentMatch.id)
+  .sort((a,b)=>a.innings_no-b.innings_no);
+
+ let html="";
+
+ for(const i of ins){
+
+  // Load each innings separately. This prevents the second
+  // innings from hiding the first innings scorecard.
+  const {data:ds,error}=await db
+   .from("gfc_deliveries")
+   .select("*")
+   .eq("innings_id",i.id)
+   .order("created_at",{ascending:true});
+
+  if(error)throw error;
+
+  const list=ds||[];
+  const t=totals(list);
+  const bat={};
+  const bowl={};
+
+  list.forEach(d=>{
+
    if(d.striker_id){
-    let p=bat[d.striker_id]||(bat[d.striker_id]={r:0,b:0,f:0,s:0});
-    p.r+=n(d.batter_runs);if(legal(d))p.b++;
-    if(n(d.batter_runs)===4)p.f++;if(n(d.batter_runs)===6)p.s++;
+    let p=bat[d.striker_id]||
+     (bat[d.striker_id]={r:0,b:0,f:0,s:0});
+
+    p.r+=n(d.batter_runs);
+
+    // A batter does not face a wide delivery.
+    if((d.extra_type||"none")!=="wide")p.b++;
+
+    if(n(d.batter_runs)===4)p.f++;
+    if(n(d.batter_runs)===6)p.s++;
    }
+
    if(d.bowler_id){
-    let p=bowl[d.bowler_id]||(bowl[d.bowler_id]={r:0,b:0,w:0});
-    p.r+=runs(d);if(legal(d))p.b++;
-    if(d.is_wicket&&!["run_out","retired_hurt","obstructing_field"].includes(d.wicket_type))p.w++;
+    let p=bowl[d.bowler_id]||
+     (bowl[d.bowler_id]={r:0,b:0,w:0});
+
+    // Byes and leg-byes are not charged to the bowler.
+    p.r+=n(d.batter_runs);
+
+    if(["wide","no_ball"].includes(d.extra_type||"none")){
+     p.r+=n(d.extra_runs);
+    }
+
+    if(legal(d))p.b++;
+
+    if(d.is_wicket&&
+     !["run_out","retired_hurt","obstructing_field"].includes(d.wicket_type)){
+     p.w++;
+    }
    }
+
   });
 
-  return `
-  <h3>Innings ${i.innings_no} — ${esc(teamName(i.batting_team_id))}</h3>
-  <div class="chips">
-   <span class="chip">${t.runs}/${t.wickets}</span>
-   <span class="chip">${overText(t.balls)} Overs</span>
-   <span class="chip">RR ${rate(t)}</span>
-  </div>
-  <h3 style="margin-top:15px">Batting</h3>
-  <div class="tablewrap"><table>
-   <tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr>
-   ${Object.entries(bat).map(([id,p])=>`
-    <tr><td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td>
-    <td>${p.r}</td><td>${p.b}</td><td>${p.f}</td><td>${p.s}</td>
-    <td>${p.b?(p.r/p.b*100).toFixed(1):"0.0"}</td></tr>`).join("")||'<tr><td colspan="6">No batting data</td></tr>'}
-  </table></div>
-  <h3 style="margin-top:15px">Bowling</h3>
-  <div class="tablewrap"><table>
-   <tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>Eco</th></tr>
-   ${Object.entries(bowl).map(([id,p])=>`
-    <tr><td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td>
-    <td>${overText(p.b)}</td><td>${p.r}</td><td>${p.w}</td>
-    <td>${p.b?(p.r/(p.b/6)).toFixed(2):"0.00"}</td></tr>`).join("")||'<tr><td colspan="5">No bowling data</td></tr>'}
-  </table></div>`;
- }).join("")||"No innings created.";
+  html+=`
+   <h3>Innings ${i.innings_no} — ${esc(teamName(i.batting_team_id))}</h3>
+
+   <div class="chips">
+    <span class="chip">${t.runs}/${t.wickets}</span>
+    <span class="chip">${overText(t.balls)} Overs</span>
+    <span class="chip">RR ${rate(t)}</span>
+    ${i.target?`<span class="chip">Target ${i.target}</span>`:""}
+   </div>
+
+   <h3 style="margin-top:15px">Batting</h3>
+
+   <div class="tablewrap">
+    <table>
+     <tr>
+      <th>Batter</th><th>R</th><th>B</th>
+      <th>4s</th><th>6s</th><th>SR</th>
+     </tr>
+
+     ${Object.entries(bat).map(([id,p])=>`
+      <tr>
+       <td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td>
+       <td>${p.r}</td><td>${p.b}</td>
+       <td>${p.f}</td><td>${p.s}</td>
+       <td>${p.b?(p.r/p.b*100).toFixed(1):"0.0"}</td>
+      </tr>
+     `).join("")||'<tr><td colspan="6">No batting data</td></tr>'}
+    </table>
+   </div>
+
+   <h3 style="margin-top:15px">Bowling</h3>
+
+   <div class="tablewrap">
+    <table>
+     <tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>Eco</th></tr>
+
+     ${Object.entries(bowl).map(([id,p])=>`
+      <tr>
+       <td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td>
+       <td>${overText(p.b)}</td>
+       <td>${p.r}</td><td>${p.w}</td>
+       <td>${p.b?(p.r/(p.b/6)).toFixed(2):"0.00"}</td>
+      </tr>
+     `).join("")||'<tr><td colspan="5">No bowling data</td></tr>'}
+    </table>
+   </div>
+
+   <hr style="border-color:var(--line);margin:20px 0">
+  `;
+ }
+
+ $("scorecardContent").innerHTML=html||"No innings created.";
 }
 
-/* CREATE DATA */
+/* =========================
+   CREATE DATA
+========================= */
+
 async function insertForm(form,table,convert){
+
  form.addEventListener("submit",async e=>{
   e.preventDefault();
+
   try{
-   const d=data(form);if(convert)convert(d);
+   const d=data(form);
+
+   if(convert)convert(d);
+
    const {error}=await db.from(table).insert(d);
+
    if(error)throw error;
-   form.reset();await loadAll();alert("Saved successfully");
-  }catch(x){message(x)}
+
+   form.reset();
+
+   await loadAll();
+
+   alert("Saved successfully");
+
+  }catch(x){
+   message(x);
+  }
  });
 }
+
 insertForm($("tournamentForm"),"gfc_tournaments");
+
 insertForm($("teamForm"),"gfc_teams");
-insertForm($("playerForm"),"gfc_players",d=>{d.jersey_number=d.jersey_number?n(d.jersey_number):null});
+
+insertForm($("playerForm"),"gfc_players",d=>{
+ d.jersey_number=d.jersey_number?n(d.jersey_number):null;
+});
+
 insertForm($("matchForm"),"gfc_matches",d=>{
  d.overs=n(d.overs);
- d.match_date=d.match_date?new Date(d.match_date).toISOString():new Date().toISOString();
+ d.match_date=d.match_date
+  ?new Date(d.match_date).toISOString()
+  :new Date().toISOString();
 });
+
 insertForm($("streamForm"),"gfc_stream_sessions");
 
-/* INNINGS */
-async function startInnings(){
- const matchId=$("scoreMatch").value,bat=$("battingTeam").value;
- if(!matchId||!bat)throw Error("Match ও Batting Team নির্বাচন করুন");
+/* =========================
+   START / SELECT INNINGS
+========================= */
 
- let existing=innings.filter(i=>i.match_id===matchId&&i.batting_team_id===bat)
+async function startInnings(){
+
+ const matchId=$("scoreMatch").value;
+ const bat=$("battingTeam").value;
+
+ if(!matchId||!bat){
+  throw Error("Match ও Batting Team নির্বাচন করুন");
+ }
+
+ let existing=innings
+  .filter(i=>i.match_id===matchId&&i.batting_team_id===bat)
   .sort((a,b)=>b.innings_no-a.innings_no)[0];
 
  if(existing){
+
   currentInnings=existing;
+
  }else{
+
   const no=innings.filter(i=>i.match_id===matchId).length+1;
-  const {data,error}=await db.from("gfc_innings").insert({
-   match_id:matchId,innings_no:no,batting_team_id:bat,
-   total_runs:0,wickets:0,legal_balls:0
-  }).select().single();
+
+  const {data,error}=await db
+   .from("gfc_innings")
+   .insert({
+    match_id:matchId,
+    innings_no:no,
+    batting_team_id:bat,
+    total_runs:0,
+    wickets:0,
+    legal_balls:0
+   })
+   .select()
+   .single();
+
   if(error)throw error;
+
   currentInnings=data;
-  const {error:matchError}=await db.from("gfc_matches")
-   .update({batting_team_id:bat,status:"live"}).eq("id",matchId);
+
+  const {error:matchError}=await db
+   .from("gfc_matches")
+   .update({batting_team_id:bat,status:"live"})
+   .eq("id",matchId);
+
   if(matchError)throw matchError;
  }
+
  await loadAll();
  await loadMatch(matchId);
+
+ $("playerChangeStatus").textContent=
+  "Innings selected. Striker, Non-Striker ও Bowler নির্বাচন করুন।";
 }
 
-/* SAVE DELIVERY USING SQL RPC */
+/* =========================
+   SAVE DELIVERY
+========================= */
+
 async function saveBall(runsValue,deliveryId=null,existingPayload=null){
- if(!currentInnings)throw Error("প্রথমে Start / Select Innings করুন");
+
+ if(!currentInnings){
+  throw Error("প্রথমে Start / Select Innings করুন");
+ }
 
  let payload=existingPayload;
+
  if(!payload){
+
   const striker=$("striker").value;
   const non=$("nonStriker").value;
   const bowler=$("bowler").value;
+
   const extraType=$("extraType").value;
   const extraRuns=n($("extraRuns").value);
   const wicket=$("isWicket").value==="true";
 
-  if(!striker||!non||!bowler)throw Error("Striker, Non-striker ও Bowler নির্বাচন করুন");
-  if(striker===non)throw Error("Striker ও Non-striker আলাদা হতে হবে");
-  if(["wide","no_ball"].includes(extraType)&&extraRuns<1)
+  if(!striker||!non||!bowler){
+   throw Error("Striker, Non-striker ও Bowler নির্বাচন করুন");
+  }
+
+  if(striker===non){
+   throw Error("Striker ও Non-striker আলাদা হতে হবে");
+  }
+
+  if(["wide","no_ball"].includes(extraType)&&extraRuns<1){
    throw Error("Wide / No Ball Extra Runs কমপক্ষে 1 দিন");
+  }
+
+  if(wicket&&!$("wicketType").value){
+   throw Error("Wicket Type নির্বাচন করুন");
+  }
 
   payload={
    batter_runs:n(runsValue),
@@ -628,9 +1234,11 @@ async function saveBall(runsValue,deliveryId=null,existingPayload=null){
    striker_id:striker,
    non_striker_id:non,
    bowler_id:bowler,
-   dismissed_player_id:wicket?($("dismissedPlayer").value||striker):null
+   dismissed_player_id:wicket?
+    ($("dismissedPlayer").value||striker):null
   };
-  if(wicket&&!payload.wicket_type)throw Error("Wicket Type নির্বাচন করুন");
+
+  savePlayerState();
  }
 
  await rpc("gfc_save_delivery",{
@@ -639,151 +1247,427 @@ async function saveBall(runsValue,deliveryId=null,existingPayload=null){
   p_delivery_id:deliveryId
  });
 
- $("commentary").value="";
- $("extraType").value="none";
- $("extraRuns").value="0";
- $("isWicket").value="false";
- $("wicketType").value="";
+ if(!deliveryId){
+
+  $("commentary").value="";
+  $("extraType").value="none";
+  $("extraRuns").value="0";
+  $("isWicket").value="false";
+  $("wicketType").value="";
+  selectedRuns=0;
+
+  document.querySelectorAll("#runButtons button").forEach(b=>{
+   b.classList.remove("selected");
+  });
+ }
+
  await loadMatch(currentMatch.id);
 }
 
-/* EDIT OLD BALL */
+/* =========================
+   EDIT DELIVERY
+========================= */
+
 window.editBall=async id=>{
- const d=deliveries.find(x=>x.id===id);if(!d)return;
- const batter=prompt("Batter Runs (0,1,2,3,4,6)",d.batter_runs);
+
+ const d=deliveries.find(x=>x.id===id);
+ if(!d)return;
+
+ const batter=prompt(
+  "Batter Runs (0,1,2,3,4,6)",
+  d.batter_runs
+ );
+
  if(batter===null)return;
- const type=prompt("Extra Type: none / wide / no_ball / bye / leg_bye",d.extra_type||"none");
+
+ const type=prompt(
+  "Extra Type: none / wide / no_ball / bye / leg_bye",
+  d.extra_type||"none"
+ );
+
  if(type===null)return;
- const extra=prompt("Extra Runs",d.extra_runs||0);if(extra===null)return;
- const commentary=prompt("Commentary",d.commentary||"");if(commentary===null)return;
+
+ const extra=prompt("Extra Runs",d.extra_runs||0);
+ if(extra===null)return;
+
+ const commentary=prompt("Commentary",d.commentary||"");
+ if(commentary===null)return;
+
+ const wicketAnswer=prompt(
+  "Wicket? yes / no",
+  d.is_wicket?"yes":"no"
+ );
+
+ if(wicketAnswer===null)return;
+
+ const isWicket=wicketAnswer.toLowerCase()==="yes";
+
+ let wicketType=null;
+
+ if(isWicket){
+  wicketType=prompt(
+   "Wicket Type: bowled / caught / lbw / run_out / stumped / hit_wicket / retired_hurt / obstructing_field",
+   d.wicket_type||"bowled"
+  );
+  if(wicketType===null)return;
+ }
 
  const payload={
-  batter_runs:n(batter),extra_type:type,extra_runs:n(extra),
-  is_wicket:!!d.is_wicket,wicket_type:d.wicket_type,
+  batter_runs:n(batter),
+  extra_type:type,
+  extra_runs:n(extra),
+  is_wicket:isWicket,
+  wicket_type:wicketType,
   commentary:commentary,
-  striker_id:d.striker_id,non_striker_id:d.non_striker_id,
-  bowler_id:d.bowler_id,dismissed_player_id:d.dismissed_player_id
+  striker_id:d.striker_id,
+  non_striker_id:d.non_striker_id,
+  bowler_id:d.bowler_id,
+  dismissed_player_id:isWicket?d.dismissed_player_id:null
  };
+
  try{
   await saveBall(0,id,payload);
   alert("Delivery updated");
- }catch(e){message(e)}
+ }catch(e){
+  message(e);
+ }
 };
 
+/* =========================
+   DELETE DELIVERY
+========================= */
+
 window.deleteBall=async id=>{
- if(!confirm("এই বল Delete করবেন? Audit Log-এ রেকর্ড থাকবে।"))return;
+
+ if(!confirm("এই বল Delete করবেন? Audit Log-এ রেকর্ড থাকবে।")){
+  return;
+ }
+
  try{
   await rpc("gfc_delete_delivery",{p_delivery_id:id});
   await loadMatch(currentMatch.id);
- }catch(e){message(e)}
+ }catch(e){
+  message(e);
+ }
 };
 
-/* BUTTON EVENTS */
+/* =========================
+   NAVIGATION
+========================= */
+
 $("nav").addEventListener("click",e=>{
- const b=e.target.closest("[data-tab]");if(!b)return;
- document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x===b));
- document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.id==="tab-"+b.dataset.tab));
+
+ const b=e.target.closest("[data-tab]");
+ if(!b)return;
+
+ document.querySelectorAll(".nav button").forEach(x=>{
+  x.classList.toggle("active",x===b);
+ });
+
+ document.querySelectorAll(".tab").forEach(x=>{
+  x.classList.toggle("active",x.id==="tab-"+b.dataset.tab);
+ });
+
+ if(b.dataset.tab==="scorecard"&&currentMatch){
+  renderScorecard().catch(message);
+ }
 });
 
-$("scoreMatch").onchange=()=>loadMatch($("scoreMatch").value).catch(message);
-$("scorecardMatch").onchange=()=>loadMatch($("scorecardMatch").value).catch(message);
-$("battingTeam").onchange=()=>fillPlayers($("battingTeam").value);
-$("inningsSelect").onchange=async()=>{
- currentInnings=innings.find(i=>i.id===$("inningsSelect").value)||null;
- if(currentInnings){
-  const {data,error}=await db.from("gfc_deliveries").select("*")
-   .eq("innings_id",currentInnings.id).order("created_at");
-  if(error)return message(error);
-  deliveries=data||[];renderScoring();renderHistory();renderScorecard();
+/* =========================
+   BUTTON EVENTS
+========================= */
+
+$("scoreMatch").onchange=()=>{
+ loadMatch($("scoreMatch").value).catch(message);
+};
+
+$("scorecardMatch").onchange=()=>{
+ const id=$("scorecardMatch").value;
+ if(id){
+  loadMatch(id).catch(message);
  }
 };
-$("startInnings").onclick=()=>startInnings().catch(message);
-$("refreshScoring").onclick=()=>currentMatch&&loadMatch(currentMatch.id).catch(message);
-$("refreshHistory").onclick=()=>currentMatch&&loadMatch(currentMatch.id).catch(message);
+
+$("battingTeam").onchange=()=>{
+ fillPlayers($("battingTeam").value);
+ savePlayerState();
+};
+
+$("inningsSelect").onchange=async()=>{
+
+ currentInnings=innings.find(
+  i=>i.id===$("inningsSelect").value
+ )||null;
+
+ if(currentInnings){
+
+  fillPlayers(currentInnings.batting_team_id);
+
+  const {data,error}=await db
+   .from("gfc_deliveries")
+   .select("*")
+   .eq("innings_id",currentInnings.id)
+   .order("created_at",{ascending:true});
+
+  if(error)return message(error);
+
+  deliveries=data||[];
+
+  renderScoring();
+  renderHistory();
+  renderScorecard().catch(message);
+ }
+};
+
+$("startInnings").onclick=()=>{
+ startInnings().catch(message);
+};
+
+$("refreshScoring").onclick=()=>{
+ currentMatch&&loadMatch(currentMatch.id).catch(message);
+};
+
+$("refreshHistory").onclick=()=>{
+ currentMatch&&loadMatch(currentMatch.id).catch(message);
+};
+
+/* Manual player buttons */
+
+$("applyStriker").onclick=()=>{
+ applyManualPlayerChange("striker");
+};
+
+$("applyNonStriker").onclick=()=>{
+ applyManualPlayerChange("nonStriker");
+};
+
+$("applyBowler").onclick=()=>{
+ applyManualPlayerChange("bowler");
+};
+
+["striker","nonStriker","bowler"].forEach(id=>{
+ $(id).addEventListener("change",()=>{
+  savePlayerState();
+ });
+});
+
+/* Run selection */
+
 $("runButtons").onclick=e=>{
- const b=e.target.closest("[data-runs]");if(!b)return;
+
+ const b=e.target.closest("[data-runs]");
+ if(!b)return;
+
  selectedRuns=n(b.dataset.runs);
+
+ document.querySelectorAll("#runButtons button").forEach(x=>{
+  x.classList.toggle("selected",x===b);
+ });
+
+ $("selectedRunNotice").textContent=
+  "Selected Runs: "+selectedRuns;
+};
+
+/* Save selected ball */
+
+$("saveBall").onclick=()=>{
  saveBall(selectedRuns).catch(message);
 };
-$("saveBall").onclick=()=>saveBall(selectedRuns).catch(message);
-$("undoBall").onclick=async()=>{
- if(!currentInnings)return alert("Innings নির্বাচন করুন");
- if(!confirm("সর্বশেষ বল Undo করবেন?"))return;
- try{
-  await rpc("gfc_undo_last_delivery",{p_innings_id:currentInnings.id});
-  await loadMatch(currentMatch.id);
- }catch(e){message(e)}
-};
-$("refreshPublic").onclick=()=>loadAll().catch(message);
 
-/* LOGIN */
-async function login(){
- const {data,error}=await db.auth.signInWithPassword({
-  email:$("email").value.trim(),password:$("password").value
- });
- if(error)throw error;
- if(data.user.email!==ADMIN_EMAIL||data.user.id!==ADMIN_UID){
-  await db.auth.signOut();throw Error("এই Account Admin হিসেবে অনুমোদিত নয়");
+/* Undo last ball */
+
+$("undoBall").onclick=async()=>{
+
+ if(!currentInnings){
+  return alert("Innings নির্বাচন করুন");
  }
+
+ if(!confirm("সর্বশেষ বল Undo করবেন?"))return;
+
+ try{
+  await rpc("gfc_undo_last_delivery",{
+   p_innings_id:currentInnings.id
+  });
+
+  await loadMatch(currentMatch.id);
+
+ }catch(e){
+  message(e);
+ }
+};
+
+$("refreshPublic").onclick=()=>{
+ loadAll().catch(message);
+};
+
+/* =========================
+   LOGIN
+========================= */
+
+async function login(){
+
+ const {data,error}=await db.auth.signInWithPassword({
+  email:$("email").value.trim(),
+  password:$("password").value
+ });
+
+ if(error)throw error;
+
+ if(data.user.email!==ADMIN_EMAIL||data.user.id!==ADMIN_UID){
+
+  await db.auth.signOut();
+
+  throw Error("এই Account Admin হিসেবে অনুমোদিত নয়");
+ }
+
  showApp();
 }
+
 function showApp(){
+
  $("loginPanel").classList.add("hidden");
  $("main").classList.remove("hidden");
  $("logout").classList.remove("hidden");
+
  loadAll().catch(message);
 }
-$("loginBtn").onclick=()=>login().catch(e=>{
- $("loginMessage").textContent=e.message;
- $("loginMessage").classList.remove("hidden");
-});
+
+$("loginBtn").onclick=()=>{
+
+ $("loginMessage").classList.add("hidden");
+
+ login().catch(e=>{
+  $("loginMessage").textContent=e.message;
+  $("loginMessage").classList.remove("hidden");
+ });
+};
+
 $("forgotBtn").onclick=async()=>{
- const email=$("email").value.trim();if(!email)return alert("Email দিন");
- const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
- alert(error?error.message:"Password reset email পাঠানো হয়েছে। Inbox দেখুন।");
+
+ const email=$("email").value.trim();
+
+ if(!email)return alert("Email দিন");
+
+ const {error}=await db.auth.resetPasswordForEmail(email,{
+  redirectTo:location.origin+location.pathname
+ });
+
+ alert(error?error.message:
+  "Password reset email পাঠানো হয়েছে। Inbox দেখুন।");
 };
-$("logout").onclick=async()=>{await db.auth.signOut();location.reload()};
+
+$("logout").onclick=async()=>{
+ await db.auth.signOut();
+ location.reload();
+};
+
 $("copyOverlay").onclick=async()=>{
- try{await navigator.clipboard.writeText($("overlayURL").value);alert("Overlay URL copied")}
- catch(e){alert("Copy করতে পারেননি")}
+
+ try{
+  await navigator.clipboard.writeText($("overlayURL").value);
+  alert("Overlay URL copied");
+ }catch(e){
+  alert("Copy করতে পারেননি");
+ }
 };
+
+/* =========================
+   SESSION CHECK
+========================= */
 
 async function checkSession(){
- const {data}=await db.auth.getSession();
+
+ const {data,error}=await db.auth.getSession();
+
+ if(error)throw error;
+
  const u=data.session?.user;
- if(u?.email===ADMIN_EMAIL&&u?.id===ADMIN_UID)showApp();
+
+ if(u?.email===ADMIN_EMAIL&&u?.id===ADMIN_UID){
+  showApp();
+ }
 }
 
-/* BROADCAST OVERLAY MODE */
+/* =========================
+   BROADCAST OVERLAY MODE
+========================= */
+
 async function overlayMode(){
+
  $("app").classList.add("hidden");
  $("overlayRoot").classList.remove("hidden");
+
  document.body.style.background="transparent";
 
  async function refresh(){
+
   try{
-   const [ms,is,ts,ds]=await Promise.all([
-    get("gfc_matches"),get("gfc_innings"),get("gfc_teams"),get("gfc_deliveries")
+
+   const [ms,is,ts]=await Promise.all([
+    get("gfc_matches","match_date"),
+    get("gfc_innings"),
+    get("gfc_teams")
    ]);
-   const m=ms.find(x=>x.status==="live")||ms[0];if(!m)return;
-   const i=is.filter(x=>x.match_id===m.id).sort((a,b)=>b.innings_no-a.innings_no)[0];
-   const list=ds.filter(d=>d.innings_id===i?.id);
+
+   const m=ms.find(x=>x.status==="live")||ms[0];
+   if(!m)return;
+
+   const i=is
+    .filter(x=>x.match_id===m.id)
+    .sort((a,b)=>b.innings_no-a.innings_no)[0];
+
+   let list=[];
+
+   if(i){
+
+    const {data,error}=await db
+     .from("gfc_deliveries")
+     .select("*")
+     .eq("innings_id",i.id);
+
+    if(error)throw error;
+
+    list=data||[];
+   }
+
    const t=totals(list);
-   const tn=id=>ts.find(x=>x.id===id)?.short_name||ts.find(x=>x.id===id)?.name||"GFC";
-   $("ovTeams").textContent=tn(m.team_a_id)+" vs "+tn(m.team_b_id);
+
+   const tn=id=>{
+    const team=ts.find(x=>x.id===id);
+    return team?.short_name||team?.name||"GFC";
+   };
+
+   $("ovTeams").textContent=
+    tn(m.team_a_id)+" vs "+tn(m.team_b_id);
+
    $("ovScore").textContent=t.runs+"/"+t.wickets;
    $("ovOvers").textContent=overText(t.balls)+" OV";
    $("ovRR").textContent="RUN RATE "+rate(t);
-   $("ovTarget").textContent=i?.target?"TARGET "+i.target:"GFC CRICKET PRO";
-  }catch(e){console.error(e)}
+
+   $("ovTarget").textContent=
+    i?.target?"TARGET "+i.target:"GFC CRICKET PRO";
+
+  }catch(e){
+   console.error(e);
+  }
  }
- await refresh();setInterval(refresh,5000);
+
+ await refresh();
+ setInterval(refresh,5000);
 }
 
+/* =========================
+   START APPLICATION
+========================= */
+
 if(new URLSearchParams(location.search).get("overlay")==="1"){
+
  overlayMode();
+
 }else{
- checkSession();
+
+ checkSession().catch(message);
+
 }
 </script>
 </body>
