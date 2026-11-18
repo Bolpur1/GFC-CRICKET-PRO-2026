@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>GFC CRICKET PRO 2026 | Broadcast Studio</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#071b18;color:#fff;font-family:Arial,sans-serif}
@@ -20,53 +21,71 @@ button{padding:12px;border:0;border-radius:9px;background:#20c477;color:#052017;
 .secondary{background:#24483e;color:white}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
 .themes{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.theme{padding:12px;border:1px solid #285347;border-radius:9px;background:#081f1a;cursor:pointer;font-size:13px}
-.theme.active{border:2px solid #b8f36b;background:#194332}
+.theme{
+ display:flex;align-items:center;gap:10px;
+ padding:11px;border:1px solid #285347;border-radius:9px;
+ background:#081f1a;cursor:pointer;font-size:13px;
+ transition:.15s;
+}
+.theme:hover{border-color:#8bd9b1;transform:translateY(-1px)}
+.theme.active{border:2px solid #b8f36b;background:#194332;padding:10px}
+.swatch{
+ width:38px;height:30px;flex:0 0 38px;border-radius:6px;
+ border:1px solid #ffffff55;box-shadow:0 2px 5px #0006;
+}
+.theme-name{font-weight:bold;line-height:1.3}
+.theme-number{font-size:10px;color:#a9c4b8;margin-top:3px}
 iframe{width:100%;height:230px;border:1px solid #285347;border-radius:10px;background:#071b18}
 .small{font-size:11px;color:#a9c4b8}
 @media(min-width:650px){.themes{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
+
 <body>
 <div class="wrap">
+
 <h1>🏏 GFC CRICKET PRO 2026</h1>
-<p>PREMIUM T20 BROADCAST STUDIO • 20 IPL-INSPIRED THEMES</p>
+<p>PREMIUM T20 BROADCAST STUDIO • 30 CUSTOM SCOREBOARD THEMES</p>
 
 <div class="panel">
-<h2>SELECT MATCH</h2>
-<select id="matchSelect"><option value="">Loading matches...</option></select>
-<button class="secondary" id="refresh" style="margin-top:10px">Refresh Matches</button>
-</div>
-
-<div class="panel">
-<h2>SELECT SCOREBOARD THEME</h2>
-<div class="themes" id="themeGrid"></div>
-<p id="selectedTheme">Selected: Royal Blue</p>
+ <h2>SELECT MATCH</h2>
+ <select id="matchSelect">
+  <option value="">Loading matches...</option>
+ </select>
+ <button class="secondary" id="refresh" style="margin-top:10px">Refresh Matches</button>
 </div>
 
 <div class="panel">
-<h2>LIVE OVERLAY PREVIEW</h2>
-<iframe id="preview" title="Live Overlay Preview"></iframe>
-<p>Preview automatically changes when you select another match or theme.</p>
+ <h2>SELECT SCOREBOARD THEME</h2>
+ <p>সব থিমে একই স্কোরবোর্ড থাকবে। শুধু রং ও ডিজাইন আলাদা হবে।</p>
+ <div class="themes" id="themeGrid"></div>
+ <p id="selectedTheme">Selected: 01 • Royal Blue</p>
 </div>
 
 <div class="panel">
-<h2>YOUR OVERLAY URL</h2>
-<input id="overlayUrl" readonly placeholder="Select a match first">
-<div class="grid" style="margin-top:10px">
-<button id="copy">COPY URL</button>
-<button class="secondary" id="open">OPEN OVERLAY</button>
-</div>
+ <h2>LIVE OVERLAY PREVIEW</h2>
+ <iframe id="preview" title="Live Overlay Preview"></iframe>
+ <p>Preview automatically changes when you select another match or theme.</p>
 </div>
 
 <div class="panel">
-<h2>HOW TO USE</h2>
-<p>1. Select your live match.</p>
-<p>2. Choose a scoreboard theme.</p>
-<p>3. Copy the Overlay URL.</p>
-<p>4. Add the URL to PRISM Live Studio or OBS as a Browser/Web Page source.</p>
-<p class="small">Overlay provides scoreboard graphics only. Camera streaming is handled separately by PRISM or OBS.</p>
+ <h2>YOUR OVERLAY URL</h2>
+ <input id="overlayUrl" readonly placeholder="Select a match first">
+ <div class="grid" style="margin-top:10px">
+  <button id="copy">COPY URL</button>
+  <button class="secondary" id="open">OPEN OVERLAY</button>
+ </div>
 </div>
+
+<div class="panel">
+ <h2>HOW TO USE</h2>
+ <p>1. Select your live match.</p>
+ <p>2. Choose one of the 30 scoreboard themes.</p>
+ <p>3. Copy the Overlay URL.</p>
+ <p>4. Add the URL to PRISM Live Studio or OBS as a Browser/Web Page source.</p>
+ <p class="small">Overlay provides scoreboard graphics only. Camera streaming is handled separately by PRISM or OBS.</p>
+</div>
+
 </div>
 
 <script>
@@ -74,27 +93,38 @@ const SUPABASE_URL="https://shlvtaxrkyffdifbjswq.supabase.co";
 const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
+/* 30 THEMES — SAME SCOREBOARD DESIGN */
 const themes=[
-["classic","01 • Royal Blue"],
-["modern","02 • Purple Thunder"],
-["red","03 • Red Warriors"],
-["gold","04 • Gold Champion"],
-["neon","05 • Neon Strike"],
-["purple","06 • Stadium Pro"],
-["orange","07 • Orange Inferno"],
-["royal","08 • Emerald Kings"],
-["blackgold","09 • Black Panther"],
-["emerald","10 • Electric Blue"],
-["pink","11 • Pink Storm"],
-["ice","12 • Silver Elite"],
-["cyber","13 • Cyber League"],
-["stadium","14 • Royal Purple"],
-["minimal","15 • Midnight Gold"],
-["retro","16 • Fireball"],
-["tv","17 • Super Sixes"],
-["gradient","18 • Powerplay Pro"],
-["league","19 • Championship"],
-["matrix","20 • Grand Finale"]
+ ["classic","01 • Royal Blue","#123d78","#ffd66b"],
+ ["modern","02 • Purple Thunder","#5422a0","#d2a9ff"],
+ ["red","03 • Red Warriors","#a30d2a","#ff7884"],
+ ["gold","04 • Gold Champion","#705018","#ffdb80"],
+ ["neon","05 • Neon Strike","#005a76","#00edff"],
+ ["purple","06 • Emerald Kings","#146b43","#caff72"],
+ ["orange","07 • Orange Inferno","#a63c0a","#ffc06b"],
+ ["royal","08 • Emerald Wave","#007b61","#75ffd0"],
+ ["blackgold","09 • Black Panther","#303030","#f2d276"],
+ ["emerald","10 • Electric Blue","#0755a9","#69c9ff"],
+ ["pink","11 • Pink Storm","#9d1b82","#ff9ae4"],
+ ["ice","12 • Silver Elite","#64798c","#e7f5ff"],
+ ["cyber","13 • Cyber League","#4b176c","#eaff00"],
+ ["stadium","14 • Royal Purple","#54208b","#e0bdff"],
+ ["minimal","15 • Midnight Gold","#252b3a","#e8c76a"],
+ ["retro","16 • Fireball","#a9360a","#ffcf68"],
+ ["tv","17 • Super Sixes","#343434","#f7ec63"],
+ ["gradient","18 • Powerplay Pro","#125c9b","#7df8ef"],
+ ["league","19 • Championship","#243e71","#ffd06b"],
+ ["matrix","20 • Matrix Green","#07522b","#aaff68"],
+ ["arctic","21 • Arctic Ice","#176b85","#a9f3ff"],
+ ["crimson","22 • Crimson Elite","#8c1237","#ffb0c2"],
+ ["diamond","23 • Diamond White","#637b91","#ffffff"],
+ ["tropical","24 • Tropical Cyan","#007d83","#7bffe0"],
+ ["maroon","25 • Royal Maroon","#70213c","#e9a8bd"],
+ ["sunset","26 • Sunset Blaze","#c04c27","#ffd18a"],
+ ["galaxy","27 • Galaxy Night","#38216f","#c6a5ff"],
+ ["lime","28 • Lime Attack","#527d13","#d8ff65"],
+ ["copper","29 • Copper Storm","#98502c","#ffc18c"],
+ ["ocean","30 • Ocean Blue","#075d91","#69e1ff"]
 ];
 
 let selectedTheme="classic";
@@ -106,7 +136,11 @@ const $=id=>document.getElementById(id);
 function renderThemes(){
  $("themeGrid").innerHTML=themes.map(t=>`
   <div class="theme ${selectedTheme===t[0]?"active":""}" data-theme="${t[0]}">
-   <b>${t[1]}</b>
+   <span class="swatch" style="background:linear-gradient(135deg,${t[2]},${t[3]})"></span>
+   <span>
+    <div class="theme-name">${t[1]}</div>
+    <div class="theme-number">GFC Broadcast Design</div>
+   </span>
   </div>
  `).join("");
 
@@ -122,7 +156,8 @@ function renderThemes(){
 function updatePreview(){
  const id=$("matchSelect").value;
  const t=themes.find(x=>x[0]===selectedTheme);
- $("selectedTheme").textContent="Selected: "+(t?t[1]:"Royal Blue");
+
+ $("selectedTheme").textContent="Selected: "+(t?t[1]:"01 • Royal Blue");
 
  if(!id){
   $("overlayUrl").value="";
