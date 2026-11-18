@@ -4,88 +4,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GFC CRICKET PRO 2026 | Broadcast Studio</title>
+<title>GFC CRICKET PRO 2026</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#071b18;color:#fff;font-family:Arial,sans-serif}
-.wrap{max-width:1050px;margin:auto;padding:16px}
-.panel{background:#102a25;border:1px solid #285347;border-radius:15px;padding:16px;margin:14px 0}
-h1{font-size:22px;margin:5px 0}
-h2{font-size:18px}
-p{color:#a9c4b8;font-size:13px}
-label{display:block;color:#a9c4b8;font-size:13px;margin:12px 0 6px}
-select,input{width:100%;padding:13px;background:#081f1a;color:white;border:1px solid #285347;border-radius:9px}
-button{padding:12px;border:0;border-radius:9px;background:#20c477;color:#052017;font-weight:bold;cursor:pointer}
-.secondary{background:#24483e;color:white}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.themes{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.theme{
- display:flex;align-items:center;gap:10px;
- padding:11px;border:1px solid #285347;border-radius:9px;
- background:#081f1a;cursor:pointer;font-size:13px;
- transition:.15s;
+html,body{
+ margin:0;padding:0;width:100%;height:100%;
+ background:transparent;
+ font-family:Arial,Helvetica,sans-serif;color:#fff
 }
-.theme:hover{border-color:#8bd9b1;transform:translateY(-1px)}
-.theme.active{border:2px solid #b8f36b;background:#194332;padding:10px}
-.swatch{
- width:38px;height:30px;flex:0 0 38px;border-radius:6px;
- border:1px solid #ffffff55;box-shadow:0 2px 5px #0006;
+body{display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+
+#broadcast{
+ width:100%;padding:0 1%;
+ --main:#123d78;--mid:#102747;--deep:#050d1c;
+ --accent:#ffd66b;--light:#d9e8ff;
+ --panel:#101d32;--score-panel:#152e50;
+ --line:#ffffff30;--glow:#ffd66b45;
+ --shine:#ffffff12;
 }
-.theme-name{font-weight:bold;line-height:1.3}
-.theme-number{font-size:10px;color:#a9c4b8;margin-top:3px}
-iframe{width:100%;height:230px;border:1px solid #285347;border-radius:10px;background:#071b18}
-.small{font-size:11px;color:#a9c4b8}
-@media(min-width:650px){.themes{grid-template-columns:repeat(4,1fr)}}
+
+.bar{
+ width:100%;min-height:72px;display:flex;align-items:stretch;
+ position:relative;overflow:hidden;
+ border-top:3px solid var(--accent);
+ border-radius:7px 7px 0 0;
+ background:linear-gradient(105deg,var(--main),var(--mid) 43%,var(--deep));
+ box-shadow:0 -5px 22px #000a,inset 0 1px 0 #ffffff35;
+}
+.bar:before{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(115deg,var(--shine),transparent 30%,#ffffff05 65%,transparent);
+}
+.bar:after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ opacity:.12;
+ background:repeating-linear-gradient(135deg,transparent 0 18px,#fff 19px 20px,transparent 21px 38px);
+}
+#broadcast .team,#broadcast .batsmen,#broadcast .main-score,
+#broadcast .bowler,#broadcast .last{z-index:1}
+
+/* TEAM PANELS */
+.team{
+ display:flex;align-items:center;gap:8px;padding:0 12px;
+ min-width:130px;max-width:155px;
+ background:linear-gradient(145deg,var(--panel),var(--deep));
+ position:relative;
+}
+.team.batting{border-left:3px solid var(--accent);border-right:1px solid var(--line)}
+.team.bowling{border-left:1px solid var(--line);border-right:3px solid var(--accent)}
+.logo{
+ width:39px;height:39px;flex:0 0 39px;display:flex;
+ align-items:center;justify-content:center;border-radius:50%;
+ overflow:hidden;background:linear-gradient(145deg,var(--main),var(--deep));
+ border:2px solid var(--accent);box-shadow:0 0 10px var(--glow);
+ color:var(--accent);font-size:11px;font-weight:1000
+}
+.logo img{width:100%;height:100%;object-fit:contain;display:none;background:#fff;border-radius:50%}
+.teamname{
+ font-size:11px;font-weight:1000;line-height:1.2;max-width:90px;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+.teamtag{font-size:8px;color:var(--accent);font-weight:900;letter-spacing:1.2px;margin-top:5px}
+
+/* BATSMEN */
+.batsmen{
+ display:flex;flex-direction:column;justify-content:center;gap:7px;
+ min-width:185px;padding:0 12px;border-right:1px solid var(--line);position:relative
+}
+.batter{display:flex;align-items:center;gap:6px;min-width:0}
+.batter-name{
+ display:flex;align-items:center;gap:5px;min-width:0;font-size:10px;
+ font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:105px
+}
+.strike-icon{color:var(--accent);font-size:10px}
+.batter:not(.on-strike) .strike-icon{display:none}
+.batter-stats{font-size:10px;color:var(--light);white-space:nowrap;font-weight:800;margin-left:auto}
+.batter-stats strong{color:var(--accent);font-size:12px}
+
+/* MAIN SCORE */
+.main-score{
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ min-width:210px;padding:4px 14px;
+ background:linear-gradient(145deg,var(--score-panel),var(--deep));
+ border-right:1px solid var(--line);position:relative
+}
+.score-line{display:flex;align-items:baseline;justify-content:center;gap:5px}
+.score{
+ font-size:29px;line-height:1;font-weight:1000;letter-spacing:-1px;
+ color:var(--accent);text-shadow:0 0 14px var(--glow);white-space:nowrap
+}
+.overs{font-size:10px;font-weight:900;color:var(--light);white-space:nowrap}
+.score-caption{font-size:7px;letter-spacing:2px;color:var(--light);opacity:.72;font-weight:900;margin-top:3px}
+.score-metrics{display:flex;justify-content:center;align-items:center;gap:9px;margin-top:5px;width:100%}
+.metric{text-align:center;white-space:nowrap}
+.metric small{display:block;font-size:7px;color:var(--light);opacity:.85;font-weight:900;letter-spacing:.5px;margin-bottom:2px}
+.metric b{font-size:10px;color:var(--accent);font-weight:1000}
+.metric-separator{height:17px;width:1px;background:var(--line)}
+
+/* BOWLER */
+.bowler{
+ display:flex;flex-direction:column;justify-content:center;
+ min-width:105px;max-width:135px;padding:0 11px;
+ border-right:1px solid var(--line);position:relative
+}
+.bowler small{font-size:8px;color:var(--accent);font-weight:1000;letter-spacing:1px;margin-bottom:5px}
+.bowler b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bowler span{font-size:10px;color:var(--light);margin-top:5px;font-weight:800}
+
+/* LAST BALLS */
+.last{display:flex;align-items:center;gap:6px;padding:0 9px;flex:1;min-width:100px;position:relative}
+.last-title{font-size:8px;line-height:1.3;font-weight:1000;color:var(--accent);letter-spacing:.8px;white-space:nowrap}
+#lastBalls{display:flex;align-items:center;gap:4px;overflow:hidden}
+.ball{
+ width:22px;height:22px;flex:0 0 22px;display:flex;align-items:center;
+ justify-content:center;border-radius:50%;font-size:9px;font-weight:1000;
+ border:1px solid #ffffff45;box-shadow:0 2px 5px #0006
+}
+.ball.dot{background:#52617a}
+.ball.one{background:#2475c9}
+.ball.two{background:#536b91}
+.ball.three{background:#8056c5}
+.ball.four{background:#0878e7;border-color:#83caff}
+.ball.six{background:#07975e;border-color:#70efb6}
+.ball.wicket{background:#d51e3c;border-color:#ff8b9a}
+.ball.wide{background:#a34acb;border-color:#e0aaff}
+.ball.noball{background:#e07819;border-color:#ffc17a}
+.ball.extra{background:#8056c5}
+.ball.other{background:#536078}
+
+/* 30 THEMES — SAME SCOREBOARD, DIFFERENT COLOURS & FINISH */
+.classic{--main:#123d78;--mid:#102747;--deep:#050d1c;--accent:#ffd66b;--light:#d9e8ff;--panel:#101d32;--score-panel:#152e50;--glow:#ffd66b55;--shine:#ffffff18}
+.modern{--main:#5422a0;--mid:#32165f;--deep:#100724;--accent:#d2a9ff;--light:#eee0ff;--panel:#21113c;--score-panel:#35175f;--glow:#d2a9ff66;--shine:#e8cfff20}
+.red{--main:#a30d2a;--mid:#5d1021;--deep:#21050c;--accent:#ff7884;--light:#ffe0e4;--panel:#350b17;--score-panel:#541021;--glow:#ff788466;--shine:#ffccd018}
+.gold{--main:#705018;--mid:#49330e;--deep:#1c1408;--accent:#ffdb80;--light:#fff0c8;--panel:#30230d;--score-panel:#49350f;--glow:#ffdb8066;--shine:#ffe7a020}
+.neon{--main:#005a76;--mid:#00384c;--deep:#00101c;--accent:#00edff;--light:#d4fbff;--panel:#002938;--score-panel:#004052;--glow:#00edff77;--shine:#00edff20}
+.purple{--main:#146b43;--mid:#0b422d;--deep:#041b13;--accent:#caff72;--light:#e8ffd0;--panel:#092d20;--score-panel:#10452e;--glow:#caff7266;--shine:#d9ffb020}
+.orange{--main:#a63c0a;--mid:#642608;--deep:#210d04;--accent:#ffc06b;--light:#ffe8d0;--panel:#3c1909;--score-panel:#592408;--glow:#ffc06b66;--shine:#ffdab020}
+.royal{--main:#007b61;--mid:#07503f;--deep:#03251e;--accent:#75ffd0;--light:#d7fff1;--panel:#07372d;--score-panel:#075443;--glow:#75ffd066;--shine:#caffee20}
+.blackgold{--main:#303030;--mid:#1b1b1b;--deep:#050505;--accent:#f2d276;--light:#f6edda;--panel:#151515;--score-panel:#252116;--glow:#f2d27666;--shine:#f2d27618}
+.emerald{--main:#0755a9;--mid:#10366a;--deep:#06152c;--accent:#69c9ff;--light:#d9f1ff;--panel:#0c2648;--score-panel:#123d70;--glow:#69c9ff66;--shine:#b5e8ff20}
+.pink{--main:#9d1b82;--mid:#5c1552;--deep:#210a25;--accent:#ff9ae4;--light:#ffe0f6;--panel:#3b1235;--score-panel:#58194d;--glow:#ff9ae466;--shine:#ffc9f020}
+.ice{--main:#64798c;--mid:#394e61;--deep:#101c2b;--accent:#e7f5ff;--light:#f0f8ff;--panel:#263b4d;--score-panel:#40586e;--glow:#c6eaff66;--shine:#ffffff28}
+.cyber{--main:#4b176c;--mid:#29103e;--deep:#0b0618;--accent:#eaff00;--light:#f4ffc4;--panel:#1c1030;--score-panel:#32144a;--glow:#eaff0070;--shine:#eaff0020}
+.stadium{--main:#54208b;--mid:#32165c;--deep:#100823;--accent:#e0bdff;--light:#f1e6ff;--panel:#24133d;--score-panel:#3b1b63;--glow:#e0bdff66;--shine:#ead7ff20}
+.minimal{--main:#252b3a;--mid:#171d2a;--deep:#070a11;--accent:#e8c76a;--light:#e5e9f1;--panel:#111723;--score-panel:#202a39;--glow:#e8c76a55;--shine:#ffffff10}
+.retro{--main:#a9360a;--mid:#64230b;--deep:#260d05;--accent:#ffcf68;--light:#ffebc8;--panel:#401708;--score-panel:#68270b;--glow:#ffcf6866;--shine:#ffdf9b20}
+.tv{--main:#343434;--mid:#202020;--deep:#080808;--accent:#f7ec63;--light:#f2f2e2;--panel:#181818;--score-panel:#292929;--glow:#f7ec6366;--shine:#ffffff14}
+.gradient{--main:#125c9b;--mid:#174a7a;--deep:#071a36;--accent:#7df8ef;--light:#ddffff;--panel:#10304f;--score-panel:#16456c;--glow:#7df8ef66;--shine:#7df8ef20}
+.league{--main:#243e71;--mid:#172c52;--deep:#090f20;--accent:#ffd06b;--light:#e2ebff;--panel:#152544;--score-panel:#1d355c;--glow:#ffd06b66;--shine:#ffffff18}
+.matrix{--main:#07522b;--mid:#07361d;--deep:#001309;--accent:#aaff68;--light:#e0ffd2;--panel:#062615;--score-panel:#0a3b20;--glow:#aaff6870;--shine:#aaff6818}
+.arctic{--main:#176b85;--mid:#10445b;--deep:#061b2b;--accent:#a9f3ff;--light:#e5fcff;--panel:#0d3447;--score-panel:#15536b;--glow:#a9f3ff70;--shine:#c9faff28}
+.crimson{--main:#8c1237;--mid:#510d26;--deep:#1c0611;--accent:#ffb0c2;--light:#ffe4eb;--panel:#350b1c;--score-panel:#59112c;--glow:#ffb0c270;--shine:#ffb0c220}
+.diamond{--main:#637b91;--mid:#40576d;--deep:#172330;--accent:#ffffff;--light:#f4fbff;--panel:#2b4052;--score-panel:#496175;--glow:#ffffff88;--shine:#ffffff35}
+.tropical{--main:#007d83;--mid:#07545d;--deep:#03242c;--accent:#7bffe0;--light:#dcfff7;--panel:#06404a;--score-panel:#08636b;--glow:#7bffe077;--shine:#7bffe020}
+.maroon{--main:#70213c;--mid:#431629;--deep:#190812;--accent:#e9a8bd;--light:#f9e3eb;--panel:#32101e;--score-panel:#50182d;--glow:#e9a8bd66;--shine:#e9a8bd20}
+.sunset{--main:#c04c27;--mid:#78301f;--deep:#2b1016;--accent:#ffd18a;--light:#ffead5;--panel:#481b1b;--score-panel:#793321;--glow:#ffd18a77;--shine:#ffcf9b22}
+.galaxy{--main:#38216f;--mid:#211442;--deep:#080718;--accent:#c6a5ff;--light:#eee4ff;--panel:#191333;--score-panel:#2c1e55;--glow:#c6a5ff77;--shine:#c6a5ff22}
+.lime{--main:#527d13;--mid:#354f0c;--deep:#111c05;--accent:#d8ff65;--light:#f0ffd1;--panel:#263b0a;--score-panel:#405e10;--glow:#d8ff6577;--shine:#d8ff6520}
+.copper{--main:#98502c;--mid:#60321f;--deep:#21100b;--accent:#ffc18c;--light:#ffeadb;--panel:#3d2116;--score-panel:#61331e;--glow:#ffc18c77;--shine:#ffc18c20}
+.ocean{--main:#075d91;--mid:#073c65;--deep:#031525;--accent:#69e1ff;--light:#dff8ff;--panel:#092c49;--score-panel:#10496e;--glow:#69e1ff77;--shine:#69e1ff20}
+.finale{--main:#6a4b13;--mid:#40300e;--deep:#130e06;--accent:#fff0a6;--light:#fff7dc;--panel:#30230c;--score-panel:#514017;--glow:#fff0a688;--shine:#fff0a625}
+
+/* SUBTLE DESIGN VARIATIONS — LAYOUT UNCHANGED */
+.modern .bar,.galaxy .bar{background:linear-gradient(110deg,var(--main),#261344 48%,var(--deep))}
+.neon .bar,.cyber .bar{box-shadow:0 -5px 24px var(--glow),inset 0 0 16px #ffffff12}
+.gold .bar,.blackgold .bar,.finale .bar{border-top-width:4px}
+.ice .bar,.diamond .bar,.arctic .bar{background:linear-gradient(110deg,#718da4,var(--mid),var(--deep))}
+.retro .bar,.sunset .bar{background:linear-gradient(105deg,#c45a24,var(--mid),var(--deep))}
+.matrix .bar,.lime .bar{background:linear-gradient(105deg,var(--main),#153c18,var(--deep))}
+.stadium .bar:after,.league .bar:after{opacity:.19;background:repeating-linear-gradient(90deg,transparent 0 30px,#fff 31px 32px,transparent 33px 60px)}
+.minimal .bar:after,.tv .bar:after{display:none}
+.diamond .logo,.ice .logo,.arctic .logo{box-shadow:0 0 12px #ffffff55}
+.neon .logo,.cyber .logo,.matrix .logo{box-shadow:0 0 13px var(--glow)}
+.sunset .main-score,.retro .main-score{background:linear-gradient(145deg,#9b4425,var(--deep))}
+.galaxy .main-score,.modern .main-score{background:linear-gradient(145deg,#48236f,var(--deep))}
+.finalе .bar{border-top-width:4px}
+
+/* RESPONSIVE */
+@media(max-width:1200px){
+ .team{min-width:105px;padding:0 7px;gap:5px}
+ .logo{width:31px;height:31px;flex-basis:31px}
+ .teamname{font-size:9px;max-width:65px}
+ .batsmen{min-width:155px;padding:0 7px}
+ .batter-name{font-size:9px;max-width:85px}
+ .main-score{min-width:185px;padding:4px 8px}
+ .score{font-size:25px}.score-metrics{gap:6px}.metric b{font-size:9px}
+ .bowler{min-width:90px;padding:0 7px}
+ .last{padding:0 5px;gap:4px}
+ .ball{width:19px;height:19px;flex-basis:19px;font-size:8px}
+}
+@media(max-width:900px){
+ .team{min-width:80px;padding:0 5px;gap:4px}
+ .logo{width:25px;height:25px;flex-basis:25px}
+ .teamname{font-size:8px;max-width:48px}.teamtag{font-size:6px}
+ .batsmen{min-width:140px;padding:0 5px;gap:6px}
+ .batter-name{font-size:8px;max-width:75px}
+ .batter-stats{font-size:8px}.batter-stats strong{font-size:10px}
+ .main-score{min-width:165px;padding:4px 5px}
+ .score{font-size:22px}.overs{font-size:8px}
+ .score-metrics{gap:4px}.metric small{font-size:6px}.metric b{font-size:8px}
+ .bowler{min-width:75px;padding:0 5px}
+ .bowler b,.bowler span{font-size:8px}
+ .last-title{font-size:7px}
+ .ball{width:17px;height:17px;flex-basis:17px;font-size:7px}
+}
 </style>
 </head>
 
 <body>
-<div class="wrap">
+<div id="broadcast" class="classic">
+<div class="bar">
 
-<h1>🏏 GFC CRICKET PRO 2026</h1>
-<p>PREMIUM T20 BROADCAST STUDIO • 30 CUSTOM SCOREBOARD THEMES</p>
-
-<div class="panel">
- <h2>SELECT MATCH</h2>
- <select id="matchSelect">
-  <option value="">Loading matches...</option>
- </select>
- <button class="secondary" id="refresh" style="margin-top:10px">Refresh Matches</button>
-</div>
-
-<div class="panel">
- <h2>SELECT SCOREBOARD THEME</h2>
- <p>সব থিমে একই স্কোরবোর্ড থাকবে। শুধু রং ও ডিজাইন আলাদা হবে।</p>
- <div class="themes" id="themeGrid"></div>
- <p id="selectedTheme">Selected: 01 • Royal Blue</p>
-</div>
-
-<div class="panel">
- <h2>LIVE OVERLAY PREVIEW</h2>
- <iframe id="preview" title="Live Overlay Preview"></iframe>
- <p>Preview automatically changes when you select another match or theme.</p>
-</div>
-
-<div class="panel">
- <h2>YOUR OVERLAY URL</h2>
- <input id="overlayUrl" readonly placeholder="Select a match first">
- <div class="grid" style="margin-top:10px">
-  <button id="copy">COPY URL</button>
-  <button class="secondary" id="open">OPEN OVERLAY</button>
+ <div class="team batting">
+  <div class="logo"><img id="batLogo" alt=""><span id="batInitial">BAT</span></div>
+  <div><div class="teamname" id="batTeam">BATTING</div><div class="teamtag">BATTING</div></div>
  </div>
-</div>
 
-<div class="panel">
- <h2>HOW TO USE</h2>
- <p>1. Select your live match.</p>
- <p>2. Choose one of the 30 scoreboard themes.</p>
- <p>3. Copy the Overlay URL.</p>
- <p>4. Add the URL to PRISM Live Studio or OBS as a Browser/Web Page source.</p>
- <p class="small">Overlay provides scoreboard graphics only. Camera streaming is handled separately by PRISM or OBS.</p>
-</div>
+ <div class="batsmen">
+  <div class="batter on-strike">
+   <div class="batter-name"><span class="strike-icon">▶</span><span id="striker">Striker</span></div>
+   <div class="batter-stats"><strong id="strikerRuns">0</strong> (<span id="strikerBalls">0</span>)</div>
+  </div>
+  <div class="batter">
+   <div class="batter-name"><span id="nonStriker">Non Striker</span></div>
+   <div class="batter-stats"><strong id="nonRuns">0</strong> (<span id="nonBalls">0</span>)</div>
+  </div>
+ </div>
 
+ <div class="main-score">
+  <div class="score-line"><span class="score" id="score">0/0</span><span class="overs" id="overs">0.0 OV</span></div>
+  <div class="score-caption">GFC LIVE SCORE</div>
+  <div class="score-metrics">
+   <div class="metric"><small>CRR</small><b id="crr">0.00</b></div>
+   <div class="metric-separator"></div>
+   <div class="metric"><small>PROJECTED</small><b id="projected">0</b></div>
+   <div class="metric-separator"></div>
+   <div class="metric"><small>TARGET</small><b id="target">--</b></div>
+   <div class="metric-separator"></div>
+   <div class="metric"><small>RRR</small><b id="rrr">--</b></div>
+  </div>
+ </div>
+
+ <div class="bowler">
+  <small>BOWLING</small><b id="bowler">Bowler</b><span id="bowlerStats">0/0 (0.0)</span>
+ </div>
+
+ <div class="last">
+  <div class="last-title">LAST<br>6 BALLS</div>
+  <div id="lastBalls"><span class="ball dot">-</span></div>
+ </div>
+
+ <div class="team bowling">
+  <div><div class="teamname" id="bowlTeam">BOWLING</div><div class="teamtag">BOWLING</div></div>
+  <div class="logo"><img id="bowlLogo" alt=""><span id="bowlInitial">BWL</span></div>
+ </div>
+
+</div>
 </div>
 
 <script>
@@ -93,142 +269,169 @@ const SUPABASE_URL="https://shlvtaxrkyffdifbjswq.supabase.co";
 const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-/* 30 THEMES — SAME SCOREBOARD DESIGN */
+const params=new URLSearchParams(location.search);
+const matchId=params.get("match");
+const design=params.get("design")||"classic";
+
 const themes=[
- ["classic","01 • Royal Blue","#123d78","#ffd66b"],
- ["modern","02 • Purple Thunder","#5422a0","#d2a9ff"],
- ["red","03 • Red Warriors","#a30d2a","#ff7884"],
- ["gold","04 • Gold Champion","#705018","#ffdb80"],
- ["neon","05 • Neon Strike","#005a76","#00edff"],
- ["purple","06 • Emerald Kings","#146b43","#caff72"],
- ["orange","07 • Orange Inferno","#a63c0a","#ffc06b"],
- ["royal","08 • Emerald Wave","#007b61","#75ffd0"],
- ["blackgold","09 • Black Panther","#303030","#f2d276"],
- ["emerald","10 • Electric Blue","#0755a9","#69c9ff"],
- ["pink","11 • Pink Storm","#9d1b82","#ff9ae4"],
- ["ice","12 • Silver Elite","#64798c","#e7f5ff"],
- ["cyber","13 • Cyber League","#4b176c","#eaff00"],
- ["stadium","14 • Royal Purple","#54208b","#e0bdff"],
- ["minimal","15 • Midnight Gold","#252b3a","#e8c76a"],
- ["retro","16 • Fireball","#a9360a","#ffcf68"],
- ["tv","17 • Super Sixes","#343434","#f7ec63"],
- ["gradient","18 • Powerplay Pro","#125c9b","#7df8ef"],
- ["league","19 • Championship","#243e71","#ffd06b"],
- ["matrix","20 • Matrix Green","#07522b","#aaff68"],
- ["arctic","21 • Arctic Ice","#176b85","#a9f3ff"],
- ["crimson","22 • Crimson Elite","#8c1237","#ffb0c2"],
- ["diamond","23 • Diamond White","#637b91","#ffffff"],
- ["tropical","24 • Tropical Cyan","#007d83","#7bffe0"],
- ["maroon","25 • Royal Maroon","#70213c","#e9a8bd"],
- ["sunset","26 • Sunset Blaze","#c04c27","#ffd18a"],
- ["galaxy","27 • Galaxy Night","#38216f","#c6a5ff"],
- ["lime","28 • Lime Attack","#527d13","#d8ff65"],
- ["copper","29 • Copper Storm","#98502c","#ffc18c"],
- ["ocean","30 • Ocean Blue","#075d91","#69e1ff"]
+ "classic","modern","red","gold","neon","purple","orange","royal","blackgold","emerald",
+ "pink","ice","cyber","stadium","minimal","retro","tv","gradient","league","matrix",
+ "arctic","crimson","diamond","tropical","maroon","sunset","galaxy","lime","copper","ocean","finale"
 ];
 
-let selectedTheme="classic";
-let matches=[];
-let teamMap={};
+$("broadcast");
+const broadcast=document.getElementById("broadcast");
+broadcast.className=themes.includes(design)?design:"classic";
 
 const $=id=>document.getElementById(id);
+function overText(b){return Math.floor(b/6)+"."+(b%6)}
+function legal(d){return !["wide","no_ball"].includes((d.extra_type||"none").toLowerCase())}
+function extras(d){return Number(d.extra_runs||0)}
 
-function renderThemes(){
- $("themeGrid").innerHTML=themes.map(t=>`
-  <div class="theme ${selectedTheme===t[0]?"active":""}" data-theme="${t[0]}">
-   <span class="swatch" style="background:linear-gradient(135deg,${t[2]},${t[3]})"></span>
-   <span>
-    <div class="theme-name">${t[1]}</div>
-    <div class="theme-number">GFC Broadcast Design</div>
-   </span>
-  </div>
- `).join("");
-
- $("themeGrid").querySelectorAll("[data-theme]").forEach(el=>{
-  el.onclick=()=>{
-   selectedTheme=el.dataset.theme;
-   renderThemes();
-   updatePreview();
-  };
+function scoreOf(ds){
+ let r=0,w=0,b=0;
+ ds.forEach(d=>{r+=Number(d.batter_runs||0)+extras(d);if(d.is_wicket)w++;if(legal(d))b++});
+ return {r,w,b};
+}
+function batter(ds,id){
+ let r=0,b=0;
+ ds.forEach(d=>{if(!id||d.striker_id!==id)return;r+=Number(d.batter_runs||0);if((d.extra_type||"none").toLowerCase()!=="wide")b++});
+ return {r,b};
+}
+function bowlerFigures(ds,id){
+ let r=0,w=0,b=0;
+ ds.forEach(d=>{
+  if(!id||d.bowler_id!==id)return;
+  const type=(d.extra_type||"none").toLowerCase();
+  r+=Number(d.batter_runs||0);
+  if(type==="wide"||type==="no_ball")r+=extras(d);
+  if(legal(d))b++;
+  if(d.is_wicket&&!["run out","retired hurt","obstructing the field","retired out"].includes((d.wicket_type||"").toLowerCase()))w++;
  });
+ return {r,w,b};
+}
+function ballText(d){
+ if(d.is_wicket)return "W";
+ const r=Number(d.batter_runs||0),e=extras(d),type=(d.extra_type||"none").toLowerCase();
+ if(type==="wide")return "Wd";
+ if(type==="no_ball")return "Nb";
+ if(type==="bye")return "B"+e;
+ if(type==="leg_bye")return "Lb"+e;
+ return String(r);
+}
+function ballClass(d){
+ if(d.is_wicket)return "wicket";
+ const type=(d.extra_type||"none").toLowerCase();
+ if(type==="wide")return "wide";
+ if(type==="no_ball")return "noball";
+ if(type==="bye"||type==="leg_bye")return "extra";
+ const r=Number(d.batter_runs||0);
+ if(r===0)return "dot";if(r===1)return "one";if(r===2)return "two";
+ if(r===3)return "three";if(r===4)return "four";if(r===6)return "six";
+ return "other";
 }
 
-function updatePreview(){
- const id=$("matchSelect").value;
- const t=themes.find(x=>x[0]===selectedTheme);
-
- $("selectedTheme").textContent="Selected: "+(t?t[1]:"01 • Royal Blue");
-
- if(!id){
-  $("overlayUrl").value="";
-  $("preview").src="about:blank";
+/* Avoid reloading the same team logo every refresh */
+function setLogo(imageId,initialId,url,name){
+ const img=$(imageId),fallback=$(initialId);
+ fallback.textContent=(name||"GFC").trim().substring(0,3).toUpperCase();
+ if(!url){img.style.display="none";fallback.style.display="block";return}
+ const current=img.getAttribute("data-logo-url");
+ if(current===url){
+  if(img.complete&&img.naturalWidth>0){img.style.display="block";fallback.style.display="none"}
   return;
  }
-
- const url=new URL("live-overlay.html",location.href);
- url.searchParams.set("match",id);
- url.searchParams.set("design",selectedTheme);
-
- $("overlayUrl").value=url.href;
- $("preview").src=url.href;
+ img.setAttribute("data-logo-url",url);
+ img.style.display="none";fallback.style.display="block";
+ img.onload=()=>{img.style.display="block";fallback.style.display="none"};
+ img.onerror=()=>{img.style.display="none";fallback.style.display="block"};
+ img.src=url;
 }
 
-async function loadMatches(){
- $("matchSelect").innerHTML='<option value="">Loading...</option>';
-
- const [mr,tr]=await Promise.all([
-  db.from("gfc_matches").select("*").order("match_date",{ascending:false}),
-  db.from("gfc_teams").select("*")
- ]);
-
- if(mr.error){
-  $("matchSelect").innerHTML='<option value="">Could not load matches</option>';
-  alert(mr.error.message);
-  return;
- }
-
- matches=mr.data||[];
- teamMap={};
-
- (tr.data||[]).forEach(t=>{
-  teamMap[t.id]=t.short_name||t.name;
- });
-
- $("matchSelect").innerHTML=
-  '<option value="">Select Match</option>'+
-  matches.map(m=>`
-   <option value="${m.id}">
-    ${(m.status==="live"?"🔴 LIVE • ":"")+
-     (teamMap[m.team_a_id]||"Team A")+" vs "+
-     (teamMap[m.team_b_id]||"Team B")}
-   </option>
-  `).join("");
-
- updatePreview();
+/* Last six legal balls, including extra delivery slots */
+function renderLastBalls(ds){
+ const legalIndexes=[];
+ ds.forEach((d,i)=>{if(legal(d))legalIndexes.push(i)});
+ const lastSix=legalIndexes.slice(-6);
+ const selected=lastSix.length?ds.slice(lastSix[0]):ds.slice(-6);
+ $("lastBalls").innerHTML=selected.length?
+  selected.map(d=>`<span class="ball ${ballClass(d)}" title="${ballText(d)}">${ballText(d)}</span>`).join("")
+  :'<span class="ball dot">-</span>';
 }
 
-$("matchSelect").onchange=updatePreview;
-$("refresh").onclick=loadMatches;
-
-$("copy").onclick=async()=>{
- const url=$("overlayUrl").value;
- if(!url)return alert("আগে Match নির্বাচন করুন");
+let refreshing=false;
+async function refresh(){
+ if(refreshing)return;
+ refreshing=true;
  try{
-  await navigator.clipboard.writeText(url);
-  alert("Overlay URL Copied!");
- }catch(e){
-  $("overlayUrl").select();
-  alert("URL select হয়েছে। Ctrl+C চাপুন।");
- }
-};
+  if(!matchId)throw new Error("Missing match ID");
 
-$("open").onclick=()=>{
- if(!$("overlayUrl").value)return alert("আগে Match নির্বাচন করুন");
- window.open($("overlayUrl").value,"_blank");
-};
+  const {data:m,error:me}=await db.from("gfc_matches").select("*").eq("id",matchId).single();
+  if(me)throw me;
 
-renderThemes();
-loadMatches();
+  const {data:teams,error:te}=await db.from("gfc_teams").select("*").in("id",[m.team_a_id,m.team_b_id]);
+  if(te)throw te;
+  const tm={};(teams||[]).forEach(t=>tm[t.id]=t);
+
+  const {data:innings,error:ie}=await db.from("gfc_innings").select("*")
+   .eq("match_id",matchId).order("innings_no",{ascending:false}).limit(1);
+  if(ie)throw ie;
+  const inn=innings?.[0];if(!inn)return;
+
+  const {data:ds0,error:de}=await db.from("gfc_deliveries").select("*")
+   .eq("innings_id",inn.id).order("created_at",{ascending:true});
+  if(de)throw de;
+  const ds=ds0||[],calc=scoreOf(ds);
+
+  const runs=Number(inn.total_runs??calc.r);
+  const wickets=Number(inn.wickets??calc.w);
+  const balls=Number(inn.legal_balls??calc.b);
+
+  const battingId=inn.batting_team_id||m.batting_team_id||m.team_a_id;
+  const bowlingId=battingId===m.team_a_id?m.team_b_id:m.team_a_id;
+  const battingTeam=tm[battingId],bowlingTeam=tm[bowlingId];
+
+  $("batTeam").textContent=battingTeam?.short_name||battingTeam?.name||"BATTING";
+  $("bowlTeam").textContent=bowlingTeam?.short_name||bowlingTeam?.name||"BOWLING";
+
+  setLogo("batLogo","batInitial",battingTeam?.logo_url,battingTeam?.short_name||battingTeam?.name);
+  setLogo("bowlLogo","bowlInitial",bowlingTeam?.logo_url,bowlingTeam?.short_name||bowlingTeam?.name);
+
+  $("score").textContent=runs+"/"+wickets;
+  $("overs").textContent=overText(balls)+" OV";
+
+  const crr=balls?(runs/(balls/6)):0;
+  $("crr").textContent=crr.toFixed(2);
+  const totalOvers=Number(m.overs||20);
+  $("projected").textContent=Math.round(crr*totalOvers);
+
+  const target=Number(inn.target||0);
+  const ballsRemaining=Math.max(0,totalOvers*6-balls);
+  $("target").textContent=target||"--";
+  $("rrr").textContent=target&&ballsRemaining?
+   (Math.max(0,target-runs)/(ballsRemaining/6)).toFixed(2):"--";
+
+  const {data:players,error:pe}=await db.from("gfc_players").select("id,name");
+  if(pe)throw pe;
+  const pm={};(players||[]).forEach(p=>pm[p.id]=p);
+
+  const latest=[...ds].reverse().find(d=>d.striker_id||d.non_striker_id||d.bowler_id);
+  const sid=latest?.striker_id,nid=latest?.non_striker_id,bid=latest?.bowler_id;
+  const s=batter(ds,sid),n=batter(ds,nid),b=bowlerFigures(ds,bid);
+
+  $("striker").textContent=pm[sid]?.name||"Striker";
+  $("nonStriker").textContent=pm[nid]?.name||"Non Striker";
+  $("strikerRuns").textContent=s.r;$("strikerBalls").textContent=s.b;
+  $("nonRuns").textContent=n.r;$("nonBalls").textContent=n.b;
+  $("bowler").textContent=pm[bid]?.name||"Bowler";
+  $("bowlerStats").textContent=b.w+"/"+b.r+" ("+overText(b.b)+")";
+
+  renderLastBalls(ds);
+ }catch(e){console.error("GFC Scorebar:",e)}
+ finally{refreshing=false}
+}
+refresh();
+setInterval(refresh,3000);
 </script>
 </body>
 </html>
