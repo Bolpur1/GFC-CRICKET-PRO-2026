@@ -1,1437 +1,790 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071b16">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071b18">
 <title>GFC CRICKET PRO 2026</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
-  --bg:#071b16;--panel:#102820;--panel2:#18372d;
-  --green:#16a36a;--lime:#b7f36b;--white:#f5fff9;
-  --muted:#a8c4b5;--red:#ef5555;--border:#2c5142;
+ --bg:#071b18;--panel:#102a25;--panel2:#16372f;
+ --line:#285347;--green:#20c477;--lime:#b8f36b;
+ --text:#f4fff9;--muted:#a9c4b8;--red:#ff6262;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,sans-serif}
-header{padding:20px 15px;text-align:center;background:linear-gradient(130deg,#063b2b,#126b45);border-bottom:2px solid var(--lime)}
-header h1{margin:0;font-size:23px;letter-spacing:1px}
-header p{margin:7px 0 0;color:#d8ffe8;font-size:12px}
-.container{max-width:900px;margin:auto;padding:14px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:14px}
-h2{font-size:18px;margin:0 0 14px;color:var(--lime)}
-h3{font-size:15px;color:var(--lime);margin:12px 0}
-input,select,textarea{width:100%;padding:12px;margin:6px 0 12px;background:#071d16;color:white;border:1px solid var(--border);border-radius:8px;font-size:14px}
-textarea{min-height:75px;resize:vertical}
-button{background:var(--green);color:white;border:0;padding:11px 14px;border-radius:8px;font-weight:bold;cursor:pointer;margin:3px}
-button.secondary{background:#315345}
-button.danger{background:#a93232}
-button:disabled{opacity:.5;cursor:not-allowed}
-.hidden{display:none!important}
-.message{font-size:13px;color:var(--lime);margin:8px 0;overflow-wrap:anywhere}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.stat{background:var(--panel2);padding:14px;border-radius:10px;text-align:center}
-.stat strong{display:block;font-size:23px;color:var(--lime)}
+body{margin:0;background:linear-gradient(145deg,#12382d,#071b18 55%);
+ color:var(--text);font-family:Arial,system-ui,sans-serif}
+button,input,select{font:inherit}
+button{border:0;border-radius:11px;padding:12px 15px;
+ background:var(--green);color:#052017;font-weight:bold;cursor:pointer}
+button.secondary{background:#24483e;color:white;border:1px solid var(--line)}
+button.danger{background:#a63b43;color:white}
+button.gold{background:var(--lime);color:#102016}
+input,select{width:100%;padding:13px;border-radius:10px;
+ border:1px solid var(--line);background:#081f1a;color:white;min-height:46px}
+label{display:block;color:var(--muted);font-size:13px;margin:9px 0 5px}
+.wrap{max-width:1000px;margin:auto;padding:13px}
+.panel{background:var(--panel);border:1px solid var(--line);
+ border-radius:17px;padding:15px;margin:12px 0}
+h1{font-size:19px;margin:0}h2{font-size:19px;margin:0 0 14px}
+h3{font-size:16px;margin:0 0 12px}
+.muted{color:var(--muted)}.small{font-size:12px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{height:44px;width:44px;border-radius:13px;background:var(--lime);
+ color:#071b18;display:grid;place-items:center;font-weight:1000}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.full{grid-column:1/-1}
+.stat{background:#081f1a;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat b{display:block;font-size:23px;color:var(--lime)}
 .stat span{font-size:12px;color:var(--muted)}
-.nav{display:flex;gap:7px;overflow-x:auto;padding:5px 0 12px}
-.nav button{white-space:nowrap;font-size:12px}
-.item{background:var(--panel2);border:1px solid var(--border);padding:12px;border-radius:9px;margin:8px 0}
-.item strong{color:var(--lime)}
-.small{font-size:12px;color:var(--muted)}
-.score{background:linear-gradient(135deg,#073c2b,#176744);padding:20px;border-radius:13px;text-align:center}
-.score .runs{font-size:43px;font-weight:bold;color:var(--lime)}
-.score .overs{font-size:16px;margin-top:5px}
-.row{display:flex;gap:8px;align-items:center}
-.row>*{flex:1;min-width:0}
-hr{border:0;border-top:1px solid var(--border);margin:15px 0}
-footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
-.status{font-size:12px;color:var(--lime);margin-top:5px}
-a{color:var(--lime);overflow-wrap:anywhere}
-@media(max-width:480px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  header h1{font-size:19px}
-  .container{padding:10px}
-  .card{padding:12px}
+.nav{display:flex;gap:7px;overflow-x:auto;padding:8px 0 12px}
+.nav button{white-space:nowrap;flex-shrink:0;background:#17372e;color:white}
+.nav button.active{background:var(--green);color:#052017}
+.tab{display:none}.tab.active{display:block}
+.scorebox{background:linear-gradient(120deg,#0b3829,#174a35);
+ border:1px solid #327a58;border-radius:16px;text-align:center;padding:18px}
+.score{font-size:42px;font-weight:1000}
+.overs{color:#d4f5df}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;justify-content:center}
+.chip{background:#081f1a;border:1px solid var(--line);border-radius:30px;
+ padding:7px 10px;font-size:12px;color:var(--muted)}
+.runbuttons{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.runbuttons button{font-size:22px;min-height:60px;background:#d8f5e5}
+.runbuttons button:nth-child(4),.runbuttons button:nth-child(6){background:var(--lime)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
+.item{display:flex;align-items:center;justify-content:space-between;
+ gap:8px;padding:11px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border:0}
+.item small{display:block;color:var(--muted);margin-top:4px}
+.item button{padding:8px 10px;font-size:12px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:420px}
+td,th{text-align:left;padding:9px;border-bottom:1px solid var(--line);font-size:13px}
+th{color:var(--lime)}
+.notice{background:#17372e;color:#d6f5e4;border-radius:10px;padding:11px;
+ margin:10px 0;font-size:13px}
+.hidden{display:none!important}
+.login{max-width:420px;margin:35px auto}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
+.overlay{max-width:850px;margin:12vh auto;background:#071b18ed;
+ border:2px solid var(--lime);border-radius:12px;padding:15px 20px;
+ display:flex;justify-content:space-between;align-items:center;gap:15px}
+.overlay .big{font-size:clamp(28px,6vw,55px);font-weight:1000}
+.overlay .team{color:var(--lime);font-size:clamp(14px,3vw,23px)}
+@media(min-width:700px){
+ .grid{grid-template-columns:repeat(4,1fr)}
+ .formgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .runbuttons{grid-template-columns:repeat(6,1fr)}
+ .wrap{padding:22px}
 }
 </style>
 </head>
 
 <body>
-<header>
-  <h1>🏏 GFC CRICKET PRO 2026</h1>
-  <p>TOURNAMENT • LIVE SCORING • SCOREBOARD • STREAMING</p>
+<div class="wrap" id="app">
+
+<header class="header">
+ <div class="brand">
+  <div class="logo">GFC</div>
+  <div>
+   <h1>GFC CRICKET PRO 2026</h1>
+   <div class="muted small">LIVE SCORING • TOURNAMENT • BROADCAST</div>
+  </div>
+ </div>
+ <button class="secondary hidden" id="logout">Logout</button>
 </header>
 
-<div class="container">
-
-<!-- PUBLIC SCOREBOARD -->
-<section class="card" id="publicPanel">
-  <h2>🏏 Public Live Scoreboard</h2>
-  <div class="status" id="publicRealtimeStatus">Realtime: Connecting...</div>
-  <label>Select Match</label>
-  <select id="publicMatch" onchange="loadPublicScore()">
-    <option value="">Loading matches...</option>
-  </select>
-  <div id="publicScore"><p class="small">Loading scoreboard...</p></div>
-  <button class="secondary" onclick="loadPublicData()">Refresh Scoreboard</button>
-</section>
-
 <!-- ADMIN LOGIN -->
-<section id="loginBox" class="card">
-  <h2>Admin Login</h2>
-  <p class="small">GFC CRICKET PRO 2026 Administration</p>
-
-  <label>Admin Email</label>
-  <input id="email" type="email" value="officework.bolpur@gmail.com" placeholder="Admin Email">
-
-  <label>Password</label>
-  <input id="password" type="password" placeholder="Password">
-
-  <button onclick="login()" style="width:100%">LOGIN</button>
-  <button class="secondary" onclick="forgotPassword()" style="width:100%">Forgot Password?</button>
-
-  <div id="resetBox" class="hidden">
-    <hr>
-    <h2>Set New Password</h2>
-    <input id="newPassword" type="password" placeholder="Enter New Password">
-    <button onclick="updatePassword()" style="width:100%">Update Password</button>
-  </div>
-
-  <div id="loginMsg" class="message"></div>
+<section class="panel login" id="loginPanel">
+ <h2>Admin Login</h2>
+ <p class="muted small">শুধুমাত্র অনুমোদিত Admin প্রবেশ করতে পারবেন।</p>
+ <label>Email</label>
+ <input id="email" type="email" value="officework.bolpur@gmail.com">
+ <label>Password</label>
+ <input id="password" type="password" placeholder="Admin Password">
+ <button id="loginBtn" style="width:100%;margin-top:12px">Login</button>
+ <button class="secondary" id="forgotBtn" style="width:100%;margin-top:8px">Forgot Password</button>
+ <div id="loginMessage" class="notice hidden"></div>
 </section>
 
-<!-- ADMIN PANEL -->
-<section id="adminPanel" class="hidden">
+<div id="main" class="hidden">
 
-  <div class="card">
-    <div class="row">
-      <div>
-        <h2>Admin Dashboard</h2>
-        <div class="small" id="adminEmail"></div>
-        <div class="status" id="realtimeStatus">Realtime: Connecting...</div>
-      </div>
-      <button class="danger" onclick="logout()">LOGOUT</button>
-    </div>
-  </div>
+<!-- PUBLIC SCORE -->
+<section class="panel">
+ <div class="row">
+  <div><div class="muted small">PUBLIC LIVE SCOREBOARD</div>
+   <h2 id="publicMatch">No Live Match</h2></div>
+  <button class="secondary" id="refreshPublic">Refresh</button>
+ </div>
+ <div class="scorebox">
+  <div class="score" id="publicScore">0/0</div>
+  <div class="overs" id="publicOvers">0.0 Overs</div>
+  <div class="muted small" id="publicTeams">GFC CRICKET PRO 2026</div>
+ </div>
+ <div class="chips">
+  <span class="chip" id="publicRR">RR 0.00</span>
+  <span class="chip" id="publicTarget">Target —</span>
+  <a class="chip" href="?overlay=1" target="_blank">Broadcast Overlay ↗</a>
+ </div>
+</section>
 
+<nav class="nav" id="nav">
+ <button class="active" data-tab="dashboard">Dashboard</button>
+ <button data-tab="tournaments">Tournament</button>
+ <button data-tab="teams">Teams</button>
+ <button data-tab="players">Players</button>
+ <button data-tab="matches">Matches</button>
+ <button data-tab="scoring">Live Scoring</button>
+ <button data-tab="scorecard">Scorecard</button>
+ <button data-tab="streaming">Streaming</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section class="tab active" id="tab-dashboard">
+ <div class="panel">
+  <h2>Admin Dashboard</h2>
   <div class="grid">
-    <div class="stat"><strong id="tournamentCount">0</strong><span>Tournaments</span></div>
-    <div class="stat"><strong id="teamCount">0</strong><span>Teams</span></div>
-    <div class="stat"><strong id="playerCount">0</strong><span>Players</span></div>
-    <div class="stat"><strong id="matchCount">0</strong><span>Matches</span></div>
+   <div class="stat"><b id="countT">0</b><span>Tournaments</span></div>
+   <div class="stat"><b id="countTeam">0</b><span>Teams</span></div>
+   <div class="stat"><b id="countPlayer">0</b><span>Players</span></div>
+   <div class="stat"><b id="countMatch">0</b><span>Matches</span></div>
   </div>
-
-  <div class="nav">
-    <button onclick="showTab('home')">Dashboard</button>
-    <button onclick="showTab('tournaments')">Tournament</button>
-    <button onclick="showTab('teams')">Teams</button>
-    <button onclick="showTab('players')">Players</button>
-    <button onclick="showTab('matches')">Matches</button>
-    <button onclick="showTab('scoring')">Live Scoring</button>
-    <button onclick="showTab('streaming')">Streaming</button>
-  </div>
-
-  <div id="adminMsg" class="message"></div>
-
-  <div id="tab-home" class="tab card">
-    <h2>Welcome to GFC Cricket Pro</h2>
-    <p>Manage your cricket tournament from one place.</p>
-    <button onclick="refreshAll()">Refresh Data</button>
-    <button class="secondary" onclick="el('publicPanel').scrollIntoView({behavior:'smooth'})">View Public Scoreboard</button>
-    <hr>
-    <p class="small">Current setup: Two mobile phones. Future upgrade: Four cameras, Mobile + DSLR, YouTube + Facebook broadcasting.</p>
-  </div>
-
-  <!-- TOURNAMENT -->
-  <div id="tab-tournaments" class="tab card hidden">
-    <h2>Create Tournament</h2>
-    <input id="tName" placeholder="Tournament Name">
-    <input id="tSeason" placeholder="Season (e.g. Season 1)">
-    <input id="tVenue" placeholder="Venue">
-    <input id="tDate" type="date">
-    <select id="tStatus">
-      <option value="upcoming">Upcoming</option>
-      <option value="live">Live</option>
-      <option value="completed">Completed</option>
-    </select>
-    <button onclick="createTournament()">Save Tournament</button>
-    <hr>
-    <h3>All Tournaments</h3>
-    <div id="tournamentList"></div>
-  </div>
-
-  <!-- TEAMS -->
-  <div id="tab-teams" class="tab card hidden">
-    <h2>Add Team</h2>
-    <select id="teamTournament"></select>
-    <input id="teamName" placeholder="Team Full Name">
-    <input id="teamShort" placeholder="Short Name">
-    <input id="teamLogo" placeholder="Logo URL (optional)">
-    <button onclick="createTeam()">Save Team</button>
-    <hr>
-    <h3>All Teams</h3>
-    <div id="teamList"></div>
-  </div>
-
-  <!-- PLAYERS -->
-  <div id="tab-players" class="tab card hidden">
-    <h2>Add Player</h2>
-    <select id="playerTeam"></select>
-    <input id="playerName" placeholder="Player Name">
-    <input id="jersey" type="number" placeholder="Jersey Number">
-    <select id="playerRole">
-      <option value="Batsman">Batsman</option>
-      <option value="Bowler">Bowler</option>
-      <option value="All Rounder">All Rounder</option>
-      <option value="Wicket Keeper">Wicket Keeper</option>
-    </select>
-    <input id="playerPhoto" placeholder="Player Photo URL (optional)">
-    <button onclick="createPlayer()">Save Player</button>
-    <hr>
-    <h3>All Players</h3>
-    <div id="playerList"></div>
-  </div>
-
-  <!-- MATCHES -->
-  <div id="tab-matches" class="tab card hidden">
-    <h2>Create Match</h2>
-    <select id="matchTournament"></select>
-    <select id="teamA"></select>
-    <select id="teamB"></select>
-    <input id="matchVenue" placeholder="Match Venue">
-    <input id="matchDate" type="datetime-local">
-    <input id="matchOvers" type="number" value="10" min="1" placeholder="Overs">
-    <select id="matchStatus">
-      <option value="upcoming">Upcoming</option>
-      <option value="live">Live</option>
-      <option value="completed">Completed</option>
-    </select>
-    <button onclick="createMatch()">Create Match</button>
-    <hr>
-    <h3>All Matches</h3>
-    <div id="matchList"></div>
-  </div>
-
-  <!-- LIVE SCORING -->
-  <div id="tab-scoring" class="tab card hidden">
-    <h2>Live Cricket Scoring</h2>
-    <label>Select Match</label>
-    <select id="scoreMatch" onchange="loadScoring()"></select>
-
-    <div id="scoringArea" class="hidden">
-      <div class="score">
-        <div id="scoreTeam">TEAM</div>
-        <div class="runs" id="scoreRuns">0/0</div>
-        <div class="overs" id="scoreOvers">0.0 Overs</div>
-      </div>
-
-      <h3>Start / Select Innings</h3>
-      <select id="battingTeam"></select>
-      <input id="inningsNo" type="number" min="1" value="1" placeholder="Innings Number">
-      <button onclick="startInnings()">Start New Innings</button>
-      <div id="currentInningsInfo" class="small"></div>
-      <hr>
-
-      <h3>Record Delivery</h3>
-      <label>Batter Runs</label>
-      <div class="row">
-        <button onclick="setRuns(0)">0</button>
-        <button onclick="setRuns(1)">1</button>
-        <button onclick="setRuns(2)">2</button>
-        <button onclick="setRuns(3)">3</button>
-        <button onclick="setRuns(4)">4</button>
-        <button onclick="setRuns(6)">6</button>
-      </div>
-      <input id="batterRuns" type="number" min="0" max="6" value="0">
-
-      <label>Extra Type</label>
-      <select id="extraType">
-        <option value="none">No Extra</option>
-        <option value="wide">Wide</option>
-        <option value="no_ball">No Ball</option>
-        <option value="bye">Bye</option>
-        <option value="leg_bye">Leg Bye</option>
-      </select>
-
-      <label>Extra Runs</label>
-      <input id="extraRuns" type="number" min="0" value="0">
-
-      <label>Wicket?</label>
-      <select id="isWicket">
-        <option value="false">No Wicket</option>
-        <option value="true">Wicket</option>
-      </select>
-
-      <select id="wicketType">
-        <option value="bowled">Bowled</option>
-        <option value="caught">Caught</option>
-        <option value="run out">Run Out</option>
-        <option value="lbw">LBW</option>
-        <option value="stumped">Stumped</option>
-        <option value="hit wicket">Hit Wicket</option>
-        <option value="other">Other</option>
-      </select>
-
-      <input id="commentary" placeholder="Commentary (optional)">
-      <button id="saveBallButton" onclick="addDelivery()" style="width:100%">SAVE BALL</button>
-      <button class="secondary" onclick="loadScoring()" style="width:100%">Refresh Score</button>
-      <hr>
-      <h3>Ball-by-Ball History</h3>
-      <div id="deliveryList"></div>
-    </div>
-  </div>
-
-  <!-- STREAMING -->
-  <div id="tab-streaming" class="tab card hidden">
-    <h2>Live Streaming Panel</h2>
-    <p class="small">Save your live broadcast links for viewers.</p>
-    <select id="streamMatch"></select>
-    <select id="streamPlatform">
-      <option value="YouTube">YouTube</option>
-      <option value="Facebook">Facebook</option>
-      <option value="Other">Other</option>
-    </select>
-    <input id="streamURL" type="url" placeholder="Live Stream Watch URL">
-    <select id="streamStatus">
-      <option value="live">Live</option>
-      <option value="upcoming">Upcoming</option>
-      <option value="ended">Ended</option>
-    </select>
-    <button onclick="saveStream()">Save Streaming Link</button>
-    <hr>
-    <h3>Streaming Links</h3>
-    <div id="streamList"></div>
-    <p class="small">Note: This panel stores viewing links. It does not itself capture camera video or broadcast to YouTube/Facebook.</p>
-  </div>
-
+ </div>
+ <div class="panel"><h3>Live Matches</h3><div id="liveList"></div></div>
 </section>
 
-<footer>
-  GFC CRICKET PRO 2026<br>
-  Powered by Goltikuri Friendship Club
-</footer>
+<!-- TOURNAMENTS -->
+<section class="tab" id="tab-tournaments">
+ <div class="panel">
+  <h2>Create Tournament</h2>
+  <form id="tournamentForm" class="formgrid">
+   <div><label>Tournament Name</label><input name="name" required></div>
+   <div><label>Season</label><input name="season" placeholder="2026"></div>
+   <div><label>Venue</label><input name="venue"></div>
+   <div><label>Start Date</label><input name="start_date" type="date"></div>
+   <div><label>Status</label><select name="status"><option>upcoming</option><option>live</option><option>completed</option></select></div>
+   <div class="full"><button>Create Tournament</button></div>
+  </form>
+ </div>
+ <div class="panel"><h3>Tournament List</h3><div id="tournamentList"></div></div>
+</section>
+
+<!-- TEAMS -->
+<section class="tab" id="tab-teams">
+ <div class="panel">
+  <h2>Add Team</h2>
+  <form id="teamForm" class="formgrid">
+   <div><label>Tournament</label><select name="tournament_id" id="teamTournament" required></select></div>
+   <div><label>Team Name</label><input name="name" required></div>
+   <div><label>Short Name</label><input name="short_name" maxlength="8"></div>
+   <div class="full"><button>Add Team</button></div>
+  </form>
+ </div>
+ <div class="panel"><h3>Team List</h3><div id="teamList"></div></div>
+</section>
+
+<!-- PLAYERS -->
+<section class="tab" id="tab-players">
+ <div class="panel">
+  <h2>Add Player</h2>
+  <form id="playerForm" class="formgrid">
+   <div><label>Team</label><select name="team_id" id="playerTeam" required></select></div>
+   <div><label>Player Name</label><input name="name" required></div>
+   <div><label>Jersey Number</label><input name="jersey_number" type="number"></div>
+   <div><label>Role</label>
+    <select name="role"><option>Batter</option><option>Bowler</option><option>All-rounder</option><option>Wicketkeeper</option></select>
+   </div>
+   <div class="full"><button>Add Player</button></div>
+  </form>
+ </div>
+ <div class="panel"><h3>Player List</h3><div id="playerList"></div></div>
+</section>
+
+<!-- MATCHES -->
+<section class="tab" id="tab-matches">
+ <div class="panel">
+  <h2>Create Match</h2>
+  <form id="matchForm" class="formgrid">
+   <div><label>Tournament</label><select name="tournament_id" id="matchTournament" required></select></div>
+   <div><label>Team A</label><select name="team_a_id" id="teamA" required></select></div>
+   <div><label>Team B</label><select name="team_b_id" id="teamB" required></select></div>
+   <div><label>Venue</label><input name="venue"></div>
+   <div><label>Date & Time</label><input name="match_date" type="datetime-local"></div>
+   <div><label>Overs</label><input name="overs" type="number" min="1" value="20" required></div>
+   <div><label>Status</label><select name="status"><option value="upcoming">upcoming</option><option value="live">live</option><option value="completed">completed</option></select></div>
+   <div class="full"><button>Create Match</button></div>
+  </form>
+ </div>
+ <div class="panel"><h3>Match List</h3><div id="matchList"></div></div>
+</section>
+
+<!-- LIVE SCORING -->
+<section class="tab" id="tab-scoring">
+ <div class="panel">
+  <h2>Live Scoring Control</h2>
+  <div class="formgrid">
+   <div><label>Select Match</label><select id="scoreMatch"></select></div>
+   <div><label>Batting Team</label><select id="battingTeam"></select></div>
+   <div><label>Striker</label><select id="striker"></select></div>
+   <div><label>Non-Striker</label><select id="nonStriker"></select></div>
+   <div><label>Bowler</label><select id="bowler"></select></div>
+   <div><label>Innings</label><select id="inningsSelect"></select></div>
+  </div>
+  <div class="row" style="margin-top:12px">
+   <button class="gold" id="startInnings">Start / Select Innings</button>
+   <button class="secondary" id="refreshScoring">Refresh</button>
+  </div>
+ </div>
+
+ <div class="panel">
+  <div class="scorebox">
+   <div class="muted small" id="scoreMatchTitle">Select Match</div>
+   <div class="score" id="adminScore">0/0</div>
+   <div class="overs" id="adminOvers">0.0 Overs</div>
+   <div class="chips"><span class="chip" id="adminRR">RR 0.00</span><span class="chip" id="adminTarget">Target —</span></div>
+  </div>
+
+  <h3 style="margin-top:16px">Add Runs</h3>
+  <div class="runbuttons" id="runButtons">
+   <button data-runs="0">0</button>
+   <button data-runs="1">1</button>
+   <button data-runs="2">2</button>
+   <button data-runs="3">3</button>
+   <button data-runs="4">4</button>
+   <button data-runs="6">6</button>
+  </div>
+
+  <div class="formgrid" style="margin-top:12px">
+   <div><label>Extra Type</label>
+    <select id="extraType">
+     <option value="none">None</option><option value="wide">Wide</option>
+     <option value="no_ball">No Ball</option><option value="bye">Bye</option>
+     <option value="leg_bye">Leg Bye</option>
+    </select>
+   </div>
+   <div><label>Extra Runs</label><input id="extraRuns" type="number" min="0" value="0"></div>
+   <div><label>Wicket?</label><select id="isWicket"><option value="false">No</option><option value="true">Yes</option></select></div>
+   <div><label>Wicket Type</label>
+    <select id="wicketType">
+     <option value="">Select</option><option value="bowled">Bowled</option>
+     <option value="caught">Caught</option><option value="lbw">LBW</option>
+     <option value="run_out">Run Out</option><option value="stumped">Stumped</option>
+     <option value="hit_wicket">Hit Wicket</option><option value="retired_hurt">Retired Hurt</option>
+     <option value="obstructing_field">Obstructing Field</option>
+    </select>
+   </div>
+   <div><label>Dismissed Player</label><select id="dismissedPlayer"></select></div>
+   <div><label>Commentary</label><input id="commentary" placeholder="Beautiful shot!"></div>
+  </div>
+
+  <div class="row" style="margin-top:12px">
+   <button id="saveBall">Save Ball</button>
+   <button class="danger" id="undoBall">↶ Undo Last Ball</button>
+  </div>
+  <div class="notice">Wide / No-ball হলে Extra Runs কমপক্ষে 1 দিন। Striker, Non-striker ও Bowler নির্বাচন করে বল Save করুন।</div>
+ </div>
+
+ <div class="panel">
+  <div class="row"><h3>Ball History</h3><button class="secondary" id="refreshHistory">Refresh</button></div>
+  <div id="history"></div>
+ </div>
+</section>
+
+<!-- SCORECARD -->
+<section class="tab" id="tab-scorecard">
+ <div class="panel">
+  <h2>Match Scorecard</h2>
+  <label>Select Match</label><select id="scorecardMatch"></select>
+  <div id="scorecardContent" style="margin-top:15px"></div>
+ </div>
+</section>
+
+<!-- STREAMING -->
+<section class="tab" id="tab-streaming">
+ <div class="panel">
+  <h2>Streaming Setup</h2>
+  <form id="streamForm" class="formgrid">
+   <div><label>Match</label><select name="match_id" id="streamMatch"></select></div>
+   <div><label>Platform</label><select name="platform"><option>Facebook</option><option>YouTube</option><option>Facebook + YouTube</option><option>Other</option></select></div>
+   <div><label>Watch URL</label><input name="watch_url" type="url" required></div>
+   <div><label>Status</label><select name="status"><option>live</option><option>scheduled</option><option>ended</option></select></div>
+   <div class="full"><button>Save Streaming Link</button></div>
+  </form>
+  <div id="streamList"></div>
+  <div class="notice">এখানে দর্শকদের Watch Link রাখা যাবে। এটি নিজে থেকে Camera Live Broadcast করে না। তার জন্য OBS / Encoder / Streaming Service প্রয়োজন।</div>
+ </div>
+ <div class="panel">
+  <h3>Broadcast Score Overlay</h3>
+  <div class="row"><input id="overlayURL" readonly><button class="secondary" id="copyOverlay">Copy</button></div>
+  <p><a href="?overlay=1" target="_blank" style="color:var(--lime)">Open Overlay Preview ↗</a></p>
+ </div>
+</section>
+
+</div>
+<div class="footer">GFC CRICKET PRO 2026 • Powered by GFC</div>
+</div>
+
+<div id="overlayRoot" class="hidden">
+ <div class="overlay">
+  <div><div class="team" id="ovTeams">GFC CRICKET</div><div class="big" id="ovScore">0/0</div></div>
+  <div style="text-align:right"><div class="big" id="ovOvers">0.0</div><div id="ovRR">RR 0.00</div><div id="ovTarget">TARGET —</div></div>
+ </div>
 </div>
 
 <script>
-/* ==========================================
-   SUPABASE CONFIGURATION
-========================================== */
+/* SUPABASE CONFIG */
+const SUPABASE_URL="https://shlvtaxrkyffdifbjswq.supabase.co";
+const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
+const ADMIN_EMAIL="officework.bolpur@gmail.com";
+const ADMIN_UID="2fd64447-93aa-482c-b64c-c605a4bec732";
 
-const SUPABASE_URL = "https://shlvtaxrkyffdifbjswq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
-const ADMIN_EMAIL = "officework.bolpur@gmail.com";
-const ADMIN_USER_ID = "2fd64447-93aa-482c-b64c-c605a4bec732";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let tournaments=[],teams=[],players=[],matches=[],innings=[],streams=[],deliveries=[];
+let currentMatch=null,currentInnings=null,selectedRuns=0;
 
-let tournaments = [];
-let teams = [];
-let players = [];
-let matches = [];
-let currentMatch = null;
-let currentInnings = null;
-let recoveryMode = false;
-let savingDelivery = false;
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const n=v=>Number(v)||0;
+const legal=d=>!["wide","no_ball"].includes(d.extra_type||"none");
+const runs=d=>n(d.batter_runs)+n(d.extra_runs);
+const overText=b=>`${Math.floor(b/6)}.${b%6}`;
+const teamName=id=>teams.find(t=>t.id===id)?.short_name||teams.find(t=>t.id===id)?.name||"Team";
+const matchName=m=>`${teamName(m.team_a_id)} vs ${teamName(m.team_b_id)}`;
 
-let realtimeChannel = null;
-let realtimeRefreshTimer = null;
-let realtimeStarted = false;
-
-function el(id){return document.getElementById(id)}
-function msg(text){el("loginMsg").textContent=text}
-function adminMsg(text){el("adminMsg").textContent=text}
-
-function safe(value){
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
+function totals(list){
+ return list.reduce((a,d)=>{
+  a.runs+=runs(d);
+  if(d.is_wicket)a.wickets++;
+  if(legal(d))a.balls++;
+  return a;
+ },{runs:0,wickets:0,balls:0});
+}
+function rate(t){return t.balls?(t.runs/(t.balls/6)).toFixed(2):"0.00"}
+function message(e){alert(e.message||String(e))}
+function data(form){return Object.fromEntries(new FormData(form).entries())}
+function options(el,items,label){
+ el.innerHTML='<option value="">Select</option>'+items.map(x=>`<option value="${x.id}">${esc(label(x))}</option>`).join("");
+}
+async function get(table,order="created_at"){
+ const {data,error}=await db.from(table).select("*").order(order,{ascending:false});
+ if(error)throw error;return data||[];
+}
+async function rpc(name,args){
+ const {data,error}=await db.rpc(name,args);
+ if(error)throw error;return data;
 }
 
-function safeHttpUrl(value){
-  try{
-    const u=new URL(String(value||""));
-    return ["http:","https:"].includes(u.protocol)?u.href:"";
-  }catch(e){
-    return "";
-  }
+async function loadAll(){
+ [tournaments,teams,players,matches,innings,streams]=await Promise.all([
+  get("gfc_tournaments"),get("gfc_teams"),get("gfc_players"),
+  get("gfc_matches","match_date"),get("gfc_innings"),get("gfc_stream_sessions")
+ ]);
+
+ $("countT").textContent=tournaments.length;
+ $("countTeam").textContent=teams.length;
+ $("countPlayer").textContent=players.length;
+ $("countMatch").textContent=matches.length;
+
+ options($("teamTournament"),tournaments,x=>x.name);
+ options($("matchTournament"),tournaments,x=>x.name);
+ options($("playerTeam"),teams,x=>x.name);
+ options($("teamA"),teams,x=>x.name);
+ options($("teamB"),teams,x=>x.name);
+
+ const matchOptions=x=>matchName(x)+" • "+(x.status||"");
+ ["scoreMatch","scorecardMatch","streamMatch"].forEach(id=>options($(id),matches,matchOptions));
+
+ $("tournamentList").innerHTML=tournaments.map(t=>`
+  <div class="item"><div><b>${esc(t.name)}</b><small>${esc(t.season||"")} • ${esc(t.venue||"")} • ${esc(t.status||"")}</small></div></div>`).join("")||"No tournaments";
+
+ $("teamList").innerHTML=teams.map(t=>`
+  <div class="item"><div><b>${esc(t.name)}</b><small>${esc(t.short_name||"")}</small></div></div>`).join("")||"No teams";
+
+ $("playerList").innerHTML=players.map(p=>`
+  <div class="item"><div><b>${esc(p.name)}</b><small>${esc(teamName(p.team_id))} • ${esc(p.role||"")} • #${esc(p.jersey_number??"—")}</small></div></div>`).join("")||"No players";
+
+ $("matchList").innerHTML=matches.map(m=>`
+  <div class="item"><div><b>${esc(matchName(m))}</b><small>${esc(m.venue||"")} • ${m.overs} overs • ${esc(m.status||"")}</small></div>
+  <button class="secondary" onclick="openMatch('${m.id}')">Score</button></div>`).join("")||"No matches";
+
+ $("liveList").innerHTML=matches.filter(m=>m.status==="live").map(m=>`
+  <div class="item"><b>${esc(matchName(m))}</b><button class="secondary" onclick="openMatch('${m.id}')">Open</button></div>`).join("")||"No live matches";
+
+ $("streamList").innerHTML=streams.map(s=>`
+  <div class="item"><div><b>${esc(s.platform)}</b><small>${esc(s.status)}</small></div>
+  <a href="${esc(s.watch_url)}" target="_blank" rel="noopener">Watch ↗</a></div>`).join("");
+
+ $("overlayURL").value=location.href.split("?")[0]+"?overlay=1";
+ await renderPublic();
 }
 
-function setRealtimeStatus(status){
-  const labels={
-    CONNECTING:"Realtime: Connecting...",
-    SUBSCRIBED:"Realtime: Connected ✓",
-    CHANNEL_ERROR:"Realtime: Connection Error",
-    TIMED_OUT:"Realtime: Timed Out",
-    CLOSED:"Realtime: Disconnected"
-  };
-  const label=labels[status]||"Realtime: "+status;
-  if(el("realtimeStatus"))el("realtimeStatus").textContent=label;
-  if(el("publicRealtimeStatus"))el("publicRealtimeStatus").textContent=label;
+async function loadMatch(id){
+ currentMatch=matches.find(m=>m.id===id)||null;
+ if(!currentMatch)return;
+
+ const ins=innings.filter(i=>i.match_id===id).sort((a,b)=>a.innings_no-b.innings_no);
+ options($("inningsSelect"),ins,i=>`Innings ${i.innings_no} • ${teamName(i.batting_team_id)}`);
+ currentInnings=ins[ins.length-1]||null;
+
+ $("battingTeam").innerHTML=[currentMatch.team_a_id,currentMatch.team_b_id].map(id=>
+  `<option value="${id}">${esc(teamName(id))}</option>`).join("");
+
+ $("battingTeam").value=currentInnings?.batting_team_id||currentMatch.batting_team_id||currentMatch.team_a_id;
+ fillPlayers($("battingTeam").value);
+
+ if(currentInnings){
+  $("inningsSelect").value=currentInnings.id;
+  const {data,error}=await db.from("gfc_deliveries").select("*")
+   .eq("innings_id",currentInnings.id).order("created_at",{ascending:true});
+  if(error)throw error;
+  deliveries=data||[];
+ }else deliveries=[];
+
+ renderScoring();
+ renderHistory();
+ renderScorecard();
 }
 
-/* ==========================================
-   AUTHENTICATION
-========================================== */
-
-async function login(){
-  const email=el("email").value.trim();
-  const password=el("password").value;
-
-  if(email.toLowerCase()!==ADMIN_EMAIL.toLowerCase()){
-    msg("Only authorized admin email is allowed.");
-    return;
-  }
-  if(!password){
-    msg("Enter password.");
-    return;
-  }
-
-  const {data,error}=await db.auth.signInWithPassword({email,password});
-
-  if(error){
-    msg(error.message);
-    return;
-  }
-
-  if(data.user?.id!==ADMIN_USER_ID){
-    await db.auth.signOut();
-    msg("This account is not the authorized GFC Admin.");
-    return;
-  }
-
-  msg("Login successful.");
-  await checkAuth();
+function fillPlayers(teamId){
+ const list=players.filter(p=>p.team_id===teamId);
+ ["striker","nonStriker","bowler","dismissedPlayer"].forEach(id=>
+  options($(id),list,p=>p.name));
 }
 
-async function logout(){
-  stopRealtime();
-  await db.auth.signOut();
-  location.reload();
+window.openMatch=async id=>{
+ $("scoreMatch").value=id;
+ $("scorecardMatch").value=id;
+ await loadMatch(id);
+ document.querySelector('[data-tab="scoring"]').click();
+};
+
+function renderScoring(){
+ const t=totals(deliveries);
+ $("adminScore").textContent=`${t.runs}/${t.wickets}`;
+ $("adminOvers").textContent=overText(t.balls)+" Overs";
+ $("adminRR").textContent="RR "+rate(t);
+ $("adminTarget").textContent=currentInnings?.target?"Target "+currentInnings.target:"Target —";
+ $("scoreMatchTitle").textContent=currentMatch?matchName(currentMatch):"Select Match";
+ renderPublic();
 }
 
-async function forgotPassword(){
-  const email=el("email").value.trim();
+async function renderPublic(){
+ let m=matches.find(x=>x.status==="live")||currentMatch;
+ if(!m)return;
+ let i=innings.filter(x=>x.match_id===m.id).sort((a,b)=>b.innings_no-a.innings_no)[0];
+ let list=[];
+ if(i){
+  const {data,error}=await db.from("gfc_deliveries").select("*").eq("innings_id",i.id);
+  if(error)throw error;list=data||[];
+ }
+ const t=totals(list);
+ $("publicMatch").textContent=matchName(m);
+ $("publicScore").textContent=`${t.runs}/${t.wickets}`;
+ $("publicOvers").textContent=overText(t.balls)+" Overs";
+ $("publicTeams").textContent=matchName(m);
+ $("publicRR").textContent="RR "+rate(t);
+ $("publicTarget").textContent=i?.target?"Target "+i.target:"Target —";
+}
 
-  if(email.toLowerCase()!==ADMIN_EMAIL.toLowerCase()){
-    msg("Enter your Admin Email First.");
-    return;
-  }
+function renderHistory(){
+ $("history").innerHTML=[...deliveries].reverse().map(d=>`
+  <div class="item">
+   <div><b>${runs(d)} Run${d.is_wicket?" • WICKET":""}</b>
+    <small>${esc(d.extra_type||"none")} ${esc(d.commentary||"")}</small>
+   </div>
+   <div class="row" style="flex:0 0 auto">
+    <button class="gold" onclick="editBall('${d.id}')">Edit</button>
+    <button class="danger" onclick="deleteBall('${d.id}')">Delete</button>
+   </div>
+  </div>`).join("")||'<p class="muted">No deliveries yet.</p>';
+}
 
-  const {error}=await db.auth.resetPasswordForEmail(email,{
-    redirectTo:window.location.origin+window.location.pathname
+function renderScorecard(){
+ if(!currentMatch){$("scorecardContent").textContent="Select a match";return}
+ const ins=innings.filter(i=>i.match_id===currentMatch.id).sort((a,b)=>a.innings_no-b.innings_no);
+
+ $("scorecardContent").innerHTML=ins.map(i=>{
+  const ds=deliveries.filter(d=>d.innings_id===i.id);
+  const t=totals(ds),bat={},bowl={};
+
+  ds.forEach(d=>{
+   if(d.striker_id){
+    let p=bat[d.striker_id]||(bat[d.striker_id]={r:0,b:0,f:0,s:0});
+    p.r+=n(d.batter_runs);if(legal(d))p.b++;
+    if(n(d.batter_runs)===4)p.f++;if(n(d.batter_runs)===6)p.s++;
+   }
+   if(d.bowler_id){
+    let p=bowl[d.bowler_id]||(bowl[d.bowler_id]={r:0,b:0,w:0});
+    p.r+=runs(d);if(legal(d))p.b++;
+    if(d.is_wicket&&!["run_out","retired_hurt","obstructing_field"].includes(d.wicket_type))p.w++;
+   }
   });
 
-  if(error){
-    msg(error.message);
-    return;
-  }
-
-  msg("Password Reset Link Sent. Check Your Email.");
+  return `
+  <h3>Innings ${i.innings_no} — ${esc(teamName(i.batting_team_id))}</h3>
+  <div class="chips">
+   <span class="chip">${t.runs}/${t.wickets}</span>
+   <span class="chip">${overText(t.balls)} Overs</span>
+   <span class="chip">RR ${rate(t)}</span>
+  </div>
+  <h3 style="margin-top:15px">Batting</h3>
+  <div class="tablewrap"><table>
+   <tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr>
+   ${Object.entries(bat).map(([id,p])=>`
+    <tr><td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td>
+    <td>${p.r}</td><td>${p.b}</td><td>${p.f}</td><td>${p.s}</td>
+    <td>${p.b?(p.r/p.b*100).toFixed(1):"0.0"}</td></tr>`).join("")||'<tr><td colspan="6">No batting data</td></tr>'}
+  </table></div>
+  <h3 style="margin-top:15px">Bowling</h3>
+  <div class="tablewrap"><table>
+   <tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>Eco</th></tr>
+   ${Object.entries(bowl).map(([id,p])=>`
+    <tr><td>${esc(players.find(x=>x.id===id)?.name||"Player")}</td>
+    <td>${overText(p.b)}</td><td>${p.r}</td><td>${p.w}</td>
+    <td>${p.b?(p.r/(p.b/6)).toFixed(2):"0.00"}</td></tr>`).join("")||'<tr><td colspan="5">No bowling data</td></tr>'}
+  </table></div>`;
+ }).join("")||"No innings created.";
 }
 
-async function updatePassword(){
-  const password=el("newPassword").value;
+/* CREATE DATA */
+async function insertForm(form,table,convert){
+ form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  try{
+   const d=data(form);if(convert)convert(d);
+   const {error}=await db.from(table).insert(d);
+   if(error)throw error;
+   form.reset();await loadAll();alert("Saved successfully");
+  }catch(x){message(x)}
+ });
+}
+insertForm($("tournamentForm"),"gfc_tournaments");
+insertForm($("teamForm"),"gfc_teams");
+insertForm($("playerForm"),"gfc_players",d=>{d.jersey_number=d.jersey_number?n(d.jersey_number):null});
+insertForm($("matchForm"),"gfc_matches",d=>{
+ d.overs=n(d.overs);
+ d.match_date=d.match_date?new Date(d.match_date).toISOString():new Date().toISOString();
+});
+insertForm($("streamForm"),"gfc_stream_sessions");
 
-  if(password.length<8){
-    msg("Password must be at least 8 characters.");
-    return;
-  }
+/* INNINGS */
+async function startInnings(){
+ const matchId=$("scoreMatch").value,bat=$("battingTeam").value;
+ if(!matchId||!bat)throw Error("Match ও Batting Team নির্বাচন করুন");
 
-  const {error}=await db.auth.updateUser({password});
+ let existing=innings.filter(i=>i.match_id===matchId&&i.batting_team_id===bat)
+  .sort((a,b)=>b.innings_no-a.innings_no)[0];
 
-  if(error){
-    msg(error.message);
-    return;
-  }
-
-  msg("Password Updated Successfully. Please Login.");
-  recoveryMode=false;
-  el("resetBox").classList.add("hidden");
-  await db.auth.signOut();
+ if(existing){
+  currentInnings=existing;
+ }else{
+  const no=innings.filter(i=>i.match_id===matchId).length+1;
+  const {data,error}=await db.from("gfc_innings").insert({
+   match_id:matchId,innings_no:no,batting_team_id:bat,
+   total_runs:0,wickets:0,legal_balls:0
+  }).select().single();
+  if(error)throw error;
+  currentInnings=data;
+  const {error:matchError}=await db.from("gfc_matches")
+   .update({batting_team_id:bat,status:"live"}).eq("id",matchId);
+  if(matchError)throw matchError;
+ }
+ await loadAll();
+ await loadMatch(matchId);
 }
 
-async function checkAuth(){
-  if(recoveryMode)return;
+/* SAVE DELIVERY USING SQL RPC */
+async function saveBall(runsValue,deliveryId=null,existingPayload=null){
+ if(!currentInnings)throw Error("প্রথমে Start / Select Innings করুন");
 
-  const {data:{session}}=await db.auth.getSession();
-  const user=session?.user;
+ let payload=existingPayload;
+ if(!payload){
+  const striker=$("striker").value;
+  const non=$("nonStriker").value;
+  const bowler=$("bowler").value;
+  const extraType=$("extraType").value;
+  const extraRuns=n($("extraRuns").value);
+  const wicket=$("isWicket").value==="true";
 
-  if(user &&
-     user.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase() &&
-     user.id===ADMIN_USER_ID){
+  if(!striker||!non||!bowler)throw Error("Striker, Non-striker ও Bowler নির্বাচন করুন");
+  if(striker===non)throw Error("Striker ও Non-striker আলাদা হতে হবে");
+  if(["wide","no_ball"].includes(extraType)&&extraRuns<1)
+   throw Error("Wide / No Ball Extra Runs কমপক্ষে 1 দিন");
 
-    el("loginBox").classList.add("hidden");
-    el("adminPanel").classList.remove("hidden");
-    el("adminEmail").textContent=user.email;
+  payload={
+   batter_runs:n(runsValue),
+   extra_type:extraType,
+   extra_runs:extraRuns,
+   is_wicket:wicket,
+   wicket_type:wicket?$("wicketType").value:null,
+   commentary:$("commentary").value||null,
+   striker_id:striker,
+   non_striker_id:non,
+   bowler_id:bowler,
+   dismissed_player_id:wicket?($("dismissedPlayer").value||striker):null
+  };
+  if(wicket&&!payload.wicket_type)throw Error("Wicket Type নির্বাচন করুন");
+ }
 
-    await refreshAll();
-    startRealtime();
+ await rpc("gfc_save_delivery",{
+  p_innings_id:currentInnings.id,
+  p_payload:payload,
+  p_delivery_id:deliveryId
+ });
 
-  }else{
-    el("loginBox").classList.remove("hidden");
-    el("adminPanel").classList.add("hidden");
-
-    if(user)await db.auth.signOut();
-  }
+ $("commentary").value="";
+ $("extraType").value="none";
+ $("extraRuns").value="0";
+ $("isWicket").value="false";
+ $("wicketType").value="";
+ await loadMatch(currentMatch.id);
 }
 
-db.auth.onAuthStateChange((event,session)=>{
-  if(event==="PASSWORD_RECOVERY"){
-    recoveryMode=true;
-    el("loginBox").classList.remove("hidden");
-    el("adminPanel").classList.add("hidden");
-    el("resetBox").classList.remove("hidden");
-    msg("Enter Your New Admin Password.");
-    return;
-  }
+/* EDIT OLD BALL */
+window.editBall=async id=>{
+ const d=deliveries.find(x=>x.id===id);if(!d)return;
+ const batter=prompt("Batter Runs (0,1,2,3,4,6)",d.batter_runs);
+ if(batter===null)return;
+ const type=prompt("Extra Type: none / wide / no_ball / bye / leg_bye",d.extra_type||"none");
+ if(type===null)return;
+ const extra=prompt("Extra Runs",d.extra_runs||0);if(extra===null)return;
+ const commentary=prompt("Commentary",d.commentary||"");if(commentary===null)return;
 
-  if(event==="SIGNED_OUT"){
-    recoveryMode=false;
-  }
+ const payload={
+  batter_runs:n(batter),extra_type:type,extra_runs:n(extra),
+  is_wicket:!!d.is_wicket,wicket_type:d.wicket_type,
+  commentary:commentary,
+  striker_id:d.striker_id,non_striker_id:d.non_striker_id,
+  bowler_id:d.bowler_id,dismissed_player_id:d.dismissed_player_id
+ };
+ try{
+  await saveBall(0,id,payload);
+  alert("Delivery updated");
+ }catch(e){message(e)}
+};
 
-  setTimeout(checkAuth,0);
+window.deleteBall=async id=>{
+ if(!confirm("এই বল Delete করবেন? Audit Log-এ রেকর্ড থাকবে।"))return;
+ try{
+  await rpc("gfc_delete_delivery",{p_delivery_id:id});
+  await loadMatch(currentMatch.id);
+ }catch(e){message(e)}
+};
+
+/* BUTTON EVENTS */
+$("nav").addEventListener("click",e=>{
+ const b=e.target.closest("[data-tab]");if(!b)return;
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x===b));
+ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.id==="tab-"+b.dataset.tab));
 });
 
-/* ==========================================
-   REALTIME SYNC
-========================================== */
+$("scoreMatch").onchange=()=>loadMatch($("scoreMatch").value).catch(message);
+$("scorecardMatch").onchange=()=>loadMatch($("scorecardMatch").value).catch(message);
+$("battingTeam").onchange=()=>fillPlayers($("battingTeam").value);
+$("inningsSelect").onchange=async()=>{
+ currentInnings=innings.find(i=>i.id===$("inningsSelect").value)||null;
+ if(currentInnings){
+  const {data,error}=await db.from("gfc_deliveries").select("*")
+   .eq("innings_id",currentInnings.id).order("created_at");
+  if(error)return message(error);
+  deliveries=data||[];renderScoring();renderHistory();renderScorecard();
+ }
+};
+$("startInnings").onclick=()=>startInnings().catch(message);
+$("refreshScoring").onclick=()=>currentMatch&&loadMatch(currentMatch.id).catch(message);
+$("refreshHistory").onclick=()=>currentMatch&&loadMatch(currentMatch.id).catch(message);
+$("runButtons").onclick=e=>{
+ const b=e.target.closest("[data-runs]");if(!b)return;
+ selectedRuns=n(b.dataset.runs);
+ saveBall(selectedRuns).catch(message);
+};
+$("saveBall").onclick=()=>saveBall(selectedRuns).catch(message);
+$("undoBall").onclick=async()=>{
+ if(!currentInnings)return alert("Innings নির্বাচন করুন");
+ if(!confirm("সর্বশেষ বল Undo করবেন?"))return;
+ try{
+  await rpc("gfc_undo_last_delivery",{p_innings_id:currentInnings.id});
+  await loadMatch(currentMatch.id);
+ }catch(e){message(e)}
+};
+$("refreshPublic").onclick=()=>loadAll().catch(message);
 
-function startRealtime(){
-  if(realtimeStarted)return;
+/* LOGIN */
+async function login(){
+ const {data,error}=await db.auth.signInWithPassword({
+  email:$("email").value.trim(),password:$("password").value
+ });
+ if(error)throw error;
+ if(data.user.email!==ADMIN_EMAIL||data.user.id!==ADMIN_UID){
+  await db.auth.signOut();throw Error("এই Account Admin হিসেবে অনুমোদিত নয়");
+ }
+ showApp();
+}
+function showApp(){
+ $("loginPanel").classList.add("hidden");
+ $("main").classList.remove("hidden");
+ $("logout").classList.remove("hidden");
+ loadAll().catch(message);
+}
+$("loginBtn").onclick=()=>login().catch(e=>{
+ $("loginMessage").textContent=e.message;
+ $("loginMessage").classList.remove("hidden");
+});
+$("forgotBtn").onclick=async()=>{
+ const email=$("email").value.trim();if(!email)return alert("Email দিন");
+ const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+ alert(error?error.message:"Password reset email পাঠানো হয়েছে। Inbox দেখুন।");
+};
+$("logout").onclick=async()=>{await db.auth.signOut();location.reload()};
+$("copyOverlay").onclick=async()=>{
+ try{await navigator.clipboard.writeText($("overlayURL").value);alert("Overlay URL copied")}
+ catch(e){alert("Copy করতে পারেননি")}
+};
 
-  realtimeStarted=true;
-  setRealtimeStatus("CONNECTING");
-
-  realtimeChannel=db.channel("gfc-cricket-pro-live-sync")
-
-    .on("postgres_changes",{
-      event:"*",schema:"public",table:"gfc_tournaments"
-    },scheduleRealtimeRefresh)
-
-    .on("postgres_changes",{
-      event:"*",schema:"public",table:"gfc_teams"
-    },scheduleRealtimeRefresh)
-
-    .on("postgres_changes",{
-      event:"*",schema:"public",table:"gfc_players"
-    },scheduleRealtimeRefresh)
-
-    .on("postgres_changes",{
-      event:"*",schema:"public",table:"gfc_matches"
-    },scheduleRealtimeRefresh)
-
-    .on("postgres_changes",{
-      event:"*",schema:"public",table:"gfc_innings"
-    },scheduleRealtimeRefresh)
-
-    .on("postgres_changes",{
-      event:"*",schema:"public",table:"gfc_deliveries"
-    },scheduleRealtimeRefresh)
-
-    .on("postgres_changes",{
-      event:"*",schema:"public",table:"gfc_stream_sessions"
-    },scheduleRealtimeRefresh)
-
-    .subscribe(status=>{
-      setRealtimeStatus(status);
-      console.log("GFC Realtime:",status);
-    });
+async function checkSession(){
+ const {data}=await db.auth.getSession();
+ const u=data.session?.user;
+ if(u?.email===ADMIN_EMAIL&&u?.id===ADMIN_UID)showApp();
 }
 
-function scheduleRealtimeRefresh(){
-  if(realtimeRefreshTimer)clearTimeout(realtimeRefreshTimer);
-
-  realtimeRefreshTimer=setTimeout(async()=>{
-    try{
-      await loadPublicData();
-
-      const {data:{session}}=await db.auth.getSession();
-      const user=session?.user;
-
-      if(user &&
-         user.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase() &&
-         user.id===ADMIN_USER_ID){
-
-        await refreshAll(false);
-
-        if(currentMatch){
-          const updated=matches.find(m=>m.id===currentMatch.id);
-
-          if(updated){
-            currentMatch=updated;
-            await loadCurrentInnings();
-          }
-        }
-      }
-
-      await loadPublicScore();
-
-    }catch(error){
-      console.error("Realtime refresh error:",error);
-    }
-  },500);
-}
-
-function stopRealtime(){
-  if(realtimeRefreshTimer){
-    clearTimeout(realtimeRefreshTimer);
-    realtimeRefreshTimer=null;
-  }
-
-  if(realtimeChannel){
-    db.removeChannel(realtimeChannel);
-    realtimeChannel=null;
-  }
-
-  realtimeStarted=false;
-  setRealtimeStatus("CLOSED");
-}
-
-/* ==========================================
-   NAVIGATION
-========================================== */
-
-function showTab(name){
-  document.querySelectorAll(".tab").forEach(x=>x.classList.add("hidden"));
-  el("tab-"+name).classList.remove("hidden");
-
-  if(name==="scoring")loadScoring();
-  if(name==="streaming")loadStreams();
-}
-
-/* ==========================================
-   PUBLIC DATA
-   IMPORTANT: Public users also need team
-   and tournament data to show correct names.
-========================================== */
-
-async function loadPublicData(){
-  const results=await Promise.all([
-    db.from("gfc_tournaments").select("*").order("created_at",{ascending:false}),
-    db.from("gfc_teams").select("*").order("created_at",{ascending:false}),
-    db.from("gfc_matches").select("*").order("created_at",{ascending:false})
-  ]);
-
-  const [tResult,teamResult,matchResult]=results;
-
-  if(tResult.error)console.error("Public tournaments:",tResult.error.message);
-  else tournaments=tResult.data||[];
-
-  if(teamResult.error)console.error("Public teams:",teamResult.error.message);
-  else teams=teamResult.data||[];
-
-  if(matchResult.error){
-    console.error("Public matches:",matchResult.error.message);
-    el("publicScore").innerHTML="<p class='small'>Could not load matches. Check public SELECT permissions.</p>";
-    return;
-  }
-
-  matches=matchResult.data||[];
-
-  fillPublicMatchSelect();
-  await loadPublicScore();
-}
-
-/* ==========================================
-   LOAD ADMIN DATA
-========================================== */
-
-async function refreshAll(showMessage=true){
-  await Promise.all([
-    loadTournaments(),
-    loadTeams(),
-    loadPlayers(),
-    loadMatches()
-  ]);
-
-  await loadStreams();
-  updateStats();
-
-  if(showMessage)adminMsg("Data refreshed successfully.");
-}
-
-async function loadTournaments(){
-  const {data,error}=await db.from("gfc_tournaments")
-    .select("*").order("created_at",{ascending:false});
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  tournaments=data||[];
-  renderTournaments();
-  fillTournamentSelects();
-}
-
-async function loadTeams(){
-  const {data,error}=await db.from("gfc_teams")
-    .select("*").order("created_at",{ascending:false});
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  teams=data||[];
-  renderTeams();
-  fillTeamSelects();
-}
-
-async function loadPlayers(){
-  const {data,error}=await db.from("gfc_players")
-    .select("*").order("created_at",{ascending:false});
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  players=data||[];
-  renderPlayers();
-}
-
-async function loadMatches(){
-  const {data,error}=await db.from("gfc_matches")
-    .select("*").order("created_at",{ascending:false});
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  matches=data||[];
-  renderMatches();
-  fillMatchSelects();
-  fillPublicMatchSelect();
-}
-
-function updateStats(){
-  el("tournamentCount").textContent=tournaments.length;
-  el("teamCount").textContent=teams.length;
-  el("playerCount").textContent=players.length;
-  el("matchCount").textContent=matches.length;
-}
-
-function tournamentName(id){
-  return tournaments.find(x=>x.id===id)?.name||"Tournament";
-}
-
-function teamName(id){
-  return teams.find(x=>x.id===id)?.name||"Team";
-}
-
-function matchName(m){
-  return teamName(m.team_a_id)+" vs "+teamName(m.team_b_id);
-}
-
-/* ==========================================
-   TOURNAMENT
-========================================== */
-
-async function createTournament(){
-  const name=el("tName").value.trim();
-
-  if(!name){
-    adminMsg("Enter tournament name.");
-    return;
-  }
-
-  const payload={
-    name,
-    season:el("tSeason").value.trim(),
-    venue:el("tVenue").value.trim(),
-    start_date:el("tDate").value||null,
-    status:el("tStatus").value
-  };
-
-  const {error}=await db.from("gfc_tournaments").insert(payload);
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  el("tName").value="";
-  el("tSeason").value="";
-  el("tVenue").value="";
-  el("tDate").value="";
-
-  adminMsg("Tournament created successfully.");
-  await loadTournaments();
-  updateStats();
-  await loadPublicData();
-}
-
-function renderTournaments(){
-  el("tournamentList").innerHTML=tournaments.map(t=>`
-    <div class="item">
-      <strong>${safe(t.name)}</strong>
-      <div class="small">${safe(t.season||"")} • ${safe(t.venue||"")}</div>
-      <div class="small">Status: ${safe(t.status||"")}</div>
-    </div>
-  `).join("")||"<p class='small'>No tournaments yet.</p>";
-}
-
-function fillTournamentSelects(){
-  ["teamTournament","matchTournament"].forEach(id=>{
-    const s=el(id);
-    if(!s)return;
-
-    const old=s.value;
-
-    s.innerHTML='<option value="">Select Tournament</option>'+
-      tournaments.map(t=>
-        `<option value="${safe(t.id)}">${safe(t.name)}</option>`
-      ).join("");
-
-    if(old)s.value=old;
-  });
-}
-
-/* ==========================================
-   TEAMS
-========================================== */
-
-async function createTeam(){
-  const name=el("teamName").value.trim();
-  const tournament_id=el("teamTournament").value;
-
-  if(!name||!tournament_id){
-    adminMsg("Select tournament and enter team name.");
-    return;
-  }
-
-  const {error}=await db.from("gfc_teams").insert({
-    tournament_id,
-    name,
-    short_name:el("teamShort").value.trim(),
-    logo_url:el("teamLogo").value.trim()||null
-  });
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  el("teamName").value="";
-  el("teamShort").value="";
-  el("teamLogo").value="";
-
-  adminMsg("Team added successfully.");
-  await loadTeams();
-  updateStats();
-  await loadPublicData();
-}
-
-function renderTeams(){
-  el("teamList").innerHTML=teams.map(t=>`
-    <div class="item">
-      <strong>${safe(t.name)}</strong>
-      <div class="small">${safe(t.short_name||"")} • ${safe(tournamentName(t.tournament_id))}</div>
-    </div>
-  `).join("")||"<p class='small'>No teams yet.</p>";
-}
-
-function fillTeamSelects(){
-  ["playerTeam","teamA","teamB","battingTeam"].forEach(id=>{
-    const s=el(id);
-    if(!s)return;
-
-    const old=s.value;
-
-    s.innerHTML='<option value="">Select Team</option>'+
-      teams.map(t=>
-        `<option value="${safe(t.id)}">${safe(t.name)}</option>`
-      ).join("");
-
-    if(old)s.value=old;
-  });
-}
-
-/* ==========================================
-   PLAYERS
-========================================== */
-
-async function createPlayer(){
-  const name=el("playerName").value.trim();
-  const team_id=el("playerTeam").value;
-
-  if(!name||!team_id){
-    adminMsg("Select team and enter player name.");
-    return;
-  }
-
-  const jerseyValue=el("jersey").value;
-
-  const {error}=await db.from("gfc_players").insert({
-    team_id,
-    name,
-    jersey_number:jerseyValue?Number(jerseyValue):null,
-    role:el("playerRole").value,
-    photo_url:el("playerPhoto").value.trim()||null
-  });
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  el("playerName").value="";
-  el("jersey").value="";
-  el("playerPhoto").value="";
-
-  adminMsg("Player added successfully.");
-  await loadPlayers();
-  updateStats();
-}
-
-function renderPlayers(){
-  el("playerList").innerHTML=players.map(p=>`
-    <div class="item">
-      <strong>${safe(p.name)}</strong>
-      <div class="small">${safe(teamName(p.team_id))} • Jersey: ${safe(p.jersey_number??"-")} • ${safe(p.role||"")}</div>
-    </div>
-  `).join("")||"<p class='small'>No players yet.</p>";
-}
-
-/* ==========================================
-   MATCHES
-========================================== */
-
-async function createMatch(){
-  const tournament_id=el("matchTournament").value;
-  const team_a_id=el("teamA").value;
-  const team_b_id=el("teamB").value;
-
-  if(!tournament_id||!team_a_id||!team_b_id){
-    adminMsg("Select tournament and both teams.");
-    return;
-  }
-
-  if(team_a_id===team_b_id){
-    adminMsg("Please select two different teams.");
-    return;
-  }
-
-  const dateValue=el("matchDate").value;
-  const overs=Number(el("matchOvers").value);
-
-  if(!Number.isInteger(overs)||overs<1){
-    adminMsg("Enter a valid number of overs.");
-    return;
-  }
-
-  const {error}=await db.from("gfc_matches").insert({
-    tournament_id,
-    team_a_id,
-    team_b_id,
-    venue:el("matchVenue").value.trim(),
-    match_date:dateValue?new Date(dateValue).toISOString():null,
-    overs,
-    status:el("matchStatus").value
-  });
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  adminMsg("Match created successfully.");
-  el("matchVenue").value="";
-  await loadMatches();
-  updateStats();
-  await loadPublicData();
-}
-
-function renderMatches(){
-  el("matchList").innerHTML=matches.map(m=>`
-    <div class="item">
-      <strong>${safe(matchName(m))}</strong>
-      <div class="small">${safe(tournamentName(m.tournament_id))}</div>
-      <div class="small">${safe(m.venue||"")} • ${safe(m.overs||"")} Overs • ${safe(m.status||"")}</div>
-    </div>
-  `).join("")||"<p class='small'>No matches created.</p>";
-}
-
-function fillMatchSelects(){
-  ["scoreMatch","streamMatch"].forEach(id=>{
-    const s=el(id);
-    if(!s)return;
-
-    const old=s.value;
-
-    s.innerHTML='<option value="">Select Match</option>'+
-      matches.map(m=>
-        `<option value="${safe(m.id)}">${safe(matchName(m))}</option>`
-      ).join("");
-
-    if(old)s.value=old;
-  });
-
-  fillPublicMatchSelect();
-}
-
-function fillPublicMatchSelect(){
-  const s=el("publicMatch");
-  if(!s)return;
-
-  const old=s.value;
-
-  s.innerHTML='<option value="">Select Match</option>'+
-    matches.map(m=>
-      `<option value="${safe(m.id)}">${safe(matchName(m))}</option>`
-    ).join("");
-
-  if(old&&matches.some(m=>m.id===old)){
-    s.value=old;
-  }else{
-    const live=matches.find(m=>m.status==="live");
-    if(live)s.value=live.id;
-    else if(matches.length)s.value=matches[0].id;
-  }
-}
-
-/* ==========================================
-   LIVE SCORING
-========================================== */
-
-function setRuns(n){
-  el("batterRuns").value=n;
-}
-
-async function loadScoring(){
-  const matchId=el("scoreMatch").value;
-
-  if(!matchId){
-    el("scoringArea").classList.add("hidden");
-    currentMatch=null;
-    currentInnings=null;
-    return;
-  }
-
-  currentMatch=matches.find(m=>m.id===matchId);
-
-  if(!currentMatch)return;
-
-  el("scoringArea").classList.remove("hidden");
-
-  const batting=el("battingTeam");
-
-  batting.innerHTML=[
-    `<option value="${safe(currentMatch.team_a_id)}">${safe(teamName(currentMatch.team_a_id))}</option>`,
-    `<option value="${safe(currentMatch.team_b_id)}">${safe(teamName(currentMatch.team_b_id))}</option>`
-  ].join("");
-
-  await loadCurrentInnings();
-}
-
-async function loadCurrentInnings(){
-  if(!currentMatch)return;
-
-  const {data,error}=await db.from("gfc_innings")
-    .select("*")
-    .eq("match_id",currentMatch.id)
-    .order("innings_no",{ascending:false})
-    .limit(1);
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  currentInnings=data?.[0]||null;
-
-  if(currentInnings){
-    el("battingTeam").value=currentInnings.batting_team_id;
-    el("inningsNo").value=currentInnings.innings_no;
-    el("currentInningsInfo").textContent=
-      "Current Innings: "+currentInnings.innings_no+
-      " • "+teamName(currentInnings.batting_team_id);
-  }else{
-    el("currentInningsInfo").textContent="No innings started yet.";
-    el("scoreTeam").textContent="TEAM";
-    el("scoreRuns").textContent="0/0";
-    el("scoreOvers").textContent="0.0 Overs";
-    el("deliveryList").innerHTML="";
-  }
-
-  await displayScore();
-}
-
-async function startInnings(){
-  if(!currentMatch){
-    adminMsg("Select a match first.");
-    return;
-  }
-
-  const innings_no=Number(el("inningsNo").value)||1;
-  const batting_team_id=el("battingTeam").value;
-
-  if(!batting_team_id){
-    adminMsg("Select batting team.");
-    return;
-  }
-
-  if(
-    batting_team_id!==currentMatch.team_a_id &&
-    batting_team_id!==currentMatch.team_b_id
-  ){
-    adminMsg("Select one of the two teams in this match.");
-    return;
-  }
-
-  const {data:existing,error:checkError}=await db.from("gfc_innings")
-    .select("id")
-    .eq("match_id",currentMatch.id)
-    .eq("innings_no",innings_no)
-    .maybeSingle();
-
-  if(checkError){
-    adminMsg(checkError.message);
-    return;
-  }
-
-  if(existing){
-    adminMsg("This innings already exists.");
-    return;
-  }
-
-  const {error}=await db.from("gfc_innings").insert({
-    match_id:currentMatch.id,
-    innings_no,
-    batting_team_id,
-    total_runs:0,
-    wickets:0,
-    legal_balls:0,
-    wides:0,
-    no_balls:0,
-    byes:0,
-    leg_byes:0
-  });
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  const {error:matchError}=await db.from("gfc_matches").update({
-    batting_team_id,
-    status:"live"
-  }).eq("id",currentMatch.id);
-
-  if(matchError){
-    adminMsg("Innings created, but match status update failed: "+matchError.message);
-  }else{
-    adminMsg("Innings started.");
-  }
-
-  await loadMatches();
-  currentMatch=matches.find(m=>m.id===currentMatch.id);
-  await loadCurrentInnings();
-  await loadPublicData();
-}
-
-async function addDelivery(){
-  if(savingDelivery)return;
-
-  if(!currentMatch||!currentInnings){
-    adminMsg("Start an innings first.");
-    return;
-  }
-
-  const batterRuns=Number(el("batterRuns").value);
-  const extraType=el("extraType").value;
-  const extraRuns=Number(el("extraRuns").value);
-  const isWicket=el("isWicket").value==="true";
-
-  if(!Number.isInteger(batterRuns)||batterRuns<0||batterRuns>6){
-    adminMsg("Batter runs must be between 0 and 6.");
-    return;
-  }
-
-  if(!Number.isInteger(extraRuns)||extraRuns<0){
-    adminMsg("Enter valid extra runs.");
-    return;
-  }
-
-  if(extraType==="none"&&extraRuns>0){
-    adminMsg("Choose an extra type for extra runs.");
-    return;
-  }
-
-  if(
-    extraType!=="none"&&
-    batterRuns>0&&
-    ["wide","bye","leg_bye"].includes(extraType)
-  ){
-    adminMsg("For this extra type, enter batter runs as zero.");
-    return;
-  }
-
-  const legal=!(extraType==="wide"||extraType==="no_ball");
-  const total=batterRuns+extraRuns;
-  const old=currentInnings;
-
-  const legalBefore=Number(old.legal_balls)||0;
-  const over_number=Math.floor(legalBefore/6)+1;
-  const ball_number=(legalBefore%6)+1;
-
-  const payload={
-    match_id:currentMatch.id,
-    innings_id:old.id,
-    over_number,
-    ball_number,
-    batter_runs:batterRuns,
-    extra_type:extraType,
-    extra_runs:extraRuns,
-    is_wicket:isWicket,
-    wicket_type:isWicket?el("wicketType").value:null,
-    commentary:el("commentary").value.trim()
-  };
-
-  savingDelivery=true;
-  el("saveBallButton").disabled=true;
-  el("saveBallButton").textContent="SAVING...";
-
+/* BROADCAST OVERLAY MODE */
+async function overlayMode(){
+ $("app").classList.add("hidden");
+ $("overlayRoot").classList.remove("hidden");
+ document.body.style.background="transparent";
+
+ async function refresh(){
   try{
-    const {error:deliveryError}=await db.from("gfc_deliveries").insert(payload);
-
-    if(deliveryError){
-      adminMsg(deliveryError.message);
-      return;
-    }
-
-    const update={
-      total_runs:(Number(old.total_runs)||0)+total,
-      wickets:(Number(old.wickets)||0)+(isWicket?1:0),
-      legal_balls:legalBefore+(legal?1:0),
-      wides:(Number(old.wides)||0)+(extraType==="wide"?extraRuns:0),
-      no_balls:(Number(old.no_balls)||0)+(extraType==="no_ball"?extraRuns:0),
-      byes:(Number(old.byes)||0)+(extraType==="bye"?extraRuns:0),
-      leg_byes:(Number(old.leg_byes)||0)+(extraType==="leg_bye"?extraRuns:0)
-    };
-
-    const {error:updateError}=await db.from("gfc_innings")
-      .update(update).eq("id",old.id);
-
-    if(updateError){
-      adminMsg("Delivery saved, but innings total update failed: "+updateError.message);
-      await loadCurrentInnings();
-      return;
-    }
-
-    el("batterRuns").value=0;
-    el("extraType").value="none";
-    el("extraRuns").value=0;
-    el("isWicket").value="false";
-    el("commentary").value="";
-
-    adminMsg("Ball saved successfully.");
-    await loadCurrentInnings();
-    await loadPublicData();
-
-  }finally{
-    savingDelivery=false;
-    el("saveBallButton").disabled=false;
-    el("saveBallButton").textContent="SAVE BALL";
-  }
+   const [ms,is,ts,ds]=await Promise.all([
+    get("gfc_matches"),get("gfc_innings"),get("gfc_teams"),get("gfc_deliveries")
+   ]);
+   const m=ms.find(x=>x.status==="live")||ms[0];if(!m)return;
+   const i=is.filter(x=>x.match_id===m.id).sort((a,b)=>b.innings_no-a.innings_no)[0];
+   const list=ds.filter(d=>d.innings_id===i?.id);
+   const t=totals(list);
+   const tn=id=>ts.find(x=>x.id===id)?.short_name||ts.find(x=>x.id===id)?.name||"GFC";
+   $("ovTeams").textContent=tn(m.team_a_id)+" vs "+tn(m.team_b_id);
+   $("ovScore").textContent=t.runs+"/"+t.wickets;
+   $("ovOvers").textContent=overText(t.balls)+" OV";
+   $("ovRR").textContent="RUN RATE "+rate(t);
+   $("ovTarget").textContent=i?.target?"TARGET "+i.target:"GFC CRICKET PRO";
+  }catch(e){console.error(e)}
+ }
+ await refresh();setInterval(refresh,5000);
 }
 
-async function displayScore(){
-  if(!currentInnings)return;
-
-  const runs=Number(currentInnings.total_runs)||0;
-  const wickets=Number(currentInnings.wickets)||0;
-  const balls=Number(currentInnings.legal_balls)||0;
-
-  el("scoreTeam").textContent=teamName(currentInnings.batting_team_id);
-  el("scoreRuns").textContent=runs+"/"+wickets;
-  el("scoreOvers").textContent=Math.floor(balls/6)+"."+(balls%6)+" Overs";
-
-  const {data,error}=await db.from("gfc_deliveries")
-    .select("*")
-    .eq("innings_id",currentInnings.id)
-    .order("created_at",{ascending:false})
-    .limit(30);
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  el("deliveryList").innerHTML=(data||[]).map(d=>`
-    <div class="item">
-      <strong>${safe(d.over_number)}.${safe(d.ball_number)}</strong>
-      — Batter: ${safe(d.batter_runs)}
-      — Extra: ${safe(d.extra_type)} ${safe(d.extra_runs)}
-      ${d.is_wicket?" — WICKET ("+safe(d.wicket_type)+")":""}
-      <div class="small">${safe(d.commentary||"")}</div>
-    </div>
-  `).join("")||"<p class='small'>No deliveries yet.</p>";
+if(new URLSearchParams(location.search).get("overlay")==="1"){
+ overlayMode();
+}else{
+ checkSession();
 }
-
-/* ==========================================
-   STREAMING
-========================================== */
-
-async function saveStream(){
-  const match_id=el("streamMatch").value;
-  const watch_url=el("streamURL").value.trim();
-
-  if(!match_id||!watch_url){
-    adminMsg("Select match and enter stream URL.");
-    return;
-  }
-
-  const validUrl=safeHttpUrl(watch_url);
-
-  if(!validUrl){
-    adminMsg("Enter a valid HTTP/HTTPS link.");
-    return;
-  }
-
-  const {error}=await db.from("gfc_stream_sessions").insert({
-    match_id,
-    platform:el("streamPlatform").value,
-    watch_url:validUrl,
-    status:el("streamStatus").value
-  });
-
-  if(error){
-    adminMsg(error.message);
-    return;
-  }
-
-  el("streamURL").value="";
-  adminMsg("Streaming link saved.");
-  await loadStreams();
-  await loadPublicScore();
-}
-
-async function loadStreams(){
-  const {data,error}=await db.from("gfc_stream_sessions")
-    .select("*").order("created_at",{ascending:false});
-
-  if(error){
-    if(el("streamList"))adminMsg(error.message);
-    return;
-  }
-
-  el("streamList").innerHTML=(data||[]).map(s=>{
-    const m=matches.find(x=>x.id===s.match_id);
-    const url=safeHttpUrl(s.watch_url);
-
-    return `
-      <div class="item">
-        <strong>${safe(s.platform)}</strong>
-        <div class="small">${safe(s.status)} • ${safe(m?matchName(m):"Match")}</div>
-        ${url?`<a href="${safe(url)}" target="_blank" rel="noopener noreferrer">Watch Stream</a>`:"<span class='small'>Invalid link</span>"}
-      </div>
-    `;
-  }).join("")||"<p class='small'>No streaming links added.</p>";
-}
-
-/* ==========================================
-   PUBLIC SCOREBOARD
-========================================== */
-
-async function loadPublicScore(){
-  const matchId=el("publicMatch").value;
-
-  if(!matchId){
-    el("publicScore").innerHTML="<p class='small'>No match selected.</p>";
-    return;
-  }
-
-  const match=matches.find(m=>m.id===matchId);
-
-  if(!match){
-    el("publicScore").innerHTML="<p class='small'>Match not found. Please refresh.</p>";
-    return;
-  }
-
-  const {data:innings,error}=await db.from("gfc_innings")
-    .select("*")
-    .eq("match_id",matchId)
-    .order("innings_no",{ascending:true});
-
-  if(error){
-    el("publicScore").innerHTML="<p class='small'>"+safe(error.message)+"</p>";
-    return;
-  }
-
-  let html=`
-    <div class="item">
-      <strong>${safe(matchName(match))}</strong>
-      <div class="small">${safe(tournamentName(match.tournament_id))}</div>
-      <div class="small">${safe(match.venue||"")} • ${safe(match.status||"")}</div>
-    </div>
-  `;
-
-  if(!innings?.length){
-    html+="<p class='small'>Match has not started yet.</p>";
-  }
-
-  for(const inn of innings||[]){
-    const balls=Number(inn.legal_balls)||0;
-
-    html+=`
-      <div class="score" style="margin:10px 0">
-        <div>${safe(teamName(inn.batting_team_id))}</div>
-        <div class="runs">${safe(inn.total_runs)}/${safe(inn.wickets)}</div>
-        <div class="overs">${Math.floor(balls/6)}.${balls%6} Overs</div>
-        <div class="small">Innings ${safe(inn.innings_no)}</div>
-      </div>
-    `;
-  }
-
-  const {data:streams,error:streamError}=await db.from("gfc_stream_sessions")
-    .select("*")
-    .eq("match_id",matchId)
-    .order("created_at",{ascending:false});
-
-  if(streamError){
-    console.error("Public streaming links:",streamError.message);
-  }
-
-  if(streams?.length){
-    html+="<h3>Watch Live</h3>";
-
-    streams.forEach(s=>{
-      const url=safeHttpUrl(s.watch_url);
-
-      html+=`
-        <div class="item">
-          <strong>${safe(s.platform)}</strong>
-          <div class="small">${safe(s.status)}</div>
-          ${url?`<a href="${safe(url)}" target="_blank" rel="noopener noreferrer">▶ WATCH NOW</a>`:"<span class='small'>Invalid link</span>"}
-        </div>
-      `;
-    });
-  }
-
-  el("publicScore").innerHTML=html;
-}
-
-/* ==========================================
-   START APP
-========================================== */
-
-async function initializeApp(){
-  // Load public data without requiring admin login.
-  await loadPublicData();
-
-  // Realtime subscription for public scoreboard.
-  startRealtime();
-
-  // Check admin session.
-  await checkAuth();
-}
-
-initializeApp();
 </script>
 </body>
 </html>
