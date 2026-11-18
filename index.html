@@ -109,7 +109,7 @@ td,th{text-align:left;padding:9px;border-bottom:1px solid var(--line);font-size:
 th{color:var(--lime)}
 .notice{
  background:#17372e;color:#d6f5e4;border-radius:10px;
- padding:11px;margin:10px 0;font-size:13px
+ padding:11px;margin:10px 0;font-size:13px;line-height:1.7
 }
 .hidden{display:none!important}
 .login{max-width:420px;margin:35px auto}
@@ -150,7 +150,6 @@ th{color:var(--lime)}
  <button class="secondary hidden" id="logout">Logout</button>
 </header>
 
-<!-- ADMIN LOGIN -->
 <section class="panel login" id="loginPanel">
  <h2>Admin Login</h2>
  <p class="muted small">শুধুমাত্র অনুমোদিত Admin প্রবেশ করতে পারবেন।</p>
@@ -171,7 +170,6 @@ th{color:var(--lime)}
 
 <div id="main" class="hidden">
 
-<!-- PUBLIC SCORE -->
 <section class="panel">
  <div class="row">
   <div>
@@ -206,7 +204,6 @@ th{color:var(--lime)}
  <button data-tab="streaming">Streaming</button>
 </nav>
 
-<!-- DASHBOARD -->
 <section class="tab active" id="tab-dashboard">
  <div class="panel">
   <h2>Admin Dashboard</h2>
@@ -223,7 +220,6 @@ th{color:var(--lime)}
  </div>
 </section>
 
-<!-- TOURNAMENTS -->
 <section class="tab" id="tab-tournaments">
  <div class="panel">
   <h2>Create Tournament</h2>
@@ -246,7 +242,6 @@ th{color:var(--lime)}
  <div class="panel"><h3>Tournament List</h3><div id="tournamentList"></div></div>
 </section>
 
-<!-- TEAMS -->
 <section class="tab" id="tab-teams">
  <div class="panel">
   <h2>Add Team</h2>
@@ -260,7 +255,6 @@ th{color:var(--lime)}
  <div class="panel"><h3>Team List</h3><div id="teamList"></div></div>
 </section>
 
-<!-- PLAYERS -->
 <section class="tab" id="tab-players">
  <div class="panel">
   <h2>Add Player</h2>
@@ -281,7 +275,6 @@ th{color:var(--lime)}
  <div class="panel"><h3>Player List</h3><div id="playerList"></div></div>
 </section>
 
-<!-- MATCHES -->
 <section class="tab" id="tab-matches">
  <div class="panel">
   <h2>Create Match</h2>
@@ -306,7 +299,6 @@ th{color:var(--lime)}
  <div class="panel"><h3>Match List</h3><div id="matchList"></div></div>
 </section>
 
-<!-- LIVE SCORING -->
 <section class="tab" id="tab-scoring">
 
  <div class="panel">
@@ -321,7 +313,6 @@ th{color:var(--lime)}
    <div><label>Innings</label><select id="inningsSelect"></select></div>
   </div>
 
-  <!-- MANUAL PLAYER CHANGE -->
   <div class="player-control">
    <h3>Manual Player Change</h3>
    <div class="formgrid">
@@ -414,9 +405,13 @@ th{color:var(--lime)}
   </div>
 
   <div class="notice">
-   প্রথমে Striker, Non-Striker ও Bowler নির্বাচন করুন।
-   তারপর Run নির্বাচন করে Save Ball চাপুন।
-   Wide / No-ball হলে Extra Runs কমপক্ষে 1 দিন।
+   প্রথমবার Striker, Non-Striker ও Bowler নির্বাচন করুন।
+   <br>• পরবর্তী বলে Player Selection স্বয়ংক্রিয়ভাবে থাকবে।
+   <br>• 1 বা 3 রান হলে Strike পরিবর্তন হবে।
+   <br>• Over শেষ হলে Strike পরিবর্তন হবে এবং নতুন Bowler নির্বাচন করতে হবে।
+   <br>• Wicket হলে নতুন Batter নির্বাচন করতে হবে।
+   <br>• Undo করলে আগের বলের Player Selection পুনরুদ্ধার হবে।
+   <br>Wide / No-ball হলে Extra Runs কমপক্ষে 1 দিন।
   </div>
  </div>
 
@@ -430,7 +425,6 @@ th{color:var(--lime)}
 
 </section>
 
-<!-- SCORECARD -->
 <section class="tab" id="tab-scorecard">
  <div class="panel">
   <h2>Match Scorecard</h2>
@@ -440,9 +434,7 @@ th{color:var(--lime)}
  </div>
 </section>
 
-<!-- STREAMING -->
 <section class="tab" id="tab-streaming">
-
  <div class="panel">
   <h2>Streaming Setup</h2>
 
@@ -483,7 +475,6 @@ th{color:var(--lime)}
   </div>
   <p><a href="live-overlay.html" target="_blank">Open Live Overlay ↗</a></p>
  </div>
-
 </section>
 
 </div>
@@ -491,7 +482,6 @@ th{color:var(--lime)}
 <div class="footer">GFC CRICKET PRO 2026 • Powered by GFC</div>
 </div>
 
-<!-- OVERLAY MODE -->
 <div id="overlayRoot" class="hidden">
  <div class="overlay">
   <div>
@@ -517,9 +507,7 @@ const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
 const ADMIN_EMAIL="officework.bolpur@gmail.com";
 const ADMIN_UID="2fd64447-93aa-482c-b64c-c605a4bec732";
 
-const db=window.supabase.createClient(
- SUPABASE_URL,SUPABASE_KEY
-);
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const $=id=>document.getElementById(id);
 
@@ -540,11 +528,8 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({
 }[c]));
 
 const n=v=>Number(v)||0;
-
 const legal=d=>!["wide","no_ball"].includes(d.extra_type||"none");
-
 const runs=d=>n(d.batter_runs)+n(d.extra_runs);
-
 const overText=b=>`${Math.floor(b/6)}.${b%6}`;
 
 const teamName=id=>{
@@ -552,8 +537,7 @@ const teamName=id=>{
  return t?.short_name||t?.name||"Team";
 };
 
-const matchName=m=>
- `${teamName(m.team_a_id)} vs ${teamName(m.team_b_id)}`;
+const matchName=m=>`${teamName(m.team_a_id)} vs ${teamName(m.team_b_id)}`;
 
 function totals(list){
  return list.reduce((a,d)=>{
@@ -605,7 +589,7 @@ function playerStateKey(){
 }
 
 function savePlayerState(){
- if(!currentMatch)return;
+ if(!currentMatch||!currentInnings)return;
 
  const state={
   striker:$("striker").value,
@@ -621,44 +605,45 @@ function savePlayerState(){
 }
 
 function restorePlayerState(){
- if(!currentMatch)return;
+ if(!currentMatch||!currentInnings)return;
 
  try{
-  const state=JSON.parse(
-   localStorage.getItem(playerStateKey())||"{}"
-  );
+  const state=JSON.parse(localStorage.getItem(playerStateKey())||"{}");
 
-  if(state.striker &&
-   [...$("striker").options].some(o=>o.value===state.striker)){
+  if(state.striker&&[...$("striker").options].some(o=>o.value===state.striker)){
    $("striker").value=state.striker;
   }
 
-  if(state.nonStriker &&
-   [...$("nonStriker").options].some(o=>o.value===state.nonStriker)){
+  if(state.nonStriker&&[...$("nonStriker").options].some(o=>o.value===state.nonStriker)){
    $("nonStriker").value=state.nonStriker;
   }
 
-  if(state.bowler &&
-   [...$("bowler").options].some(o=>o.value===state.bowler)){
+  if(state.bowler&&[...$("bowler").options].some(o=>o.value===state.bowler)){
    $("bowler").value=state.bowler;
   }
-
  }catch(e){
   console.warn(e);
  }
 }
 
+function setPlayerSelections(state){
+ if(!state)return;
+
+ $("striker").value=state.striker||"";
+ $("nonStriker").value=state.nonStriker||"";
+ $("bowler").value=state.bowler||"";
+
+ savePlayerState();
+}
+
 function fillPlayers(teamId){
  const battingPlayers=players.filter(p=>p.team_id===teamId);
 
- const bowlingTeamId=
-  currentMatch?.team_a_id===teamId
-   ?currentMatch.team_b_id
-   :currentMatch?.team_a_id;
+ const bowlingTeamId=currentMatch?.team_a_id===teamId
+  ?currentMatch.team_b_id
+  :currentMatch?.team_a_id;
 
- const bowlingPlayers=players.filter(
-  p=>p.team_id===bowlingTeamId
- );
+ const bowlingPlayers=players.filter(p=>p.team_id===bowlingTeamId);
 
  options($("striker"),battingPlayers,p=>p.name);
  options($("nonStriker"),battingPlayers,p=>p.name);
@@ -682,17 +667,14 @@ function applyManualPlayerChange(which){
   alert("Striker নির্বাচন করুন");
   return;
  }
-
  if(which==="nonStriker"&&!nonStriker){
   alert("Non-Striker নির্বাচন করুন");
   return;
  }
-
  if(which==="bowler"&&!bowler){
   alert("Bowler নির্বাচন করুন");
   return;
  }
-
  if(striker&&nonStriker&&striker===nonStriker){
   alert("Striker ও Non-Striker একই হতে পারবে না");
   return;
@@ -706,8 +688,81 @@ function applyManualPlayerChange(which){
   bowler:"Bowler"
  };
 
- $("playerChangeStatus").textContent=
-  names[which]+" পরিবর্তন ও সংরক্ষণ হয়েছে।";
+ $("playerChangeStatus").textContent=names[which]+" পরিবর্তন ও সংরক্ষণ হয়েছে।";
+}
+
+/* =========================
+   CALCULATE NEXT PLAYER STATE
+========================= */
+
+function getNextPlayerState(delivery,ballsBefore){
+
+ let striker=delivery.striker_id||"";
+ let nonStriker=delivery.non_striker_id||"";
+ let bowler=delivery.bowler_id||"";
+
+ const type=delivery.extra_type||"none";
+ const batterRuns=n(delivery.batter_runs);
+ const extraRuns=n(delivery.extra_runs);
+
+ let runningRuns=batterRuns;
+
+ /*
+  * Bye / Leg Bye: extra runs-ও দৌড়ের রান।
+  * Wide / No Ball: Extra Runs থেকে ১ penalty বাদ দিয়ে
+  * বাকি রানকে running runs হিসেবে ধরা হচ্ছে।
+  */
+
+ if(type==="bye"||type==="leg_bye"){
+  runningRuns+=extraRuns;
+ }else if(type==="wide"||type==="no_ball"){
+  runningRuns+=Math.max(0,extraRuns-1);
+ }
+
+ // Odd running runs হলে strike change
+ if(runningRuns%2===1){
+  const temp=striker;
+  striker=nonStriker;
+  nonStriker=temp;
+ }
+
+ const legalDelivery=legal(delivery);
+ const ballsAfter=ballsBefore+(legalDelivery?1:0);
+
+ // ৬টি legal ball পূর্ণ হলে over শেষ
+ const overFinished=
+  legalDelivery&&
+  ballsAfter>0&&
+  ballsAfter%6===0;
+
+ // Over শেষে প্রান্ত বদলের জন্য strike আবার change
+ if(overFinished){
+  const temp=striker;
+  striker=nonStriker;
+  nonStriker=temp;
+
+  // নতুন ওভারে নতুন Bowler নির্বাচন করতে হবে
+  bowler="";
+ }
+
+ // Wicket হলে dismissed player-কে selection থেকে সরানো
+ if(delivery.is_wicket){
+  const dismissed=delivery.dismissed_player_id;
+
+  if(dismissed===striker){
+   striker="";
+  }else if(dismissed===nonStriker){
+   nonStriker="";
+  }
+ }
+
+ return {
+  striker,
+  nonStriker,
+  bowler,
+  overFinished,
+  wicket:!!delivery.is_wicket
+ };
 }
 
 /* =========================
@@ -724,8 +779,6 @@ async function loadAll(){
   get("gfc_innings")
  ]);
 
- // Streaming table is optional. Other pages will still load
- // if this table has not been created yet.
  try{
   streams=await get("gfc_stream_sessions");
  }catch(e){
@@ -804,10 +857,6 @@ async function loadAll(){
   </div>
  `).join("");
 
- $("overlayURL").value=
-  location.href.split("?")[0].replace(/index\.html$/,"")+
-  "live-overlay.html";
-
  await renderPublic();
 }
 
@@ -817,7 +866,6 @@ async function loadAll(){
 
 async function loadMatch(id){
  currentMatch=matches.find(m=>m.id===id)||null;
-
  if(!currentMatch)return;
 
  const ins=innings
@@ -840,11 +888,13 @@ async function loadMatch(id){
   currentMatch.batting_team_id||
   currentMatch.team_a_id;
 
+ if(currentInnings){
+  $("inningsSelect").value=currentInnings.id;
+ }
+
  fillPlayers($("battingTeam").value);
 
  if(currentInnings){
-  $("inningsSelect").value=currentInnings.id;
-
   const {data,error}=await db
    .from("gfc_deliveries")
    .select("*")
@@ -853,7 +903,6 @@ async function loadMatch(id){
 
   if(error)throw error;
   deliveries=data||[];
-
  }else{
   deliveries=[];
  }
@@ -867,7 +916,6 @@ window.openMatch=async id=>{
  $("scoreMatch").value=id;
  $("scorecardMatch").value=id;
  await loadMatch(id);
-
  document.querySelector('[data-tab="scoring"]').click();
 };
 
@@ -888,8 +936,7 @@ function renderScoring(){
  $("scoreMatchTitle").textContent=
   currentMatch?matchName(currentMatch):"Select Match";
 
- $("selectedRunNotice").textContent=
-  "Selected Runs: "+selectedRuns;
+ $("selectedRunNotice").textContent="Selected Runs: "+selectedRuns;
 
  renderPublic();
 }
@@ -977,8 +1024,6 @@ async function renderScorecard(){
 
  for(const i of ins){
 
-  // Load each innings separately. This prevents the second
-  // innings from hiding the first innings scorecard.
   const {data:ds,error}=await db
    .from("gfc_deliveries")
    .select("*")
@@ -999,10 +1044,7 @@ async function renderScorecard(){
      (bat[d.striker_id]={r:0,b:0,f:0,s:0});
 
     p.r+=n(d.batter_runs);
-
-    // A batter does not face a wide delivery.
     if((d.extra_type||"none")!=="wide")p.b++;
-
     if(n(d.batter_runs)===4)p.f++;
     if(n(d.batter_runs)===6)p.s++;
    }
@@ -1011,7 +1053,6 @@ async function renderScorecard(){
     let p=bowl[d.bowler_id]||
      (bowl[d.bowler_id]={r:0,b:0,w:0});
 
-    // Byes and leg-byes are not charged to the bowler.
     p.r+=n(d.batter_runs);
 
     if(["wide","no_ball"].includes(d.extra_type||"none")){
@@ -1025,7 +1066,6 @@ async function renderScorecard(){
      p.w++;
     }
    }
-
   });
 
   html+=`
@@ -1093,17 +1133,13 @@ async function insertForm(form,table,convert){
 
   try{
    const d=data(form);
-
    if(convert)convert(d);
 
    const {error}=await db.from(table).insert(d);
-
    if(error)throw error;
 
    form.reset();
-
    await loadAll();
-
    alert("Saved successfully");
 
   }catch(x){
@@ -1113,20 +1149,16 @@ async function insertForm(form,table,convert){
 }
 
 insertForm($("tournamentForm"),"gfc_tournaments");
-
 insertForm($("teamForm"),"gfc_teams");
-
 insertForm($("playerForm"),"gfc_players",d=>{
  d.jersey_number=d.jersey_number?n(d.jersey_number):null;
 });
-
 insertForm($("matchForm"),"gfc_matches",d=>{
  d.overs=n(d.overs);
  d.match_date=d.match_date
   ?new Date(d.match_date).toISOString()
   :new Date().toISOString();
 });
-
 insertForm($("streamForm"),"gfc_stream_sessions");
 
 /* =========================
@@ -1147,9 +1179,7 @@ async function startInnings(){
   .sort((a,b)=>b.innings_no-a.innings_no)[0];
 
  if(existing){
-
   currentInnings=existing;
-
  }else{
 
   const no=innings.filter(i=>i.match_id===matchId).length+1;
@@ -1168,7 +1198,6 @@ async function startInnings(){
    .single();
 
   if(error)throw error;
-
   currentInnings=data;
 
   const {error:matchError}=await db
@@ -1183,11 +1212,11 @@ async function startInnings(){
  await loadMatch(matchId);
 
  $("playerChangeStatus").textContent=
-  "Innings selected. Striker, Non-Striker ও Bowler নির্বাচন করুন।";
+  "Innings selected. প্রথমবার Striker, Non-Striker ও Bowler নির্বাচন করুন।";
 }
 
 /* =========================
-   SAVE DELIVERY
+   SAVE DELIVERY + AUTO ROTATION
 ========================= */
 
 async function saveBall(runsValue,deliveryId=null,existingPayload=null){
@@ -1237,29 +1266,57 @@ async function saveBall(runsValue,deliveryId=null,existingPayload=null){
    dismissed_player_id:wicket?
     ($("dismissedPlayer").value||striker):null
   };
-
-  savePlayerState();
  }
+
+ // Edit delivery করলে automatic rotation হবে না
+ if(deliveryId){
+  await rpc("gfc_save_delivery",{
+   p_innings_id:currentInnings.id,
+   p_payload:payload,
+   p_delivery_id:deliveryId
+  });
+
+  await loadMatch(currentMatch.id);
+  return;
+ }
+
+ const before=totals(deliveries);
 
  await rpc("gfc_save_delivery",{
   p_innings_id:currentInnings.id,
   p_payload:payload,
-  p_delivery_id:deliveryId
+  p_delivery_id:null
  });
 
- if(!deliveryId){
+ const nextState=getNextPlayerState(payload,before.balls);
 
-  $("commentary").value="";
-  $("extraType").value="none";
-  $("extraRuns").value="0";
-  $("isWicket").value="false";
-  $("wicketType").value="";
-  selectedRuns=0;
+ setPlayerSelections({
+  striker:nextState.striker,
+  nonStriker:nextState.nonStriker,
+  bowler:nextState.bowler
+ });
 
-  document.querySelectorAll("#runButtons button").forEach(b=>{
-   b.classList.remove("selected");
-  });
+ if(nextState.wicket){
+  $("playerChangeStatus").textContent=
+   "Wicket! নতুন Batter নির্বাচন করুন।";
+ }else if(nextState.overFinished){
+  $("playerChangeStatus").textContent=
+   "Over Complete! নতুন Bowler নির্বাচন করুন।";
+ }else{
+  $("playerChangeStatus").textContent=
+   "Player Selection Auto Updated.";
  }
+
+ $("commentary").value="";
+ $("extraType").value="none";
+ $("extraRuns").value="0";
+ $("isWicket").value="false";
+ $("wicketType").value="";
+ selectedRuns=0;
+
+ document.querySelectorAll("#runButtons button").forEach(b=>{
+  b.classList.remove("selected");
+ });
 
  await loadMatch(currentMatch.id);
 }
@@ -1273,18 +1330,13 @@ window.editBall=async id=>{
  const d=deliveries.find(x=>x.id===id);
  if(!d)return;
 
- const batter=prompt(
-  "Batter Runs (0,1,2,3,4,6)",
-  d.batter_runs
- );
-
+ const batter=prompt("Batter Runs (0,1,2,3,4,6)",d.batter_runs);
  if(batter===null)return;
 
  const type=prompt(
   "Extra Type: none / wide / no_ball / bye / leg_bye",
   d.extra_type||"none"
  );
-
  if(type===null)return;
 
  const extra=prompt("Extra Runs",d.extra_runs||0);
@@ -1293,15 +1345,10 @@ window.editBall=async id=>{
  const commentary=prompt("Commentary",d.commentary||"");
  if(commentary===null)return;
 
- const wicketAnswer=prompt(
-  "Wicket? yes / no",
-  d.is_wicket?"yes":"no"
- );
-
+ const wicketAnswer=prompt("Wicket? yes / no",d.is_wicket?"yes":"no");
  if(wicketAnswer===null)return;
 
  const isWicket=wicketAnswer.toLowerCase()==="yes";
-
  let wicketType=null;
 
  if(isWicket){
@@ -1339,9 +1386,7 @@ window.editBall=async id=>{
 
 window.deleteBall=async id=>{
 
- if(!confirm("এই বল Delete করবেন? Audit Log-এ রেকর্ড থাকবে।")){
-  return;
- }
+ if(!confirm("এই বল Delete করবেন? Audit Log-এ রেকর্ড থাকবে।"))return;
 
  try{
   await rpc("gfc_delete_delivery",{p_delivery_id:id});
@@ -1383,24 +1428,31 @@ $("scoreMatch").onchange=()=>{
 
 $("scorecardMatch").onchange=()=>{
  const id=$("scorecardMatch").value;
- if(id){
-  loadMatch(id).catch(message);
- }
+ if(id)loadMatch(id).catch(message);
 };
 
 $("battingTeam").onchange=()=>{
+ if(!currentMatch)return;
+
  fillPlayers($("battingTeam").value);
+
+ if(currentInnings&&currentInnings.batting_team_id!==$("battingTeam").value){
+  currentInnings=null;
+  deliveries=[];
+  renderScoring();
+  renderHistory();
+ }
+
  savePlayerState();
 };
 
 $("inningsSelect").onchange=async()=>{
 
- currentInnings=innings.find(
-  i=>i.id===$("inningsSelect").value
- )||null;
+ currentInnings=innings.find(i=>i.id===$("inningsSelect").value)||null;
 
  if(currentInnings){
 
+  $("battingTeam").value=currentInnings.batting_team_id;
   fillPlayers(currentInnings.batting_team_id);
 
   const {data,error}=await db
@@ -1433,17 +1485,9 @@ $("refreshHistory").onclick=()=>{
 
 /* Manual player buttons */
 
-$("applyStriker").onclick=()=>{
- applyManualPlayerChange("striker");
-};
-
-$("applyNonStriker").onclick=()=>{
- applyManualPlayerChange("nonStriker");
-};
-
-$("applyBowler").onclick=()=>{
- applyManualPlayerChange("bowler");
-};
+$("applyStriker").onclick=()=>applyManualPlayerChange("striker");
+$("applyNonStriker").onclick=()=>applyManualPlayerChange("nonStriker");
+$("applyBowler").onclick=()=>applyManualPlayerChange("bowler");
 
 ["striker","nonStriker","bowler"].forEach(id=>{
  $(id).addEventListener("change",()=>{
@@ -1464,8 +1508,7 @@ $("runButtons").onclick=e=>{
   x.classList.toggle("selected",x===b);
  });
 
- $("selectedRunNotice").textContent=
-  "Selected Runs: "+selectedRuns;
+ $("selectedRunNotice").textContent="Selected Runs: "+selectedRuns;
 };
 
 /* Save selected ball */
@@ -1474,22 +1517,58 @@ $("saveBall").onclick=()=>{
  saveBall(selectedRuns).catch(message);
 };
 
-/* Undo last ball */
+/* =========================
+   UNDO LAST BALL + PLAYER RESTORE
+========================= */
 
 $("undoBall").onclick=async()=>{
 
- if(!currentInnings){
-  return alert("Innings নির্বাচন করুন");
- }
-
+ if(!currentInnings)return alert("Innings নির্বাচন করুন");
  if(!confirm("সর্বশেষ বল Undo করবেন?"))return;
 
  try{
+
   await rpc("gfc_undo_last_delivery",{
    p_innings_id:currentInnings.id
   });
 
+  const {data,error}=await db
+   .from("gfc_deliveries")
+   .select("*")
+   .eq("innings_id",currentInnings.id)
+   .order("created_at",{ascending:true});
+
+  if(error)throw error;
+
+  deliveries=data||[];
+
+  if(deliveries.length){
+
+   const previousDeliveries=deliveries.slice(0,-1);
+   const last=deliveries[deliveries.length-1];
+   const ballsBefore=totals(previousDeliveries).balls;
+
+   const restored=getNextPlayerState(last,ballsBefore);
+
+   setPlayerSelections({
+    striker:restored.striker,
+    nonStriker:restored.nonStriker,
+    bowler:restored.bowler
+   });
+
+  }else{
+
+   setPlayerSelections({
+    striker:"",
+    nonStriker:"",
+    bowler:""
+   });
+  }
+
   await loadMatch(currentMatch.id);
+
+  $("playerChangeStatus").textContent=
+   "Undo সম্পন্ন হয়েছে। Player Selection পুনরুদ্ধার করা হয়েছে।";
 
  }catch(e){
   message(e);
@@ -1514,9 +1593,7 @@ async function login(){
  if(error)throw error;
 
  if(data.user.email!==ADMIN_EMAIL||data.user.id!==ADMIN_UID){
-
   await db.auth.signOut();
-
   throw Error("এই Account Admin হিসেবে অনুমোদিত নয়");
  }
 
@@ -1524,16 +1601,13 @@ async function login(){
 }
 
 function showApp(){
-
  $("loginPanel").classList.add("hidden");
  $("main").classList.remove("hidden");
  $("logout").classList.remove("hidden");
-
  loadAll().catch(message);
 }
 
 $("loginBtn").onclick=()=>{
-
  $("loginMessage").classList.add("hidden");
 
  login().catch(e=>{
@@ -1545,30 +1619,18 @@ $("loginBtn").onclick=()=>{
 $("forgotBtn").onclick=async()=>{
 
  const email=$("email").value.trim();
-
  if(!email)return alert("Email দিন");
 
  const {error}=await db.auth.resetPasswordForEmail(email,{
   redirectTo:location.origin+location.pathname
  });
 
- alert(error?error.message:
-  "Password reset email পাঠানো হয়েছে। Inbox দেখুন।");
+ alert(error?error.message:"Password reset email পাঠানো হয়েছে। Inbox দেখুন।");
 };
 
 $("logout").onclick=async()=>{
  await db.auth.signOut();
  location.reload();
-};
-
-$("copyOverlay").onclick=async()=>{
-
- try{
-  await navigator.clipboard.writeText($("overlayURL").value);
-  alert("Overlay URL copied");
- }catch(e){
-  alert("Copy করতে পারেননি");
- }
 };
 
 /* =========================
@@ -1578,7 +1640,6 @@ $("copyOverlay").onclick=async()=>{
 async function checkSession(){
 
  const {data,error}=await db.auth.getSession();
-
  if(error)throw error;
 
  const u=data.session?.user;
@@ -1619,14 +1680,12 @@ async function overlayMode(){
    let list=[];
 
    if(i){
-
     const {data,error}=await db
      .from("gfc_deliveries")
      .select("*")
      .eq("innings_id",i.id);
 
     if(error)throw error;
-
     list=data||[];
    }
 
@@ -1637,15 +1696,11 @@ async function overlayMode(){
     return team?.short_name||team?.name||"GFC";
    };
 
-   $("ovTeams").textContent=
-    tn(m.team_a_id)+" vs "+tn(m.team_b_id);
-
+   $("ovTeams").textContent=tn(m.team_a_id)+" vs "+tn(m.team_b_id);
    $("ovScore").textContent=t.runs+"/"+t.wickets;
    $("ovOvers").textContent=overText(t.balls)+" OV";
    $("ovRR").textContent="RUN RATE "+rate(t);
-
-   $("ovTarget").textContent=
-    i?.target?"TARGET "+i.target:"GFC CRICKET PRO";
+   $("ovTarget").textContent=i?.target?"TARGET "+i.target:"GFC CRICKET PRO";
 
   }catch(e){
    console.error(e);
@@ -1661,13 +1716,9 @@ async function overlayMode(){
 ========================= */
 
 if(new URLSearchParams(location.search).get("overlay")==="1"){
-
  overlayMode();
-
 }else{
-
  checkSession().catch(message);
-
 }
 </script>
 </body>
