@@ -4,140 +4,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GFC Live Score Overlay</title>
+<title>GFC CRICKET PRO 2026 | Live Overlay</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;width:100%;min-height:100%;background:transparent;color:white;font-family:Arial,sans-serif}
-body{padding:15px}
-#scoreboard{width:100%;max-width:1000px;margin:0 auto}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px}
-.teams{font-size:clamp(13px,2.4vw,23px);font-weight:900}
-.score{font-size:clamp(27px,6vw,55px);font-weight:1000;white-space:nowrap}
-.details{font-size:clamp(11px,2vw,17px);opacity:.9;margin-top:5px}
+body{padding:12px}
+#scoreboard{width:100%;max-width:1100px;margin:auto}
+.card{overflow:hidden;border-radius:9px;background:#071a34;border:2px solid #fff3;box-shadow:0 5px 20px #0005}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px}
+.teams{font-size:clamp(15px,2.5vw,26px);font-weight:1000}
+.score{font-size:clamp(32px,6vw,58px);font-weight:1000;white-space:nowrap}
+.details{font-size:clamp(11px,1.8vw,16px);margin-top:5px}
 .right{text-align:right}
-.brand{font-size:10px;letter-spacing:2px;opacity:.75;margin-bottom:5px}
-.bottom{display:flex;justify-content:space-between;gap:10px;padding:8px 18px;font-size:clamp(10px,1.8vw,14px)}
-.target{font-weight:bold}
-.card{overflow:hidden}
-.accent{font-weight:900}
-#status{font-size:11px;text-align:center;padding:5px;opacity:.6}
+.brand{font-size:10px;letter-spacing:2px;margin-bottom:5px;font-weight:bold}
+.bottom{display:flex;justify-content:space-between;gap:10px;padding:9px 20px;font-size:clamp(11px,1.8vw,15px);font-weight:900}
+#status{text-align:center;font-size:10px;padding:5px;opacity:.7}
+.accent{font-weight:1000}
 
-/* 1 Classic Green */
-.classic .card{background:#073b2a;border:2px solid #b8f36b;border-radius:10px}
-.classic .top{background:#0b4b32}
-.classic .score,.classic .accent{color:#b8f36b}
+/* 01 ROYAL BLUE */
+.classic .card{background:#071a3b;border-color:#d9b85c}
+.classic .top{background:linear-gradient(100deg,#123f8b,#071a3b)}
+.classic .score,.classic .accent{color:#ffd76c}
+.classic .bottom{background:#06142c}
 
-/* 2 Modern Blue */
-.modern .card{background:#061e40;border-left:7px solid #29b6ff;border-radius:5px}
-.modern .top{background:linear-gradient(100deg,#0b3970,#061e40)}
-.modern .score,.modern .accent{color:#38c8ff}
+/* 02 PURPLE THUNDER */
+.modern .card{background:#170b35;border-color:#a978ff}
+.modern .top{background:linear-gradient(110deg,#5422a0,#180d3a)}
+.modern .score,.modern .accent{color:#d2a9ff}
 
-/* 3 Red Zone */
-.red .card{background:#380b12;border:2px solid #ff404e;border-radius:3px}
-.red .top{background:#810d20}
-.red .score,.red .accent{color:#ff6a70}
+/* 03 RED WARRIORS */
+.red .card{background:#260711;border-color:#ff4859}
+.red .top{background:linear-gradient(100deg,#a30d2a,#300812)}
+.red .score,.red .accent{color:#ff7884}
 
-/* 4 Gold Premium */
-.gold .card{background:#17120a;border:2px solid #d7ad55;border-radius:12px}
-.gold .top{background:linear-gradient(110deg,#3a2b12,#17120a)}
-.gold .score,.gold .accent{color:#f4cf78}
+/* 04 GOLD CHAMPION */
+.gold .card{background:#191207;border-color:#e7bd61}
+.gold .top{background:linear-gradient(100deg,#705018,#1c1408)}
+.gold .score,.gold .accent{color:#ffdb80}
 
-/* 5 Neon Cyan */
-.neon .card{background:#001a21;border:2px solid #00f0ff;box-shadow:0 0 14px #00d9ff;border-radius:8px}
-.neon .top{background:#00323b}
-.neon .score,.neon .accent{color:#00f0ff}
+/* 05 NEON STRIKE */
+.neon .card{background:#001c28;border-color:#00eaff;box-shadow:0 0 15px #00d9ff}
+.neon .top{background:linear-gradient(100deg,#005a76,#001a29)}
+.neon .score,.neon .accent{color:#00edff}
 
-/* 6 Purple Night */
-.purple .card{background:#1b0b38;border:2px solid #b66bff;border-radius:12px}
-.purple .top{background:#32115d}
-.purple .score,.purple .accent{color:#d5a0ff}
+/* 06 STADIUM PRO */
+.purple .card{background:#062b20;border-color:#a7e65e}
+.purple .top{background:linear-gradient(100deg,#146b43,#05291d)}
+.purple .score,.purple .accent{color:#caff72}
 
-/* 7 Orange Blaze */
-.orange .card{background:#351707;border:2px solid #ff852c;border-radius:5px}
-.orange .top{background:#722b08}
-.orange .score,.orange .accent{color:#ffad4d}
+/* 07 ORANGE INFERNO */
+.orange .card{background:#321307;border-color:#ff8d36}
+.orange .top{background:linear-gradient(100deg,#a63c0a,#351306)}
+.orange .score,.orange .accent{color:#ffc06b}
 
-/* 8 Royal Blue */
-.royal .card{background:#071d58;border:2px solid #8caaff;border-radius:9px}
-.royal .top{background:#12358b}
-.royal .score,.royal .accent{color:#a9c3ff}
+/* 08 EMERALD KINGS */
+.royal .card{background:#032d27;border-color:#36e5ac}
+.royal .top{background:linear-gradient(100deg,#007b61,#042c27)}
+.royal .score,.royal .accent{color:#75ffd0}
 
-/* 9 Black & Gold */
-.blackgold .card{background:#080808;border:2px solid #e2bd58;border-radius:2px}
-.blackgold .top{background:#17130b}
-.blackgold .score,.blackgold .accent{color:#e9c65f}
+/* 09 BLACK PANTHER */
+.blackgold .card{background:#090909;border-color:#e2bd58}
+.blackgold .top{background:linear-gradient(100deg,#303030,#080808)}
+.blackgold .score,.blackgold .accent{color:#f2d276}
 
-/* 10 Emerald Green */
-.emerald .card{background:#002c25;border:2px solid #00b88a;border-radius:15px}
-.emerald .top{background:#00503c}
-.emerald .score,.emerald .accent{color:#52f0b7}
+/* 10 ELECTRIC BLUE */
+.emerald .card{background:#061b42;border-color:#38aaff}
+.emerald .top{background:linear-gradient(100deg,#0755a9,#071b42)}
+.emerald .score,.emerald .accent{color:#69c9ff}
 
-/* 11 Pink Neon */
-.pink .card{background:#270b26;border:2px solid #ff55c8;box-shadow:0 0 12px #ff55c8;border-radius:10px}
-.pink .top{background:#4c1044}
-.pink .score,.pink .accent{color:#ff82da}
+/* 11 PINK STORM */
+.pink .card{background:#310b30;border-color:#ff63d0;box-shadow:0 0 12px #ff55c8}
+.pink .top{background:linear-gradient(100deg,#9d1b82,#300b31)}
+.pink .score,.pink .accent{color:#ff9ae4}
 
-/* 12 Ice White */
-.ice .card{background:#eaf6ff;color:#10283c;border:2px solid white;border-radius:8px}
-.ice .top{background:#d5eafa}
-.ice .details,.ice .bottom{color:#24445e}
-.ice .score,.ice .accent{color:#0874bc}
+/* 12 SILVER ELITE */
+.ice .card{background:#182535;color:#fff;border-color:#dce9f5}
+.ice .top{background:linear-gradient(100deg,#64798c,#1b2939)}
+.ice .score,.ice .accent{color:#e7f5ff}
 
-/* 13 Cyberpunk */
-.cyber .card{background:#100a24;border:2px solid #edff00;border-radius:0}
-.cyber .top{background:linear-gradient(90deg,#30105a,#11112d)}
-.cyber .score,.cyber .accent{color:#edff00}
+/* 13 CYBER LEAGUE */
+.cyber .card{background:#130b24;border-color:#eaff00}
+.cyber .top{background:linear-gradient(100deg,#4b176c,#110b24)}
+.cyber .score,.cyber .accent{color:#eaff00}
 
-/* 14 Stadium Live */
-.stadium .card{background:#061e16;border:3px solid #e8f3e9;border-radius:4px}
-.stadium .top{background:#14552e}
-.stadium .score,.stadium .accent{color:#d5ff70}
+/* 14 ROYAL PURPLE */
+.stadium .card{background:#180b36;border-color:#d1a3ff}
+.stadium .top{background:linear-gradient(100deg,#54208b,#1a0c38)}
+.stadium .score,.stadium .accent{color:#e0bdff}
 
-/* 15 Minimal Clean */
-.minimal .card{background:#111;color:#fff;border-left:5px solid white;border-radius:0}
-.minimal .top{background:#202020}
-.minimal .score,.minimal .accent{color:white}
+/* 15 MIDNIGHT GOLD */
+.minimal .card{background:#080b14;border-color:#caa64b}
+.minimal .top{background:linear-gradient(100deg,#252b3a,#080b14)}
+.minimal .score,.minimal .accent{color:#e8c76a}
 
-/* 16 Retro Cricket */
-.retro .card{background:#17281a;border:3px double #e4d3a0;border-radius:0}
-.retro .top{background:#304b2b}
-.retro .score,.retro .accent{color:#f2d98d}
+/* 16 FIREBALL */
+.retro .card{background:#351008;border-color:#ffb13c}
+.retro .top{background:linear-gradient(100deg,#a9360a,#391007)}
+.retro .score,.retro .accent{color:#ffcf68}
 
-/* 17 Scoreboard TV */
-.tv .card{background:#080808;border:4px solid #eee;border-radius:2px}
-.tv .top{background:#181818}
-.tv .score,.tv .accent{color:#f6e85b}
+/* 17 SUPER SIXES */
+.tv .card{background:#101010;border:3px solid #f4f4f4}
+.tv .top{background:linear-gradient(100deg,#343434,#111)}
+.tv .score,.tv .accent{color:#f7ec63}
 
-/* 18 Gradient Wave */
-.gradient .card{background:linear-gradient(110deg,#071d43,#552477,#0a6a72);border:1px solid #75e7f2;border-radius:15px}
-.gradient .top{background:linear-gradient(110deg,#103c75,#67388d)}
-.gradient .score,.gradient .accent{color:#7ff4ee}
+/* 18 POWERPLAY PRO */
+.gradient .card{background:#0a1738;border-color:#5de3e9}
+.gradient .top{background:linear-gradient(100deg,#125c9b,#452078,#071a36)}
+.gradient .score,.gradient .accent{color:#7df8ef}
 
-/* 19 Cricket League */
-.league .card{background:#101a2a;border:2px solid #ffb62c;border-radius:12px}
-.league .top{background:linear-gradient(100deg,#263e64,#101a2a)}
-.league .score,.league .accent{color:#ffcb62}
+/* 19 CHAMPIONSHIP */
+.league .card{background:#101d35;border-color:#ffbd45}
+.league .top{background:linear-gradient(100deg,#243e71,#111d36)}
+.league .score,.league .accent{color:#ffd06b}
 
-/* 20 Dark Matrix */
-.matrix .card{background:#001008;border:2px solid #00ff66;border-radius:3px}
-.matrix .top{background:#002c13}
-.matrix .score,.matrix .accent{color:#00ff66}
+/* 20 GRAND FINALE */
+.matrix .card{background:#00190c;border-color:#8bff48}
+.matrix .top{background:linear-gradient(100deg,#07522b,#001b0c)}
+.matrix .score,.matrix .accent{color:#aaff68}
 
 @media(max-width:450px){
- body{padding:5px}
+ body{padding:4px}
  .top{padding:10px}
- .bottom{padding:7px 10px}
+ .bottom{padding:8px 10px}
 }
 </style>
 </head>
+
 <body>
 
 <div id="scoreboard" class="classic">
  <div class="card">
   <div class="top">
    <div>
-    <div class="brand">GFC CRICKET PRO 2026</div>
+    <div class="brand">🏏 GFC CRICKET PRO 2026</div>
     <div class="teams" id="teams">TEAM A vs TEAM B</div>
     <div class="details" id="matchInfo">LIVE MATCH</div>
    </div>
@@ -148,16 +149,17 @@ body{padding:15px}
   </div>
   <div class="bottom">
    <span id="runrate">RUN RATE 0.00</span>
-   <span class="target" id="target">TARGET —</span>
+   <span class="accent" id="target">GFC LIVE</span>
   </div>
  </div>
- <div id="status">GFC LIVE SCORE</div>
+ <div id="status">GFC CRICKET PRO 2026 • LIVE</div>
 </div>
 
 <script>
 const SUPABASE_URL="https://shlvtaxrkyffdifbjswq.supabase.co";
 const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
-const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const params=new URLSearchParams(location.search);
 const matchId=params.get("match");
@@ -174,11 +176,12 @@ const $=id=>document.getElementById(id);
 $("scoreboard").className=
  allowed.includes(design)?design:"classic";
 
-function total(list){
+function calculate(list){
  let runs=0,wickets=0,balls=0;
 
  list.forEach(d=>{
   runs+=Number(d.batter_runs||0)+Number(d.extra_runs||0);
+
   if(d.is_wicket)wickets++;
 
   if(!["wide","no_ball"].includes(d.extra_type||"none")){
@@ -189,12 +192,14 @@ function total(list){
  return {runs,wickets,balls};
 }
 
-function overText(b){
- return Math.floor(b/6)+"."+b%6;
+function overText(balls){
+ return Math.floor(balls/6)+"."+balls%6;
 }
 
 function runRate(t){
- return t.balls?(t.runs/(t.balls/6)).toFixed(2):"0.00";
+ return t.balls?
+  (t.runs/(t.balls/6)).toFixed(2):
+  "0.00";
 }
 
 async function refresh(){
@@ -214,7 +219,7 @@ async function refresh(){
 
   if(me)throw me;
 
-  const {data:teams,error:te}=await db
+  const {data:teamData,error:te}=await db
    .from("gfc_teams")
    .select("*")
    .in("id",[m.team_a_id,m.team_b_id]);
@@ -222,7 +227,7 @@ async function refresh(){
   if(te)throw te;
 
   const teamName=id=>{
-   const t=(teams||[]).find(x=>x.id===id);
+   const t=(teamData||[]).find(x=>x.id===id);
    return t?.short_name||t?.name||"TEAM";
   };
 
@@ -235,21 +240,21 @@ async function refresh(){
 
   if(ie)throw ie;
 
-  const i=inn?.[0];
-
+  const current=inn?.[0];
   let deliveries=[];
 
-  if(i){
+  if(current){
    const {data:d,error:de}=await db
     .from("gfc_deliveries")
     .select("*")
-    .eq("innings_id",i.id);
+    .eq("innings_id",current.id)
+    .order("created_at",{ascending:true});
 
    if(de)throw de;
    deliveries=d||[];
   }
 
-  const t=total(deliveries);
+  const t=calculate(deliveries);
 
   $("teams").textContent=
    teamName(m.team_a_id)+" vs "+teamName(m.team_b_id);
@@ -262,13 +267,13 @@ async function refresh(){
   $("runrate").textContent="RUN RATE "+runRate(t);
 
   $("target").textContent=
-   i?.target?"TARGET "+i.target:"GFC CRICKET PRO 2026";
+   current?.target?"TARGET "+current.target:"GFC CRICKET PRO 2026";
 
-  $("status").textContent="GFC CRICKET PRO 2026 • LIVE";
+  $("status").textContent="● GFC LIVE SCORE";
 
  }catch(e){
   console.error(e);
-  $("status").textContent="Scoreboard loading... "+e.message;
+  $("status").textContent="SCORE LOADING...";
  }
 }
 
