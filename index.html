@@ -48,7 +48,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 hr{border:0;border-top:1px solid var(--border);margin:15px 0}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 .status{font-size:12px;color:var(--lime);margin-top:5px}
-a{color:var(--lime)}
+a{color:var(--lime);overflow-wrap:anywhere}
 @media(max-width:480px){
   .grid{grid-template-columns:repeat(2,1fr)}
   header h1{font-size:19px}
@@ -66,7 +66,7 @@ a{color:var(--lime)}
 
 <div class="container">
 
-<!-- PUBLIC SCOREBOARD: NO LOGIN REQUIRED -->
+<!-- PUBLIC SCOREBOARD -->
 <section class="card" id="publicPanel">
   <h2>🏏 Public Live Scoreboard</h2>
   <div class="status" id="publicRealtimeStatus">Realtime: Connecting...</div>
@@ -75,17 +75,20 @@ a{color:var(--lime)}
     <option value="">Loading matches...</option>
   </select>
   <div id="publicScore"><p class="small">Loading scoreboard...</p></div>
-  <button class="secondary" onclick="loadPublicScore()">Refresh Scoreboard</button>
+  <button class="secondary" onclick="loadPublicData()">Refresh Scoreboard</button>
 </section>
 
-<!-- LOGIN -->
+<!-- ADMIN LOGIN -->
 <section id="loginBox" class="card">
   <h2>Admin Login</h2>
   <p class="small">GFC CRICKET PRO 2026 Administration</p>
+
   <label>Admin Email</label>
   <input id="email" type="email" value="officework.bolpur@gmail.com" placeholder="Admin Email">
+
   <label>Password</label>
   <input id="password" type="password" placeholder="Password">
+
   <button onclick="login()" style="width:100%">LOGIN</button>
   <button class="secondary" onclick="forgotPassword()" style="width:100%">Forgot Password?</button>
 
@@ -95,6 +98,7 @@ a{color:var(--lime)}
     <input id="newPassword" type="password" placeholder="Enter New Password">
     <button onclick="updatePassword()" style="width:100%">Update Password</button>
   </div>
+
   <div id="loginMsg" class="message"></div>
 </section>
 
@@ -131,12 +135,11 @@ a{color:var(--lime)}
 
   <div id="adminMsg" class="message"></div>
 
-  <!-- HOME -->
   <div id="tab-home" class="tab card">
     <h2>Welcome to GFC Cricket Pro</h2>
     <p>Manage your cricket tournament from one place.</p>
     <button onclick="refreshAll()">Refresh Data</button>
-    <button class="secondary" onclick="document.getElementById('publicPanel').scrollIntoView({behavior:'smooth'})">View Public Scoreboard</button>
+    <button class="secondary" onclick="el('publicPanel').scrollIntoView({behavior:'smooth'})">View Public Scoreboard</button>
     <hr>
     <p class="small">Current setup: Two mobile phones. Future upgrade: Four cameras, Mobile + DSLR, YouTube + Facebook broadcasting.</p>
   </div>
@@ -211,7 +214,7 @@ a{color:var(--lime)}
     <div id="matchList"></div>
   </div>
 
-  <!-- SCORING -->
+  <!-- LIVE SCORING -->
   <div id="tab-scoring" class="tab card hidden">
     <h2>Live Cricket Scoring</h2>
     <label>Select Match</label>
@@ -272,7 +275,7 @@ a{color:var(--lime)}
       </select>
 
       <input id="commentary" placeholder="Commentary (optional)">
-      <button onclick="addDelivery()" style="width:100%">SAVE BALL</button>
+      <button id="saveBallButton" onclick="addDelivery()" style="width:100%">SAVE BALL</button>
       <button class="secondary" onclick="loadScoring()" style="width:100%">Refresh Score</button>
       <hr>
       <h3>Ball-by-Ball History</h3>
@@ -330,6 +333,7 @@ let matches = [];
 let currentMatch = null;
 let currentInnings = null;
 let recoveryMode = false;
+let savingDelivery = false;
 
 let realtimeChannel = null;
 let realtimeRefreshTimer = null;
@@ -343,6 +347,15 @@ function safe(value){
   return String(value ?? "").replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   }[c]));
+}
+
+function safeHttpUrl(value){
+  try{
+    const u=new URL(String(value||""));
+    return ["http:","https:"].includes(u.protocol)?u.href:"";
+  }catch(e){
+    return "";
+  }
 }
 
 function setRealtimeStatus(status){
@@ -370,10 +383,17 @@ async function login(){
     msg("Only authorized admin email is allowed.");
     return;
   }
-  if(!password){msg("Enter password.");return;}
+  if(!password){
+    msg("Enter password.");
+    return;
+  }
 
   const {data,error}=await db.auth.signInWithPassword({email,password});
-  if(error){msg(error.message);return;}
+
+  if(error){
+    msg(error.message);
+    return;
+  }
 
   if(data.user?.id!==ADMIN_USER_ID){
     await db.auth.signOut();
@@ -386,6 +406,7 @@ async function login(){
 }
 
 async function logout(){
+  stopRealtime();
   await db.auth.signOut();
   location.reload();
 }
@@ -402,7 +423,11 @@ async function forgotPassword(){
     redirectTo:window.location.origin+window.location.pathname
   });
 
-  if(error){msg(error.message);return;}
+  if(error){
+    msg(error.message);
+    return;
+  }
+
   msg("Password Reset Link Sent. Check Your Email.");
 }
 
@@ -415,7 +440,11 @@ async function updatePassword(){
   }
 
   const {error}=await db.auth.updateUser({password});
-  if(error){msg(error.message);return;}
+
+  if(error){
+    msg(error.message);
+    return;
+  }
 
   msg("Password Updated Successfully. Please Login.");
   recoveryMode=false;
@@ -471,8 +500,8 @@ db.auth.onAuthStateChange((event,session)=>{
 
 function startRealtime(){
   if(realtimeStarted)return;
-  realtimeStarted=true;
 
+  realtimeStarted=true;
   setRealtimeStatus("CONNECTING");
 
   realtimeChannel=db.channel("gfc-cricket-pro-live-sync")
@@ -516,7 +545,7 @@ function scheduleRealtimeRefresh(){
 
   realtimeRefreshTimer=setTimeout(async()=>{
     try{
-      await loadPublicMatches();
+      await loadPublicData();
 
       const {data:{session}}=await db.auth.getSession();
       const user=session?.user;
@@ -524,10 +553,12 @@ function scheduleRealtimeRefresh(){
       if(user &&
          user.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase() &&
          user.id===ADMIN_USER_ID){
+
         await refreshAll(false);
 
         if(currentMatch){
           const updated=matches.find(m=>m.id===currentMatch.id);
+
           if(updated){
             currentMatch=updated;
             await loadCurrentInnings();
@@ -536,6 +567,7 @@ function scheduleRealtimeRefresh(){
       }
 
       await loadPublicScore();
+
     }catch(error){
       console.error("Realtime refresh error:",error);
     }
@@ -570,7 +602,40 @@ function showTab(name){
 }
 
 /* ==========================================
-   LOAD DATA
+   PUBLIC DATA
+   IMPORTANT: Public users also need team
+   and tournament data to show correct names.
+========================================== */
+
+async function loadPublicData(){
+  const results=await Promise.all([
+    db.from("gfc_tournaments").select("*").order("created_at",{ascending:false}),
+    db.from("gfc_teams").select("*").order("created_at",{ascending:false}),
+    db.from("gfc_matches").select("*").order("created_at",{ascending:false})
+  ]);
+
+  const [tResult,teamResult,matchResult]=results;
+
+  if(tResult.error)console.error("Public tournaments:",tResult.error.message);
+  else tournaments=tResult.data||[];
+
+  if(teamResult.error)console.error("Public teams:",teamResult.error.message);
+  else teams=teamResult.data||[];
+
+  if(matchResult.error){
+    console.error("Public matches:",matchResult.error.message);
+    el("publicScore").innerHTML="<p class='small'>Could not load matches. Check public SELECT permissions.</p>";
+    return;
+  }
+
+  matches=matchResult.data||[];
+
+  fillPublicMatchSelect();
+  await loadPublicScore();
+}
+
+/* ==========================================
+   LOAD ADMIN DATA
 ========================================== */
 
 async function refreshAll(showMessage=true){
@@ -591,7 +656,11 @@ async function loadTournaments(){
   const {data,error}=await db.from("gfc_tournaments")
     .select("*").order("created_at",{ascending:false});
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
+
   tournaments=data||[];
   renderTournaments();
   fillTournamentSelects();
@@ -601,7 +670,11 @@ async function loadTeams(){
   const {data,error}=await db.from("gfc_teams")
     .select("*").order("created_at",{ascending:false});
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
+
   teams=data||[];
   renderTeams();
   fillTeamSelects();
@@ -611,7 +684,11 @@ async function loadPlayers(){
   const {data,error}=await db.from("gfc_players")
     .select("*").order("created_at",{ascending:false});
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
+
   players=data||[];
   renderPlayers();
 }
@@ -620,23 +697,14 @@ async function loadMatches(){
   const {data,error}=await db.from("gfc_matches")
     .select("*").order("created_at",{ascending:false});
 
-  if(error){adminMsg(error.message);return;}
-  matches=data||[];
-  renderMatches();
-  fillMatchSelects();
-  fillPublicMatchSelect();
-}
-
-async function loadPublicMatches(){
-  const {data,error}=await db.from("gfc_matches")
-    .select("*").order("created_at",{ascending:false});
-
   if(error){
-    console.error("Public matches:",error.message);
+    adminMsg(error.message);
     return;
   }
 
   matches=data||[];
+  renderMatches();
+  fillMatchSelects();
   fillPublicMatchSelect();
 }
 
@@ -665,7 +733,11 @@ function matchName(m){
 
 async function createTournament(){
   const name=el("tName").value.trim();
-  if(!name){adminMsg("Enter tournament name.");return;}
+
+  if(!name){
+    adminMsg("Enter tournament name.");
+    return;
+  }
 
   const payload={
     name,
@@ -676,7 +748,11 @@ async function createTournament(){
   };
 
   const {error}=await db.from("gfc_tournaments").insert(payload);
-  if(error){adminMsg(error.message);return;}
+
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
 
   el("tName").value="";
   el("tSeason").value="";
@@ -686,6 +762,7 @@ async function createTournament(){
   adminMsg("Tournament created successfully.");
   await loadTournaments();
   updateStats();
+  await loadPublicData();
 }
 
 function renderTournaments(){
@@ -704,9 +781,11 @@ function fillTournamentSelects(){
     if(!s)return;
 
     const old=s.value;
-    s.innerHTML=tournaments.map(t=>
-      `<option value="${safe(t.id)}">${safe(t.name)}</option>`
-    ).join("");
+
+    s.innerHTML='<option value="">Select Tournament</option>'+
+      tournaments.map(t=>
+        `<option value="${safe(t.id)}">${safe(t.name)}</option>`
+      ).join("");
 
     if(old)s.value=old;
   });
@@ -732,7 +811,10 @@ async function createTeam(){
     logo_url:el("teamLogo").value.trim()||null
   });
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
 
   el("teamName").value="";
   el("teamShort").value="";
@@ -741,6 +823,7 @@ async function createTeam(){
   adminMsg("Team added successfully.");
   await loadTeams();
   updateStats();
+  await loadPublicData();
 }
 
 function renderTeams(){
@@ -758,9 +841,11 @@ function fillTeamSelects(){
     if(!s)return;
 
     const old=s.value;
-    s.innerHTML=teams.map(t=>
-      `<option value="${safe(t.id)}">${safe(t.name)}</option>`
-    ).join("");
+
+    s.innerHTML='<option value="">Select Team</option>'+
+      teams.map(t=>
+        `<option value="${safe(t.id)}">${safe(t.name)}</option>`
+      ).join("");
 
     if(old)s.value=old;
   });
@@ -789,7 +874,10 @@ async function createPlayer(){
     photo_url:el("playerPhoto").value.trim()||null
   });
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
 
   el("playerName").value="";
   el("jersey").value="";
@@ -829,6 +917,12 @@ async function createMatch(){
   }
 
   const dateValue=el("matchDate").value;
+  const overs=Number(el("matchOvers").value);
+
+  if(!Number.isInteger(overs)||overs<1){
+    adminMsg("Enter a valid number of overs.");
+    return;
+  }
 
   const {error}=await db.from("gfc_matches").insert({
     tournament_id,
@@ -836,16 +930,20 @@ async function createMatch(){
     team_b_id,
     venue:el("matchVenue").value.trim(),
     match_date:dateValue?new Date(dateValue).toISOString():null,
-    overs:Number(el("matchOvers").value)||10,
+    overs,
     status:el("matchStatus").value
   });
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
 
   adminMsg("Match created successfully.");
   el("matchVenue").value="";
   await loadMatches();
   updateStats();
+  await loadPublicData();
 }
 
 function renderMatches(){
@@ -864,12 +962,15 @@ function fillMatchSelects(){
     if(!s)return;
 
     const old=s.value;
-    s.innerHTML=matches.map(m=>
-      `<option value="${safe(m.id)}">${safe(matchName(m))}</option>`
-    ).join("");
+
+    s.innerHTML='<option value="">Select Match</option>'+
+      matches.map(m=>
+        `<option value="${safe(m.id)}">${safe(matchName(m))}</option>`
+      ).join("");
 
     if(old)s.value=old;
   });
+
   fillPublicMatchSelect();
 }
 
@@ -878,6 +979,7 @@ function fillPublicMatchSelect(){
   if(!s)return;
 
   const old=s.value;
+
   s.innerHTML='<option value="">Select Match</option>'+
     matches.map(m=>
       `<option value="${safe(m.id)}">${safe(matchName(m))}</option>`
@@ -888,6 +990,7 @@ function fillPublicMatchSelect(){
   }else{
     const live=matches.find(m=>m.status==="live");
     if(live)s.value=live.id;
+    else if(matches.length)s.value=matches[0].id;
   }
 }
 
@@ -904,15 +1007,19 @@ async function loadScoring(){
 
   if(!matchId){
     el("scoringArea").classList.add("hidden");
+    currentMatch=null;
+    currentInnings=null;
     return;
   }
 
   currentMatch=matches.find(m=>m.id===matchId);
+
   if(!currentMatch)return;
 
   el("scoringArea").classList.remove("hidden");
 
   const batting=el("battingTeam");
+
   batting.innerHTML=[
     `<option value="${safe(currentMatch.team_a_id)}">${safe(teamName(currentMatch.team_a_id))}</option>`,
     `<option value="${safe(currentMatch.team_b_id)}">${safe(teamName(currentMatch.team_b_id))}</option>`
@@ -930,7 +1037,10 @@ async function loadCurrentInnings(){
     .order("innings_no",{ascending:false})
     .limit(1);
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
 
   currentInnings=data?.[0]||null;
 
@@ -965,14 +1075,29 @@ async function startInnings(){
     return;
   }
 
+  if(
+    batting_team_id!==currentMatch.team_a_id &&
+    batting_team_id!==currentMatch.team_b_id
+  ){
+    adminMsg("Select one of the two teams in this match.");
+    return;
+  }
+
   const {data:existing,error:checkError}=await db.from("gfc_innings")
     .select("id")
     .eq("match_id",currentMatch.id)
     .eq("innings_no",innings_no)
     .maybeSingle();
 
-  if(checkError){adminMsg(checkError.message);return;}
-  if(existing){adminMsg("This innings already exists.");return;}
+  if(checkError){
+    adminMsg(checkError.message);
+    return;
+  }
+
+  if(existing){
+    adminMsg("This innings already exists.");
+    return;
+  }
 
   const {error}=await db.from("gfc_innings").insert({
     match_id:currentMatch.id,
@@ -987,32 +1112,48 @@ async function startInnings(){
     leg_byes:0
   });
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
 
-  await db.from("gfc_matches").update({
+  const {error:matchError}=await db.from("gfc_matches").update({
     batting_team_id,
     status:"live"
   }).eq("id",currentMatch.id);
 
-  adminMsg("Innings started.");
+  if(matchError){
+    adminMsg("Innings created, but match status update failed: "+matchError.message);
+  }else{
+    adminMsg("Innings started.");
+  }
+
   await loadMatches();
   currentMatch=matches.find(m=>m.id===currentMatch.id);
   await loadCurrentInnings();
+  await loadPublicData();
 }
 
 async function addDelivery(){
+  if(savingDelivery)return;
+
   if(!currentMatch||!currentInnings){
     adminMsg("Start an innings first.");
     return;
   }
 
-  const batterRuns=Number(el("batterRuns").value)||0;
+  const batterRuns=Number(el("batterRuns").value);
   const extraType=el("extraType").value;
-  const extraRuns=Number(el("extraRuns").value)||0;
+  const extraRuns=Number(el("extraRuns").value);
   const isWicket=el("isWicket").value==="true";
 
-  if(batterRuns<0||batterRuns>6||extraRuns<0){
-    adminMsg("Invalid runs.");
+  if(!Number.isInteger(batterRuns)||batterRuns<0||batterRuns>6){
+    adminMsg("Batter runs must be between 0 and 6.");
+    return;
+  }
+
+  if(!Number.isInteger(extraRuns)||extraRuns<0){
+    adminMsg("Enter valid extra runs.");
     return;
   }
 
@@ -1021,8 +1162,11 @@ async function addDelivery(){
     return;
   }
 
-  if(extraType!=="none"&&batterRuns>0&&
-     (extraType==="wide"||extraType==="bye"||extraType==="leg_bye")){
+  if(
+    extraType!=="none"&&
+    batterRuns>0&&
+    ["wide","bye","leg_bye"].includes(extraType)
+  ){
     adminMsg("For this extra type, enter batter runs as zero.");
     return;
   }
@@ -1048,35 +1192,52 @@ async function addDelivery(){
     commentary:el("commentary").value.trim()
   };
 
-  const {error:deliveryError}=await db.from("gfc_deliveries").insert(payload);
-  if(deliveryError){adminMsg(deliveryError.message);return;}
+  savingDelivery=true;
+  el("saveBallButton").disabled=true;
+  el("saveBallButton").textContent="SAVING...";
 
-  const update={
-    total_runs:(Number(old.total_runs)||0)+total,
-    wickets:(Number(old.wickets)||0)+(isWicket?1:0),
-    legal_balls:legalBefore+(legal?1:0),
-    wides:(Number(old.wides)||0)+(extraType==="wide"?extraRuns:0),
-    no_balls:(Number(old.no_balls)||0)+(extraType==="no_ball"?extraRuns:0),
-    byes:(Number(old.byes)||0)+(extraType==="bye"?extraRuns:0),
-    leg_byes:(Number(old.leg_byes)||0)+(extraType==="leg_bye"?extraRuns:0)
-  };
+  try{
+    const {error:deliveryError}=await db.from("gfc_deliveries").insert(payload);
 
-  const {error:updateError}=await db.from("gfc_innings")
-    .update(update).eq("id",old.id);
+    if(deliveryError){
+      adminMsg(deliveryError.message);
+      return;
+    }
 
-  if(updateError){
-    adminMsg("Delivery saved, but innings total update failed: "+updateError.message);
-    return;
+    const update={
+      total_runs:(Number(old.total_runs)||0)+total,
+      wickets:(Number(old.wickets)||0)+(isWicket?1:0),
+      legal_balls:legalBefore+(legal?1:0),
+      wides:(Number(old.wides)||0)+(extraType==="wide"?extraRuns:0),
+      no_balls:(Number(old.no_balls)||0)+(extraType==="no_ball"?extraRuns:0),
+      byes:(Number(old.byes)||0)+(extraType==="bye"?extraRuns:0),
+      leg_byes:(Number(old.leg_byes)||0)+(extraType==="leg_bye"?extraRuns:0)
+    };
+
+    const {error:updateError}=await db.from("gfc_innings")
+      .update(update).eq("id",old.id);
+
+    if(updateError){
+      adminMsg("Delivery saved, but innings total update failed: "+updateError.message);
+      await loadCurrentInnings();
+      return;
+    }
+
+    el("batterRuns").value=0;
+    el("extraType").value="none";
+    el("extraRuns").value=0;
+    el("isWicket").value="false";
+    el("commentary").value="";
+
+    adminMsg("Ball saved successfully.");
+    await loadCurrentInnings();
+    await loadPublicData();
+
+  }finally{
+    savingDelivery=false;
+    el("saveBallButton").disabled=false;
+    el("saveBallButton").textContent="SAVE BALL";
   }
-
-  el("batterRuns").value=0;
-  el("extraType").value="none";
-  el("extraRuns").value=0;
-  el("isWicket").value="false";
-  el("commentary").value="";
-
-  adminMsg("Ball saved successfully.");
-  await loadCurrentInnings();
 }
 
 async function displayScore(){
@@ -1096,7 +1257,10 @@ async function displayScore(){
     .order("created_at",{ascending:false})
     .limit(30);
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
 
   el("deliveryList").innerHTML=(data||[]).map(d=>`
     <div class="item">
@@ -1122,29 +1286,29 @@ async function saveStream(){
     return;
   }
 
-  try{
-    const parsed=new URL(watch_url);
-    if(!["https:","http:"].includes(parsed.protocol)){
-      adminMsg("Enter a valid HTTP/HTTPS link.");
-      return;
-    }
-  }catch(e){
-    adminMsg("Enter a valid streaming URL.");
+  const validUrl=safeHttpUrl(watch_url);
+
+  if(!validUrl){
+    adminMsg("Enter a valid HTTP/HTTPS link.");
     return;
   }
 
   const {error}=await db.from("gfc_stream_sessions").insert({
     match_id,
     platform:el("streamPlatform").value,
-    watch_url,
+    watch_url:validUrl,
     status:el("streamStatus").value
   });
 
-  if(error){adminMsg(error.message);return;}
+  if(error){
+    adminMsg(error.message);
+    return;
+  }
 
   el("streamURL").value="";
   adminMsg("Streaming link saved.");
   await loadStreams();
+  await loadPublicScore();
 }
 
 async function loadStreams(){
@@ -1158,11 +1322,13 @@ async function loadStreams(){
 
   el("streamList").innerHTML=(data||[]).map(s=>{
     const m=matches.find(x=>x.id===s.match_id);
+    const url=safeHttpUrl(s.watch_url);
+
     return `
       <div class="item">
         <strong>${safe(s.platform)}</strong>
         <div class="small">${safe(s.status)} • ${safe(m?matchName(m):"Match")}</div>
-        <a href="${safe(s.watch_url)}" target="_blank" rel="noopener">Watch Stream</a>
+        ${url?`<a href="${safe(url)}" target="_blank" rel="noopener noreferrer">Watch Stream</a>`:"<span class='small'>Invalid link</span>"}
       </div>
     `;
   }).join("")||"<p class='small'>No streaming links added.</p>";
@@ -1193,7 +1359,7 @@ async function loadPublicScore(){
     .order("innings_no",{ascending:true});
 
   if(error){
-    el("publicScore").innerHTML="<p>"+safe(error.message)+"</p>";
+    el("publicScore").innerHTML="<p class='small'>"+safe(error.message)+"</p>";
     return;
   }
 
@@ -1222,20 +1388,26 @@ async function loadPublicScore(){
     `;
   }
 
-  const {data:streams}=await db.from("gfc_stream_sessions")
+  const {data:streams,error:streamError}=await db.from("gfc_stream_sessions")
     .select("*")
     .eq("match_id",matchId)
     .order("created_at",{ascending:false});
+
+  if(streamError){
+    console.error("Public streaming links:",streamError.message);
+  }
 
   if(streams?.length){
     html+="<h3>Watch Live</h3>";
 
     streams.forEach(s=>{
+      const url=safeHttpUrl(s.watch_url);
+
       html+=`
         <div class="item">
           <strong>${safe(s.platform)}</strong>
           <div class="small">${safe(s.status)}</div>
-          <a href="${safe(s.watch_url)}" target="_blank" rel="noopener">▶ WATCH NOW</a>
+          ${url?`<a href="${safe(url)}" target="_blank" rel="noopener noreferrer">▶ WATCH NOW</a>`:"<span class='small'>Invalid link</span>"}
         </div>
       `;
     });
@@ -1249,14 +1421,13 @@ async function loadPublicScore(){
 ========================================== */
 
 async function initializeApp(){
-  // Public scoreboard works without admin login.
-  await loadPublicMatches();
-  await loadPublicScore();
+  // Load public data without requiring admin login.
+  await loadPublicData();
 
-  // Realtime starts for public scoreboard as well.
+  // Realtime subscription for public scoreboard.
   startRealtime();
 
-  // Check whether this visitor is the authorized admin.
+  // Check admin session.
   await checkAuth();
 }
 
