@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GFC CRICKET PRO 2026 - Broadcast Studio</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#071b18;color:white;font-family:Arial,sans-serif}
+.wrap{max-width:1000px;margin:auto;padding:18px}
+.panel{background:#102a25;border:1px solid #285347;border-radius:16px;padding:16px;margin:13px 0}
+h1{font-size:22px}
+label{display:block;color:#a9c4b8;font-size:13px;margin:12px 0 6px}
+select,input{width:100%;padding:13px;background:#081f1a;color:white;border:1px solid #285347;border-radius:10px}
+button{padding:12px 16px;border:0;border-radius:10px;background:#20c477;color:#052017;font-weight:bold;cursor:pointer}
+.secondary{background:#24483e;color:white}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+iframe{width:100%;height:300px;border:1px solid #285347;border-radius:12px;background:#111}
+.small{font-size:12px;color:#a9c4b8}
+.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+.theme{padding:11px;border:1px solid #285347;background:#081f1a;border-radius:10px;cursor:pointer}
+.theme.active{border:2px solid #b8f36b;background:#17372e}
+@media(min-width:650px){.theme-grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🏏 GFC CRICKET PRO 2026</h1>
+<p class="small">BROADCAST STUDIO • 20 SCOREBOARD DESIGNS</p>
+
+<div class="panel">
+<h3>Select Match</h3>
+<select id="matchSelect"><option value="">Loading matches...</option></select>
+<button id="refresh" class="secondary" style="margin-top:10px">Refresh Matches</button>
+</div>
+
+<div class="panel">
+<h3>Choose Overlay Theme</h3>
+<div class="theme-grid" id="themeGrid"></div>
+<p class="small" id="selectedTheme">Selected: Classic Green</p>
+</div>
+
+<div class="panel">
+<h3>Live Preview</h3>
+<iframe id="preview" title="Overlay Preview"></iframe>
+<p class="small">Preview automatically updates when you select another theme or match.</p>
+</div>
+
+<div class="panel">
+<h3>Overlay URL</h3>
+<input id="overlayUrl" readonly>
+<div class="grid" style="margin-top:10px">
+<button id="copy">Copy Overlay URL</button>
+<button id="open" class="secondary">Open Overlay</button>
+</div>
+</div>
+
+<div class="panel">
+<h3>How to use</h3>
+<p>1. Select your live match.</p>
+<p>2. Choose one of the 20 scoreboard designs.</p>
+<p>3. Copy the Overlay URL.</p>
+<p>4. Add the URL as a Web Page / Browser Source in PRISM Live Studio or OBS.</p>
+<p class="small">The overlay is a transparent scoreboard graphic. Camera streaming is handled separately by PRISM or OBS.</p>
+</div>
+</div>
+
+<script>
+const SUPABASE_URL="https://shlvtaxrkyffdifbjswq.supabase.co";
+const SUPABASE_KEY="sb_publishable_m11Q7ccOj1iQf_HB1zZ4bg_0GpxW0lC";
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const themes=[
+["classic","Classic Green"],
+["modern","Modern Blue"],
+["red","Red Zone"],
+["gold","Gold Premium"],
+["neon","Neon Cyan"],
+["purple","Purple Night"],
+["orange","Orange Blaze"],
+["royal","Royal Blue"],
+["blackgold","Black & Gold"],
+["emerald","Emerald Green"],
+["pink","Pink Neon"],
+["ice","Ice White"],
+["cyber","Cyberpunk"],
+["stadium","Stadium Live"],
+["minimal","Minimal Clean"],
+["retro","Retro Cricket"],
+["tv","Scoreboard TV"],
+["gradient","Gradient Wave"],
+["league","Cricket League"],
+["matrix","Dark Matrix"]
+];
+
+let matches=[];
+let selectedTheme="classic";
+
+const $=id=>document.getElementById(id);
+
+function makeURL(){
+ const match=$("matchSelect").value;
+ if(!match)return "";
+
+ return new URL(
+  "live-overlay.html?match="+encodeURIComponent(match)+
+  "&design="+encodeURIComponent(selectedTheme),
+  location.href
+ ).href;
+}
+
+function updatePreview(){
+ const url=makeURL();
+ $("overlayUrl").value=url;
+ $("preview").src=url||"about:blank";
+
+ const t=themes.find(x=>x[0]===selectedTheme);
+ $("selectedTheme").textContent="Selected: "+(t?t[1]:"Classic Green");
+}
+
+function renderThemes(){
+ $("themeGrid").innerHTML=themes.map(t=>`
+  <div class="theme ${selectedTheme===t[0]?"active":""}"
+       data-theme="${t[0]}">
+   <b>${t[1]}</b>
+  </div>
+ `).join("");
+
+ $("themeGrid").querySelectorAll("[data-theme]").forEach(el=>{
+  el.onclick=()=>{
+   selectedTheme=el.dataset.theme;
+   renderThemes();
+   updatePreview();
+  };
+ });
+}
+
+async function loadMatches(){
+ $("matchSelect").innerHTML='<option value="">Loading...</option>';
+
+ const {data,error}=await db
+  .from("gfc_matches")
+  .select("*")
+  .order("match_date",{ascending:false});
+
+ if(error){
+  $("matchSelect").innerHTML='<option value="">Could not load matches</option>';
+  alert(error.message);
+  return;
+ }
+
+ matches=data||[];
+
+ $("matchSelect").innerHTML=
+  '<option value="">Select Match</option>'+
+  matches.map(m=>`
+   <option value="${m.id}">
+    ${m.status==="live"?"🔴 LIVE • ":""}
+    ${m.id===null?"":""}
+    ${m.name||"Match"} 
+    ${m.status? "("+m.status+")":""}
+   </option>
+  `).join("");
+
+ // Use match IDs and team names from the database.
+ const {data:teams}=await db.from("gfc_teams").select("*");
+ const teamMap={};
+ (teams||[]).forEach(t=>{
+  teamMap[t.id]=t.short_name||t.name;
+ });
+
+ [...$("matchSelect").options].forEach((o,index)=>{
+  if(index===0)return;
+  const m=matches.find(x=>x.id===o.value);
+  if(m){
+   o.textContent=
+    (m.status==="live"?"🔴 LIVE • ":"")+
+    (teamMap[m.team_a_id]||"Team A")+" vs "+
+    (teamMap[m.team_b_id]||"Team B");
+  }
+ });
+
+ updatePreview();
+}
+
+$("matchSelect").onchange=updatePreview;
+$("refresh").onclick=loadMatches;
+
+$("copy").onclick=async()=>{
+ const url=$("overlayUrl").value;
+ if(!url)return alert("আগে Match নির্বাচন করুন");
+
+ try{
+  await navigator.clipboard.writeText(url);
+  alert("Overlay URL copied!");
+ }catch(e){
+  $("overlayUrl").select();
+  alert("URL select করা হয়েছে। Copy করুন।");
+ }
+};
+
+$("open").onclick=()=>{
+ const url=$("overlayUrl").value;
+ if(url)window.open(url,"_blank");
+ else alert("আগে Match নির্বাচন করুন");
+};
+
+renderThemes();
+loadMatches();
+</script>
+</body>
+</html>
